@@ -8,7 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate, NSTableViewDelegate, NSTableViewDataSource>{
+@private
+    // An array of dictionaries that contain the contents to display
+    NSMutableArray *_tableContents;
+    IBOutlet NSTableView *_tableView;
+}
 
 @property (assign) IBOutlet NSWindow *window;
 
@@ -16,6 +21,7 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
+- (IBAction)showDetails:(id)sender;
 - (IBAction)saveAction:(id)sender;
 
 @end

@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import <QuartzCore/QuartzCore.h>
+#import "ContactTableCellView.h"
+#import "ContactDetailsController.h"
 
 @implementation AppDelegate
 
@@ -16,7 +19,94 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
+    if (_tableContents == nil) {
+        _tableContents = [NSMutableArray new];
+        [self willChangeValueForKey:@"_tableContents"];
+        [_tableContents addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                   @"Tom Bell", @"Name",
+                                   @"Me", @"Relation",
+                                   @"tom.bell.main@gmail.com", @"Email",
+                                   @"+34 662 557 811", @"Phone",
+                                   @"Calle de los Cañizares, 1, 2D\
+                                   28012 Madrid", @"Address",
+                                   [NSImage imageNamed:@"TomFace.png"], @"Image",
+                                   [NSDate dateWithString:@"1980-10-18 00:00:00 +0000"], @"Birthday",
+                                   nil]];
+        
+        [_tableContents addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                   @"Gise Bañó Esplugues", @"Name",
+                                   @"Girlfriend", @"Relation",
+                                   @"gise.esplugues@outlook.com", @"Email",
+                                   @"+34 637 015 834", @"Phone",
+                                   @"Calle de los Cañizares, 1, 2D\
+                                   28012 Madrid", @"Address",
+                                   [NSImage imageNamed:@"GiseFace.png"], @"Image",
+                                   [NSDate dateWithString:@"1985-09-25 00:00:00 +0100"], @"Birthday",
+                                   nil]];
+        
+        [_tableContents addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                   @"Hilary Bell", @"Name",
+                                   @"Mum", @"Relation",
+                                   @"hbell554@btinternet.com", @"Email",
+                                   @"+44 1536 771375", @"Phone",
+                                   @"12 Corby Road\
+                                   Cottingham\
+                                   Market Harborough\
+                                   Leicestershire\
+                                   LE16 8XH", @"Address",
+                                   [NSImage imageNamed:@"NSUser"], @"Image",
+                                   [NSDate dateWithString:@"1950-04-18 00:00:00 +0000"], @"Birthday",
+                                   nil]];
+        
+        [self didChangeValueForKey:@"_tableContents"];
+        [_tableView reloadData];
+    }
+}
+
+// The only essential/required tableview dataSource method
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
+    return [_tableContents count];
+}
+
+// This method is optional if you use bindings to provide the data
+- (NSView *)tableView:(NSTableView *)tableView
+   viewForTableColumn:(NSTableColumn *)tableColumn
+                  row:(NSInteger)row
+{
+    // Group our "model" object, which is a dictionary
+    NSDictionary *dictionary = [_tableContents objectAtIndex:row];
+    
+    NSString *identifier = [tableColumn identifier];
+    
+    if ([identifier isEqualToString:@"ContactList"]) {
+        // We pass us as the owner so we can setup target/actions into this main controller object
+        ContactTableCellView *cellView = [tableView makeViewWithIdentifier:@"ContactCell" owner:self];
+        // Then setup properties on the cellView based on the column
+        cellView.textField.stringValue = [dictionary objectForKey:@"Name"];
+        cellView.subTitleTextField.stringValue = [dictionary objectForKey:@"Relation"];
+        
+//        // Create a CGImage from an NSImage to use the circular mask
+//        CGImageRef maskRef = [[NSImage imageNamed:@"CircularMask.png"] CGImage];
+//        
+//        CGImageRef mask = CGImageMaskCreate(CGImageGetWidth(maskRef),
+//                                            CGImageGetHeight(maskRef),
+//                                            CGImageGetBitsPerComponent(maskRef),
+//                                            CGImageGetBitsPerPixel(maskRef),
+//                                            CGImageGetBytesPerRow(maskRef),
+//                                            CGImageGetDataProvider(maskRef), nil, YES);
+//        
+//        CGImageRef imageRef = [[dictionary objectForKey:@"Image"] CGImage];
+//        
+//        CGImageRef masked = CGImageCreateWithMask(imageRef, mask);
+//        
+//        NSImage *roundImage = (__bridge NSImage *)masked;
+//        cellView.detailsButton.image = roundImage;
+        cellView.detailsButton.image = [dictionary objectForKey:@"Image"];
+        return cellView;
+    } else {
+        NSAssert1(NO, @"Unhandled table column identifier %@", identifier);
+    }
+    return nil;
 }
 
 // Returns the directory the application uses to store the Core Data store file. This code uses a directory named "com.TomBell.SmartContacts" in the user's Application Support directory.
@@ -92,7 +182,7 @@
     return _persistentStoreCoordinator;
 }
 
-// Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.) 
+// Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.)
 - (NSManagedObjectContext *)managedObjectContext
 {
     if (_managedObjectContext) {
@@ -110,8 +200,33 @@
     }
     _managedObjectContext = [[NSManagedObjectContext alloc] init];
     [_managedObjectContext setPersistentStoreCoordinator:coordinator];
-
+    
     return _managedObjectContext;
+}
+
+// Show the popover window with the relevant contact details.
+- (IBAction)showDetails:(id)sender {
+
+    // Find out what row was clicked and bring up the contact details popup
+    NSInteger row = [_tableView rowForView:sender];
+    if (row != -1) {
+        [self _showContactDetailsForRow:row];
+    }
+
+//    if (row != -1) {
+//        [_tableContents removeObjectAtIndex:row];
+//        [_tableView removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:row]
+//                          withAnimation:NSTableViewAnimationEffectFade];
+//    }
+}
+
+- (void)_showContactDetailsForRow:(NSInteger)row {
+    NSDictionary *dictionary = [_tableContents objectAtIndex:row];
+    ContactTableCellView *cellView = [_tableView viewAtColumn:0 row:row makeIfNecessary:NO];
+    
+    [[ContactDetailsController contactDetailsController] setDelegate:self];
+    [[ContactDetailsController contactDetailsController] updatePopover:dictionary
+                                               withPositioningView:cellView.detailsButton];
 }
 
 // Returns the NSUndoManager for the application. In this case, the manager returned is that of the managed object context for the application.
@@ -153,13 +268,13 @@
     
     NSError *error = nil;
     if (![[self managedObjectContext] save:&error]) {
-
-        // Customize this code block to include application-specific recovery steps.              
+        
+        // Customize this code block to include application-specific recovery steps.
         BOOL result = [sender presentError:error];
         if (result) {
             return NSTerminateCancel;
         }
-
+        
         NSString *question = NSLocalizedString(@"Could not save changes while quitting. Quit anyway?", @"Quit without saves error question message");
         NSString *info = NSLocalizedString(@"Quitting now will lose any changes you have made since the last successful save", @"Quit without saves error question info");
         NSString *quitButton = NSLocalizedString(@"Quit anyway", @"Quit anyway button title");
@@ -169,14 +284,14 @@
         [alert setInformativeText:info];
         [alert addButtonWithTitle:quitButton];
         [alert addButtonWithTitle:cancelButton];
-
+        
         NSInteger answer = [alert runModal];
         
         if (answer == NSAlertAlternateReturn) {
             return NSTerminateCancel;
         }
     }
-
+    
     return NSTerminateNow;
 }
 
