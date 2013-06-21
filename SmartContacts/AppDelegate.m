@@ -29,7 +29,7 @@
                                    @"+34 662 557 811", @"Phone",
                                    @"Calle de los Cañizares, 1, 2D\
                                    28012 Madrid", @"Address",
-                                   [NSImage imageNamed:@"TomFace.png"], @"Image",
+                                   [NSImage imageNamed:@"TomFace"], @"Image",
                                    [NSDate dateWithString:@"1980-10-18 00:00:00 +0000"], @"Birthday",
                                    nil]];
         
@@ -40,7 +40,7 @@
                                    @"+34 637 015 834", @"Phone",
                                    @"Calle de los Cañizares, 1, 2D\
                                    28012 Madrid", @"Address",
-                                   [NSImage imageNamed:@"GiseFace.png"], @"Image",
+                                   [NSImage imageNamed:@"GiseFace2"], @"Image",
                                    [NSDate dateWithString:@"1985-09-25 00:00:00 +0100"], @"Birthday",
                                    nil]];
         
@@ -54,8 +54,51 @@
                                    Market Harborough\
                                    Leicestershire\
                                    LE16 8XH", @"Address",
-                                   [NSImage imageNamed:@"NSUser"], @"Image",
+                                   [NSImage imageNamed:@"CatFace"], @"Image",
                                    [NSDate dateWithString:@"1950-04-18 00:00:00 +0000"], @"Birthday",
+                                   nil]];
+        
+        [_tableContents addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                   @"Steven Bell", @"Name",
+                                   @"Dad", @"Relation",
+                                   @"steve@stevenbellediting.co.uk", @"Email",
+                                   @"+44 7717 742432", @"Phone",
+                                   @"12 Corby Road\
+                                   Cottingham\
+                                   Market Harborough\
+                                   Leicestershire\
+                                   LE16 8XH", @"Address",
+                                   [NSImage imageNamed:@"DadFace"], @"Image",
+                                   [NSDate dateWithString:@"1950-04-01 00:00:00 +0000"], @"Birthday",
+                                   nil]];
+        
+        [_tableContents addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                   @"Katherine Bell", @"Name",
+                                   @"Sister", @"Relation",
+                                   @"katherine.bell@twobirds.com", @"Email",
+                                   @"+44 7971 975111", @"Phone",
+                                   @"Bird & Bird (Services) Limited\
+                                   15 Fetter Lane\
+                                   London\
+                                   EC4A 1JP", @"Address",
+                                   [NSImage imageNamed:@"DotsFace2"], @"Image",
+                                   [NSDate dateWithString:@"1985-05-16 00:00:00 +0000"], @"Birthday",
+                                   nil]];
+        
+        [_tableContents addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                   @"Dan Bell", @"Name",
+                                   @"Brother", @"Relation",
+                                   @"danjbell@hotmail.co.uk", @"Email",
+                                   @"+44 7816 267170", @"Phone",
+                                   @"Flat 16\
+                                   Sutherland House\
+                                   Royal Herbert Pavilions\
+                                   Gilbert Close\
+                                   Shooters Hill\
+                                   London\
+                                   SE18 4PS", @"Address",
+                                   [NSImage imageNamed:@"DanFace"], @"Image",
+                                   [NSDate dateWithString:@"1982-12-14 00:00:00 +0000"], @"Birthday",
                                    nil]];
         
         [self didChangeValueForKey:@"_tableContents"];
@@ -78,30 +121,25 @@
     
     NSString *identifier = [tableColumn identifier];
     
-    if ([identifier isEqualToString:@"ContactList"]) {
+    if ([identifier isEqualToString:@"ContactList"])
+    {
         // We pass us as the owner so we can setup target/actions into this main controller object
         ContactTableCellView *cellView = [tableView makeViewWithIdentifier:@"ContactCell" owner:self];
+
         // Then setup properties on the cellView based on the column
         cellView.textField.stringValue = [dictionary objectForKey:@"Name"];
         cellView.subTitleTextField.stringValue = [dictionary objectForKey:@"Relation"];
-        
-//        // Create a CGImage from an NSImage to use the circular mask
-//        CGImageRef maskRef = [[NSImage imageNamed:@"CircularMask.png"] CGImage];
-//        
-//        CGImageRef mask = CGImageMaskCreate(CGImageGetWidth(maskRef),
-//                                            CGImageGetHeight(maskRef),
-//                                            CGImageGetBitsPerComponent(maskRef),
-//                                            CGImageGetBitsPerPixel(maskRef),
-//                                            CGImageGetBytesPerRow(maskRef),
-//                                            CGImageGetDataProvider(maskRef), nil, YES);
-//        
-//        CGImageRef imageRef = [[dictionary objectForKey:@"Image"] CGImage];
-//        
-//        CGImageRef masked = CGImageCreateWithMask(imageRef, mask);
-//        
-//        NSImage *roundImage = (__bridge NSImage *)masked;
-//        cellView.detailsButton.image = roundImage;
-        cellView.detailsButton.image = [dictionary objectForKey:@"Image"];
+
+        //  Specify the button source images
+        NSImage *image = [dictionary objectForKey:@"Image"];
+        NSImage *mask  = [NSImage imageNamed:@"avatarMask"];
+
+        NSImage *mainImage = [self createButtonImage:image withMask:nil withBezel:nil];
+        NSImage *pushImage = [self createButtonImage:image withMask:mask withBezel:nil];
+
+        cellView.detailsButton.image = mainImage;
+        cellView.detailsButton.alternateImage = pushImage;
+
         return cellView;
     } else {
         NSAssert1(NO, @"Unhandled table column identifier %@", identifier);
@@ -293,6 +331,60 @@
     }
     
     return NSTerminateNow;
+}
+
+- (NSImage *)createButtonImage:(NSImage *)image withMask:(NSImage *)mask withBezel:(NSImage *)bezel
+{
+    NSImage *finalImage = [[NSImage alloc] initWithSize:NSMakeSize(94, 92)];
+    
+    if (image == nil)
+    {
+        return finalImage;
+    }
+    
+    // Create a CGImageRef from the NSImage in order to apply a circular mask
+    CGImageRef imageRef = [image CGImageForProposedRect:NULL context:NULL hints:NULL];
+    
+    // Create the mask
+    CGImageRef circularMask = [[NSImage imageNamed:@"circularMask"] CGImageForProposedRect:NULL context:NULL hints:NULL];
+    CGImageRef maskRef = CGImageMaskCreate(CGImageGetWidth(circularMask),
+                                           CGImageGetHeight(circularMask),
+                                           CGImageGetBitsPerComponent(circularMask),
+                                           CGImageGetBitsPerPixel(circularMask),
+                                           CGImageGetBytesPerRow(circularMask),
+                                           CGImageGetDataProvider(circularMask), NULL, YES);
+    
+    NSImage *base = [[NSImage alloc] initWithCGImage:CGImageCreateWithMask(imageRef, maskRef)
+                                                size:NSMakeSize(82, 82)];
+    
+    [finalImage lockFocus];
+    
+    // Draw the base image
+    [base drawInRect:NSMakeRect(6, 6, 82, 82)
+            fromRect:NSZeroRect
+           operation:NSCompositeSourceOver fraction:1.0];
+    
+    // Draw the mask overlay image
+    if (mask != nil)
+    {
+        float maskWidth = [mask size].width;
+        float maskHeight = [mask size].height;
+        [mask drawInRect:NSMakeRect((94-maskWidth)/2, (92-maskHeight)/2+1, maskWidth, maskHeight)
+                fromRect:NSZeroRect
+               operation:NSCompositeSourceOver fraction:0.2];
+    }
+    
+    // Draw the bezel overlay image
+    if (bezel != nil)
+    {
+        [bezel drawInRect:NSMakeRect(0, 0, 94, 92)
+                 fromRect:NSZeroRect
+                operation:NSCompositeSourceOver fraction:1.0];
+    }
+    
+    [finalImage unlockFocus];
+    
+    return finalImage;
 }
 
 @end

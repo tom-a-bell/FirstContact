@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E26D64621773CEC70019989E /* avatarMask.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D64601773CEC70019989E /* avatarMask.png */; };
+		E26D64631773CEC70019989E /* avatarWhiteRing.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D64611773CEC70019989E /* avatarWhiteRing.png */; };
+		E26D64651773CF530019989E /* circularMask.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D64641773CF530019989E /* circularMask.png */; };
+		E26D646B1773D4B50019989E /* DadFace.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D64661773D4B50019989E /* DadFace.png */; };
+		E26D646C1773D4B50019989E /* DanFace.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D64671773D4B50019989E /* DanFace.png */; };
+		E26D646D1773D4B50019989E /* DotsFace.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D64681773D4B50019989E /* DotsFace.png */; };
+		E26D646E1773D4B50019989E /* DotsFace2.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D64691773D4B50019989E /* DotsFace2.png */; };
+		E26D646F1773D4B50019989E /* GiseFace2.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D646A1773D4B50019989E /* GiseFace2.png */; };
+		E26D64711773D72E0019989E /* CatFace.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D64701773D72E0019989E /* CatFace.png */; };
 		E295D11E1771BE0F00442A1B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E295D11D1771BE0F00442A1B /* Cocoa.framework */; };
 		E295D1281771BE0F00442A1B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E295D1261771BE0F00442A1B /* InfoPlist.strings */; };
 		E295D12A1771BE0F00442A1B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E295D1291771BE0F00442A1B /* main.m */; };
@@ -17,12 +26,20 @@
 		E295D14A1771DE9C00442A1B /* ContactTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = E295D1491771DE9C00442A1B /* ContactTableCellView.m */; };
 		E2ADCE82177214AE00123DCF /* GiseFace.png in Resources */ = {isa = PBXBuildFile; fileRef = E2ADCE80177214AE00123DCF /* GiseFace.png */; };
 		E2ADCE83177214AE00123DCF /* TomFace.png in Resources */ = {isa = PBXBuildFile; fileRef = E2ADCE81177214AE00123DCF /* TomFace.png */; };
-		E2ADCE881772333300123DCF /* CircularMask.png in Resources */ = {isa = PBXBuildFile; fileRef = E2ADCE871772333300123DCF /* CircularMask.png */; };
 		E2ADCE8B1772523C00123DCF /* ContactDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2ADCE8A1772523C00123DCF /* ContactDetailsController.m */; };
 		E2ADCE8D177254FE00123DCF /* ContactDetails.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2ADCE8C177254FE00123DCF /* ContactDetails.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E26D64601773CEC70019989E /* avatarMask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatarMask.png; sourceTree = "<group>"; };
+		E26D64611773CEC70019989E /* avatarWhiteRing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatarWhiteRing.png; sourceTree = "<group>"; };
+		E26D64641773CF530019989E /* circularMask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circularMask.png; path = ../circularMask.png; sourceTree = "<group>"; };
+		E26D64661773D4B50019989E /* DadFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DadFace.png; sourceTree = "<group>"; };
+		E26D64671773D4B50019989E /* DanFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DanFace.png; sourceTree = "<group>"; };
+		E26D64681773D4B50019989E /* DotsFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DotsFace.png; sourceTree = "<group>"; };
+		E26D64691773D4B50019989E /* DotsFace2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DotsFace2.png; sourceTree = "<group>"; };
+		E26D646A1773D4B50019989E /* GiseFace2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GiseFace2.png; sourceTree = "<group>"; };
+		E26D64701773D72E0019989E /* CatFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CatFace.png; sourceTree = "<group>"; };
 		E295D11A1771BE0F00442A1B /* SmartContacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartContacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E295D11D1771BE0F00442A1B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		E295D1201771BE0F00442A1B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -41,7 +58,6 @@
 		E295D1491771DE9C00442A1B /* ContactTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactTableCellView.m; sourceTree = "<group>"; };
 		E2ADCE80177214AE00123DCF /* GiseFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GiseFace.png; sourceTree = "<group>"; };
 		E2ADCE81177214AE00123DCF /* TomFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TomFace.png; sourceTree = "<group>"; };
-		E2ADCE871772333300123DCF /* CircularMask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CircularMask.png; sourceTree = "<group>"; };
 		E2ADCE891772523C00123DCF /* ContactDetailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactDetailsController.h; sourceTree = "<group>"; };
 		E2ADCE8A1772523C00123DCF /* ContactDetailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactDetailsController.m; sourceTree = "<group>"; };
 		E2ADCE8C177254FE00123DCF /* ContactDetails.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactDetails.xib; sourceTree = "<group>"; };
@@ -128,8 +144,16 @@
 			children = (
 				E295D1321771BE0F00442A1B /* MainMenu.xib */,
 				E2ADCE8C177254FE00123DCF /* ContactDetails.xib */,
-				E2ADCE871772333300123DCF /* CircularMask.png */,
+				E26D64601773CEC70019989E /* avatarMask.png */,
+				E26D64611773CEC70019989E /* avatarWhiteRing.png */,
+				E26D64641773CF530019989E /* circularMask.png */,
+				E26D64701773D72E0019989E /* CatFace.png */,
+				E26D64661773D4B50019989E /* DadFace.png */,
+				E26D64671773D4B50019989E /* DanFace.png */,
+				E26D64681773D4B50019989E /* DotsFace.png */,
+				E26D64691773D4B50019989E /* DotsFace2.png */,
 				E2ADCE80177214AE00123DCF /* GiseFace.png */,
+				E26D646A1773D4B50019989E /* GiseFace2.png */,
 				E2ADCE81177214AE00123DCF /* TomFace.png */,
 			);
 			name = Resources;
@@ -199,8 +223,16 @@
 				E295D1341771BE0F00442A1B /* MainMenu.xib in Resources */,
 				E2ADCE82177214AE00123DCF /* GiseFace.png in Resources */,
 				E2ADCE83177214AE00123DCF /* TomFace.png in Resources */,
-				E2ADCE881772333300123DCF /* CircularMask.png in Resources */,
 				E2ADCE8D177254FE00123DCF /* ContactDetails.xib in Resources */,
+				E26D64621773CEC70019989E /* avatarMask.png in Resources */,
+				E26D64631773CEC70019989E /* avatarWhiteRing.png in Resources */,
+				E26D64651773CF530019989E /* circularMask.png in Resources */,
+				E26D646B1773D4B50019989E /* DadFace.png in Resources */,
+				E26D646C1773D4B50019989E /* DanFace.png in Resources */,
+				E26D646D1773D4B50019989E /* DotsFace.png in Resources */,
+				E26D646E1773D4B50019989E /* DotsFace2.png in Resources */,
+				E26D646F1773D4B50019989E /* GiseFace2.png in Resources */,
+				E26D64711773D72E0019989E /* CatFace.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
