@@ -16,6 +16,8 @@
 		E26D646E1773D4B50019989E /* DotsFace2.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D64691773D4B50019989E /* DotsFace2.png */; };
 		E26D646F1773D4B50019989E /* GiseFace2.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D646A1773D4B50019989E /* GiseFace2.png */; };
 		E26D64711773D72E0019989E /* CatFace.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D64701773D72E0019989E /* CatFace.png */; };
+		E26D6490177601C70019989E /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = E26D648F177601C70019989E /* Contact.m */; };
+		E26D64951776383C0019989E /* AddContactView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E26D64941776383C0019989E /* AddContactView.xib */; };
 		E295D11E1771BE0F00442A1B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E295D11D1771BE0F00442A1B /* Cocoa.framework */; };
 		E295D1281771BE0F00442A1B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E295D1261771BE0F00442A1B /* InfoPlist.strings */; };
 		E295D12A1771BE0F00442A1B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E295D1291771BE0F00442A1B /* main.m */; };
@@ -40,6 +42,9 @@
 		E26D64691773D4B50019989E /* DotsFace2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DotsFace2.png; sourceTree = "<group>"; };
 		E26D646A1773D4B50019989E /* GiseFace2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GiseFace2.png; sourceTree = "<group>"; };
 		E26D64701773D72E0019989E /* CatFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CatFace.png; sourceTree = "<group>"; };
+		E26D648E177601C70019989E /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
+		E26D648F177601C70019989E /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
+		E26D64941776383C0019989E /* AddContactView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddContactView.xib; sourceTree = "<group>"; };
 		E295D11A1771BE0F00442A1B /* SmartContacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartContacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E295D11D1771BE0F00442A1B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		E295D1201771BE0F00442A1B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -144,6 +149,7 @@
 			children = (
 				E295D1321771BE0F00442A1B /* MainMenu.xib */,
 				E2ADCE8C177254FE00123DCF /* ContactDetails.xib */,
+				E26D64941776383C0019989E /* AddContactView.xib */,
 				E26D64601773CEC70019989E /* avatarMask.png */,
 				E26D64611773CEC70019989E /* avatarWhiteRing.png */,
 				E26D64641773CF530019989E /* circularMask.png */,
@@ -163,6 +169,8 @@
 			isa = PBXGroup;
 			children = (
 				E295D1351771BE0F00442A1B /* SmartContacts.xcdatamodeld */,
+				E26D648E177601C70019989E /* Contact.h */,
+				E26D648F177601C70019989E /* Contact.m */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -233,6 +241,7 @@
 				E26D646E1773D4B50019989E /* DotsFace2.png in Resources */,
 				E26D646F1773D4B50019989E /* GiseFace2.png in Resources */,
 				E26D64711773D72E0019989E /* CatFace.png in Resources */,
+				E26D64951776383C0019989E /* AddContactView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,6 +257,7 @@
 				E295D1371771BE0F00442A1B /* SmartContacts.xcdatamodeld in Sources */,
 				E295D14A1771DE9C00442A1B /* ContactTableCellView.m in Sources */,
 				E2ADCE8B1772523C00123DCF /* ContactDetailsController.m in Sources */,
+				E26D6490177601C70019989E /* Contact.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
