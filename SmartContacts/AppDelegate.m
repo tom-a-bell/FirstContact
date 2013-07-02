@@ -6,12 +6,18 @@
 //  Copyright (c) 2013 Tom Bell. All rights reserved.
 //
 
-#import "AppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
+
+#import "AppDelegate.h"
+#import "Contact.h"
 #import "ContactTableCellView.h"
-#import "ContactDetailsController.h"
+#import "ContactDetailsViewController.h"
+#import "EditContactViewController.h"
+#import "AddContactViewController.h"
 
 @implementation AppDelegate
+
+@synthesize popover;
 
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize managedObjectModel = _managedObjectModel;
@@ -19,91 +25,31 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    if (_tableContents == nil) {
-        _tableContents = [NSMutableArray new];
+    if (_tableContents == nil)
+    {
+        _tableContents = self.getContactList;
         [self willChangeValueForKey:@"_tableContents"];
-        [_tableContents addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                   @"Tom Bell", @"Name",
-                                   @"Me", @"Relation",
-                                   @"tom.bell.main@gmail.com", @"Email",
-                                   @"+34 662 557 811", @"Phone",
-                                   @"Calle de los Cañizares, 1, 2D\
-                                   28012 Madrid", @"Address",
-                                   [NSImage imageNamed:@"TomFace"], @"Image",
-                                   [NSDate dateWithString:@"1980-10-18 00:00:00 +0000"], @"Birthday",
-                                   nil]];
-        
-        [_tableContents addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                   @"Gise Bañó Esplugues", @"Name",
-                                   @"Girlfriend", @"Relation",
-                                   @"gise.esplugues@outlook.com", @"Email",
-                                   @"+34 637 015 834", @"Phone",
-                                   @"Calle de los Cañizares, 1, 2D\
-                                   28012 Madrid", @"Address",
-                                   [NSImage imageNamed:@"GiseFace2"], @"Image",
-                                   [NSDate dateWithString:@"1985-09-25 00:00:00 +0100"], @"Birthday",
-                                   nil]];
-        
-        [_tableContents addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                   @"Hilary Bell", @"Name",
-                                   @"Mum", @"Relation",
-                                   @"hbell554@btinternet.com", @"Email",
-                                   @"+44 1536 771375", @"Phone",
-                                   @"12 Corby Road\
-                                   Cottingham\
-                                   Market Harborough\
-                                   Leicestershire\
-                                   LE16 8XH", @"Address",
-                                   [NSImage imageNamed:@"CatFace"], @"Image",
-                                   [NSDate dateWithString:@"1950-04-18 00:00:00 +0000"], @"Birthday",
-                                   nil]];
-        
-        [_tableContents addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                   @"Steven Bell", @"Name",
-                                   @"Dad", @"Relation",
-                                   @"steve@stevenbellediting.co.uk", @"Email",
-                                   @"+44 7717 742432", @"Phone",
-                                   @"12 Corby Road\
-                                   Cottingham\
-                                   Market Harborough\
-                                   Leicestershire\
-                                   LE16 8XH", @"Address",
-                                   [NSImage imageNamed:@"DadFace"], @"Image",
-                                   [NSDate dateWithString:@"1950-04-01 00:00:00 +0000"], @"Birthday",
-                                   nil]];
-        
-        [_tableContents addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                   @"Katherine Bell", @"Name",
-                                   @"Sister", @"Relation",
-                                   @"katherine.bell@twobirds.com", @"Email",
-                                   @"+44 7971 975111", @"Phone",
-                                   @"Bird & Bird (Services) Limited\
-                                   15 Fetter Lane\
-                                   London\
-                                   EC4A 1JP", @"Address",
-                                   [NSImage imageNamed:@"DotsFace2"], @"Image",
-                                   [NSDate dateWithString:@"1985-05-16 00:00:00 +0000"], @"Birthday",
-                                   nil]];
-        
-        [_tableContents addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                   @"Dan Bell", @"Name",
-                                   @"Brother", @"Relation",
-                                   @"danjbell@hotmail.co.uk", @"Email",
-                                   @"+44 7816 267170", @"Phone",
-                                   @"Flat 16\
-                                   Sutherland House\
-                                   Royal Herbert Pavilions\
-                                   Gilbert Close\
-                                   Shooters Hill\
-                                   London\
-                                   SE18 4PS", @"Address",
-                                   [NSImage imageNamed:@"DanFace"], @"Image",
-                                   [NSDate dateWithString:@"1982-12-14 00:00:00 +0000"], @"Birthday",
-                                   nil]];
-        
         [self didChangeValueForKey:@"_tableContents"];
         [_tableView reloadData];
     }
+    
+    // To make a popover detachable to a separate window you need:
+    // 1) a separate NSWindow instance
+    //      - it must not be visible:
+    //          (if created by Interface Builder: not "Visible at Launch")
+    //          (if created in code: must not be ordered front)
+    //      - must not be released when closed
+    //      - ideally the same size as the view controller's view frame size
+    //
+    // 2) two separate NSViewController instances
+    //      - one for the popover, the other for the detached window
+    //      - view best loaded as a sebarate nib (file's owner = NSViewController)
+    //
+    // To make the popover detached, simply drag the visible popover away from its attached view
+    //
+    // Fore more detailed information, refer to NSPopover.h
+    
+    detachedWindow.contentView = detachedWindowViewController.view;
 }
 
 // The only essential/required tableview dataSource method
@@ -133,9 +79,10 @@
         //  Specify the button source images
         NSImage *image = [dictionary objectForKey:@"Image"];
         NSImage *mask  = [NSImage imageNamed:@"avatarMask"];
+        NSImage *bezel = [NSImage imageNamed:@"avatarBezel"];
 
-        NSImage *mainImage = [self createButtonImage:image withMask:nil withBezel:nil];
-        NSImage *pushImage = [self createButtonImage:image withMask:mask withBezel:nil];
+        NSImage *mainImage = [self createButtonImage:image withMask:nil withBezel:bezel];
+        NSImage *pushImage = [self createButtonImage:image withMask:mask withBezel:bezel];
 
         cellView.detailsButton.image = mainImage;
         cellView.detailsButton.alternateImage = pushImage;
@@ -242,31 +189,6 @@
     return _managedObjectContext;
 }
 
-// Show the popover window with the relevant contact details.
-- (IBAction)showDetails:(id)sender {
-
-    // Find out what row was clicked and bring up the contact details popup
-    NSInteger row = [_tableView rowForView:sender];
-    if (row != -1) {
-        [self _showContactDetailsForRow:row];
-    }
-
-//    if (row != -1) {
-//        [_tableContents removeObjectAtIndex:row];
-//        [_tableView removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:row]
-//                          withAnimation:NSTableViewAnimationEffectFade];
-//    }
-}
-
-- (void)_showContactDetailsForRow:(NSInteger)row {
-    NSDictionary *dictionary = [_tableContents objectAtIndex:row];
-    ContactTableCellView *cellView = [_tableView viewAtColumn:0 row:row makeIfNecessary:NO];
-    
-    [[ContactDetailsController contactDetailsController] setDelegate:self];
-    [[ContactDetailsController contactDetailsController] updatePopover:dictionary
-                                               withPositioningView:cellView.detailsButton];
-}
-
 // Returns the NSUndoManager for the application. In this case, the manager returned is that of the managed object context for the application.
 - (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window
 {
@@ -333,6 +255,264 @@
     return NSTerminateNow;
 }
 
+// -------------------------------------------------------------------------------
+//  applicationShouldTerminateAfterLastWindowClosed:sender
+//
+//  NSApplication delegate method placed here so the sample conveniently quits
+//  after we close the window.
+// -------------------------------------------------------------------------------
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
+{
+    return YES;
+}
+
+// Show the relevant contact details in a popover view.
+- (IBAction)showDetailsPopover:(id)sender
+{
+    if (self.popover == nil)
+    {
+        // Instantiate the view controller
+        ContactDetailsViewController *detailsViewController =
+        [[ContactDetailsViewController alloc] initWithNibName:@"ContactDetails" bundle:nil];
+        
+        popoverViewController = detailsViewController;
+        detachedWindowViewController = detailsViewController;
+        
+        // Create the popover
+        [self createPopover];
+        
+        // Get the button that was clicked
+        NSButton *targetButton = (NSButton *)sender;
+        
+        // Configure the preferred position of the popover
+        NSRectEdge prefEdge = NSMaxYEdge;
+        [self.popover showRelativeToRect:[targetButton bounds] ofView:sender preferredEdge:prefEdge];
+        
+        // Find out which row was clicked and pass the relevant contact details to the popup
+        NSInteger row = [_tableView rowForView:sender];
+        if (row != -1) {
+            NSDictionary *contactDetails = [_tableContents objectAtIndex:row];
+            [detailsViewController setContact:[contactDetails valueForKey:@"Contact"]];
+        }
+    }
+    else
+    {
+        [self closePopover:sender];
+    }
+}
+
+// -------------------------------------------------------------------------------
+//  showInsertPopover:sender
+// -------------------------------------------------------------------------------
+- (IBAction)showInsertPopover:(id)sender
+{
+    if (self.popover == nil)
+    {
+        // Instantiate the view controller
+        AddContactViewController *insertViewController =
+        [[AddContactViewController alloc] initWithNibName:@"AddContactView" bundle:nil];
+        
+        popoverViewController = insertViewController;
+        detachedWindowViewController = insertViewController;
+        
+        // Create the popover
+        [self createPopover];
+        
+        // Get the button that was clicked
+        NSButton *targetButton = (NSButton *)sender;
+        
+        // Configure the preferred position of the popover
+        NSRectEdge prefEdge = NSMaxXEdge;
+        [self.popover showRelativeToRect:[targetButton bounds] ofView:sender preferredEdge:prefEdge];
+        
+        // Instantiate the managed object context in the popover view controller
+        [insertViewController setManagedObjectContext:[self managedObjectContext]];
+    }
+    else
+    {
+        [self closePopover:sender];
+    }
+}
+
+// -------------------------------------------------------------------------------
+// Edit the relevant contact details in a popover view.
+// -------------------------------------------------------------------------------
+- (void)showEditPopoverWithContact:(Contact *)contact
+{
+    EditContactViewController *editViewController =
+    [[EditContactViewController alloc] initWithNibName:@"EditContactView" bundle:nil];
+    
+    popoverViewController = editViewController;
+    detachedWindowViewController = editViewController;
+    
+    // Specify the view controller content of the popover
+    self.popover.contentViewController = popoverViewController;
+    
+    // Pass the contact details to the view controller
+    [editViewController setContact:contact];
+}
+
+// -------------------------------------------------------------------------------
+// Show the contact details after finished editing.
+// -------------------------------------------------------------------------------
+- (void)showDetailsPopoverWithContact:(Contact *)contact
+{
+    ContactDetailsViewController *detailsViewController =
+    [[ContactDetailsViewController alloc] initWithNibName:@"ContactDetails" bundle:nil];
+    
+    popoverViewController = detailsViewController;
+    detachedWindowViewController = detailsViewController;
+    
+    // Specify the view controller content of the popover
+    self.popover.contentViewController = popoverViewController;
+    
+    // Pass the contact details to the view controller
+    [detailsViewController setContact:contact];
+}
+
+// -------------------------------------------------------------------------------
+//  createPopover
+// -------------------------------------------------------------------------------
+- (void)createPopover
+{
+    if (self.popover == nil)
+    {
+        // Create and set up the popover
+        popover = [[NSPopover alloc] init];
+        
+        // The popover retains us and we retain the popover, and
+        // we drop the popover whenever it is closed to avoid a cycle
+        
+        // Specify the view controller content of the popover
+        self.popover.contentViewController = popoverViewController;
+        
+        // Use the default popover appearance
+        self.popover.appearance = NSPopoverAppearanceMinimal;
+        
+        // Animate the popover view
+        self.popover.animates = YES;
+        
+        // AppKit will close the popover when the user interacts with a user interface element outside the popover.
+        // Note that interacting with menus or panels that become key only when needed will not cause a transient popover to close.
+        self.popover.behavior = NSPopoverBehaviorSemitransient;
+        
+        // So we can be notified when the popover appears or closes
+        self.popover.delegate = self;
+    }
+}
+
+// -------------------------------------------------------------------------------
+//  closePopover
+// -------------------------------------------------------------------------------
+- (IBAction)closePopover:(id)sender
+{
+    [self.popover performClose:sender];
+}
+
+#pragma mark -
+#pragma mark NSPopoverDelegate
+
+// -------------------------------------------------------------------------------
+// Invoked on the delegate when the NSPopoverWillShowNotification notification is sent.
+// This method will also be invoked on the popover.
+// -------------------------------------------------------------------------------
+- (void)popoverWillShow:(NSNotification *)notification
+{
+    // add new code here before the popover has been shown
+}
+
+// -------------------------------------------------------------------------------
+// Invoked on the delegate when the NSPopoverDidShowNotification notification is sent.
+// This method will also be invoked on the popover.
+// -------------------------------------------------------------------------------
+- (void)popoverDidShow:(NSNotification *)notification
+{
+    // add new code here after the popover has been shown
+}
+
+// -------------------------------------------------------------------------------
+// Invoked on the delegate when the NSPopoverWillCloseNotification notification is sent.
+// This method will also be invoked on the popover.
+// -------------------------------------------------------------------------------
+- (void)popoverWillClose:(NSNotification *)notification
+{
+    NSString *closeReason = [[notification userInfo] valueForKey:NSPopoverCloseReasonKey];
+    if ([closeReason isEqualToString:NSPopoverCloseReasonDetachToWindow])
+    {
+        detachedWindowViewController.view = popoverViewController.view;
+        detachedWindow.contentView = detachedWindowViewController.view;
+    }
+}
+
+// -------------------------------------------------------------------------------
+// Invoked on the delegate when the NSPopoverDidCloseNotification notification is sent.
+// This method will also be invoked on the popover.
+// -------------------------------------------------------------------------------
+- (void)popoverDidClose:(NSNotification *)notification
+{
+    popover = nil;
+
+    [self willChangeValueForKey:@"_tableContents"];
+    _tableContents = self.getContactList;
+    [self didChangeValueForKey:@"_tableContents"];
+    [_tableView reloadData];
+}
+
+// -------------------------------------------------------------------------------
+// Invoked on the delegate asked for the detachable window for the popover.
+// -------------------------------------------------------------------------------
+- (NSWindow *)detachableWindowForPopover:(NSPopover *)popover
+{
+    NSWindow *window = detachedWindow;
+    
+    // Set the size of the window to that of the popover
+    NSRect contentFrame = popoverViewController.view.frame;
+    NSRect windowFrame = [window frameRectForContentRect:contentFrame];
+    windowFrame.size.height += 20;
+    [window setFrame:windowFrame display:YES animate:YES];
+    return window;
+}
+
+
+-(NSMutableArray *)getContactList
+{
+    // Instantiate the managed object context.
+    NSManagedObjectContext *moc = self.managedObjectContext;
+
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
+    
+    // Sort the entries by last name, then by first name.
+    NSSortDescriptor *sortByLastName = [[NSSortDescriptor alloc] initWithKey:@"lastName" ascending:YES];
+    NSSortDescriptor *sortByFirstName = [[NSSortDescriptor alloc] initWithKey:@"firstName" ascending:YES];
+    [request setSortDescriptors:@[sortByLastName, sortByFirstName]];
+    
+    // Execute the fetch request by sending it to the managed object context.
+    NSError *error;
+    NSArray *fetchedContacts = [moc executeFetchRequest:request error:&error];
+    if (fetchedContacts == nil)
+    {
+        NSLog(@"Error while fetching\n%@", ([error localizedDescription] != nil) ?[error localizedDescription] : @"Unknown Error");
+    }
+    
+    // Add the contacts to the contact list
+    NSMutableArray *contactList = [NSMutableArray new];
+    for (Contact *contact in fetchedContacts)
+    {
+        [contactList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                contact, @"Contact",
+                                contact.fullName, @"Name",
+                                contact.relation, @"Relation",
+                                contact.email, @"Email",
+                                contact.phone, @"Phone",
+                                contact.fullAddress, @"Address",
+                                [[NSImage alloc] initWithData:contact.image], @"Image",
+                                contact.birthday, @"Birthday",
+                                nil]];
+    }
+
+    return contactList;
+}
+
 - (NSImage *)createButtonImage:(NSImage *)image withMask:(NSImage *)mask withBezel:(NSImage *)bezel
 {
     NSImage *finalImage = [[NSImage alloc] initWithSize:NSMakeSize(94, 92)];
@@ -388,3 +568,82 @@
 }
 
 @end
+
+//    [contactList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+//                            @"Tom Bell", @"Name",
+//                            @"Me", @"Relation",
+//                            @"tom.bell.main@gmail.com", @"Email",
+//                            @"+34 662 557 811", @"Phone",
+//                            @"Calle de los Cañizares, 1, 2D\
+//                            28012 Madrid", @"Address",
+//                            [NSImage imageNamed:@"TomFace"], @"Image",
+//                            [NSDate dateWithString:@"1980-10-18 00:00:00 +0000"], @"Birthday",
+//                            nil]];
+//
+//    [contactList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+//                            @"Gise Bañó Esplugues", @"Name",
+//                            @"Girlfriend", @"Relation",
+//                            @"gise.esplugues@outlook.com", @"Email",
+//                            @"+34 637 015 834", @"Phone",
+//                            @"Calle de los Cañizares, 1, 2D\
+//                            28012 Madrid", @"Address",
+//                            [NSImage imageNamed:@"GiseFace2"], @"Image",
+//                            [NSDate dateWithString:@"1985-09-25 00:00:00 +0100"], @"Birthday",
+//                            nil]];
+//
+//    [contactList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+//                            @"Hilary Bell", @"Name",
+//                            @"Mum", @"Relation",
+//                            @"hbell554@btinternet.com", @"Email",
+//                            @"+44 1536 771375", @"Phone",
+//                            @"12 Corby Road\
+//                            Cottingham\
+//                            Market Harborough\
+//                            Leicestershire\
+//                            LE16 8XH", @"Address",
+//                            [NSImage imageNamed:@"CatFace"], @"Image",
+//                            [NSDate dateWithString:@"1950-04-18 00:00:00 +0000"], @"Birthday",
+//                            nil]];
+//
+//    [contactList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+//                            @"Steven Bell", @"Name",
+//                            @"Dad", @"Relation",
+//                            @"steve@stevenbellediting.co.uk", @"Email",
+//                            @"+44 7717 742432", @"Phone",
+//                            @"12 Corby Road\
+//                            Cottingham\
+//                            Market Harborough\
+//                            Leicestershire\
+//                            LE16 8XH", @"Address",
+//                            [NSImage imageNamed:@"DadFace"], @"Image",
+//                            [NSDate dateWithString:@"1950-04-01 00:00:00 +0000"], @"Birthday",
+//                            nil]];
+//
+//    [contactList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+//                            @"Katherine Bell", @"Name",
+//                            @"Sister", @"Relation",
+//                            @"katherine.bell@twobirds.com", @"Email",
+//                            @"+44 7971 975111", @"Phone",
+//                            @"Bird & Bird (Services) Limited\
+//                            15 Fetter Lane\
+//                            London\
+//                            EC4A 1JP", @"Address",
+//                            [NSImage imageNamed:@"DotsFace2"], @"Image",
+//                            [NSDate dateWithString:@"1985-05-16 00:00:00 +0000"], @"Birthday",
+//                            nil]];
+//
+//    [contactList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+//                            @"Dan Bell", @"Name",
+//                            @"Brother", @"Relation",
+//                            @"danjbell@hotmail.co.uk", @"Email",
+//                            @"+44 7816 267170", @"Phone",
+//                            @"Flat 16\
+//                            Sutherland House\
+//                            Royal Herbert Pavilions\
+//                            Gilbert Close\
+//                            Shooters Hill\
+//                            London\
+//                            SE18 4PS", @"Address",
+//                            [NSImage imageNamed:@"DanFace"], @"Image",
+//                            [NSDate dateWithString:@"1982-12-14 00:00:00 +0000"], @"Birthday",
+//                            nil]];

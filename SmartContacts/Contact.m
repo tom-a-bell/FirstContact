@@ -11,25 +11,34 @@
 
 @implementation Contact
 
-@dynamic city;
 @dynamic image;
-@dynamic name;
+@dynamic firstName;
+@dynamic lastName;
+@dynamic relation;
+@dynamic company;
+@dynamic email;
 @dynamic phone;
-@dynamic postcode;
 @dynamic street;
+@dynamic city;
+@dynamic postcode;
+@dynamic country;
+@dynamic birthday;
 
--(NSDictionary *)getContactList
+- (NSString *)fullName
 {
-    NSDictionary *contactList = [NSDictionary dictionaryWithObjectsAndKeys:
-                            @"Tom Bell", @"Name",
-                            @"Me", @"Relation",
-                            @"tom.bell.main@gmail.com", @"Email",
-                            @"+34 662 557 811", @"Phone",
-                            @"Calle de los Cañizares, 1, 2D\
-                            28012 Madrid", @"Address",
-                            [NSImage imageNamed:@"TomFace"], @"Image",
-                            [NSDate dateWithString:@"1980-10-18 00:00:00 +0000"], @"Birthday",
-                            nil];
-    return contactList;
+    return [self.firstName stringByAppendingFormat:@" %@", self.lastName];
 }
+
+- (NSString *)fullAddress
+{
+    NSString *fullAddress = self.street;
+    if ([self.city isNotEqualTo:@""])
+        fullAddress = [fullAddress stringByAppendingFormat:@"\n%@", self.city];
+    if ([self.postcode isNotEqualTo:@""])
+        fullAddress = [fullAddress stringByAppendingFormat:@"\n%@", self.postcode];
+    if ([self.country isNotEqualTo:@""])
+        fullAddress = [fullAddress stringByAppendingFormat:@"\n%@", self.country];
+    return fullAddress;
+}
+
 @end

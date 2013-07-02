@@ -7,21 +7,43 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "Contact.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, NSTableViewDelegate, NSTableViewDataSource>{
+@class AddContactViewController;
+@class ContactDetailsViewController;
+
+@interface AppDelegate : NSObject <NSApplicationDelegate, NSPopoverDelegate,
+                                   NSTableViewDelegate, NSTableViewDataSource>
+{
 @private
+    // Popover object
+    NSPopover *popover;
+
+    // Detached window for popover
+    IBOutlet NSWindow *detachedWindow;
+
+    // View controllers for popovers and detachable windows
+    NSViewController *popoverViewController;
+    NSViewController *detachedWindowViewController;
+
     // An array of dictionaries that contain the contents to display
     NSMutableArray *_tableContents;
     IBOutlet NSTableView *_tableView;
 }
 
 @property (assign) IBOutlet NSWindow *window;
+@property (retain) NSPopover *popover;
 
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
-- (IBAction)showDetails:(id)sender;
+- (IBAction)showInsertPopover:(id)sender;
+- (IBAction)showDetailsPopover:(id)sender;
+- (IBAction)closePopover:(id)sender;
 - (IBAction)saveAction:(id)sender;
+
+- (void)showEditPopoverWithContact:(Contact *)contact;
+- (void)showDetailsPopoverWithContact:(Contact *)contact;
 
 @end

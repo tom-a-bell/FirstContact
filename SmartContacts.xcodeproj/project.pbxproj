@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E23B9C71177C92C800226107 /* EditContactView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E23B9C6E177C92C800226107 /* EditContactView.xib */; };
+		E23B9C72177C92C800226107 /* EditContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E23B9C70177C92C800226107 /* EditContactViewController.m */; };
 		E26D64621773CEC70019989E /* avatarMask.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D64601773CEC70019989E /* avatarMask.png */; };
-		E26D64631773CEC70019989E /* avatarWhiteRing.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D64611773CEC70019989E /* avatarWhiteRing.png */; };
+		E26D64631773CEC70019989E /* avatarBezel.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D64611773CEC70019989E /* avatarBezel.png */; };
 		E26D64651773CF530019989E /* circularMask.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D64641773CF530019989E /* circularMask.png */; };
 		E26D646B1773D4B50019989E /* DadFace.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D64661773D4B50019989E /* DadFace.png */; };
 		E26D646C1773D4B50019989E /* DanFace.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D64671773D4B50019989E /* DanFace.png */; };
@@ -28,14 +30,20 @@
 		E295D14A1771DE9C00442A1B /* ContactTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = E295D1491771DE9C00442A1B /* ContactTableCellView.m */; };
 		E2ADCE82177214AE00123DCF /* GiseFace.png in Resources */ = {isa = PBXBuildFile; fileRef = E2ADCE80177214AE00123DCF /* GiseFace.png */; };
 		E2ADCE83177214AE00123DCF /* TomFace.png in Resources */ = {isa = PBXBuildFile; fileRef = E2ADCE81177214AE00123DCF /* TomFace.png */; };
-		E2ADCE8B1772523C00123DCF /* ContactDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2ADCE8A1772523C00123DCF /* ContactDetailsController.m */; };
+		E2ADCE8B1772523C00123DCF /* ContactDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2ADCE8A1772523C00123DCF /* ContactDetailsViewController.m */; };
 		E2ADCE8D177254FE00123DCF /* ContactDetails.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2ADCE8C177254FE00123DCF /* ContactDetails.xib */; };
+		E2AE4A43177A627800F7DBCA /* MouseDownTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = E2AE4A42177A627800F7DBCA /* MouseDownTextField.m */; };
+		E2B4A3211778BDA4008DBE0B /* AddContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B4A3201778BDA4008DBE0B /* AddContactViewController.m */; };
+		E2B4A3231778D26F008DBE0B /* windowBottomFade.png in Resources */ = {isa = PBXBuildFile; fileRef = E2B4A3221778D26F008DBE0B /* windowBottomFade.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E23B9C6E177C92C800226107 /* EditContactView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditContactView.xib; path = SmartContacts/EditContactView.xib; sourceTree = "<group>"; };
+		E23B9C6F177C92C800226107 /* EditContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditContactViewController.h; sourceTree = "<group>"; };
+		E23B9C70177C92C800226107 /* EditContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditContactViewController.m; sourceTree = "<group>"; };
 		E26D64601773CEC70019989E /* avatarMask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatarMask.png; sourceTree = "<group>"; };
-		E26D64611773CEC70019989E /* avatarWhiteRing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatarWhiteRing.png; sourceTree = "<group>"; };
-		E26D64641773CF530019989E /* circularMask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circularMask.png; path = ../circularMask.png; sourceTree = "<group>"; };
+		E26D64611773CEC70019989E /* avatarBezel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatarBezel.png; sourceTree = "<group>"; };
+		E26D64641773CF530019989E /* circularMask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circularMask.png; sourceTree = "<group>"; };
 		E26D64661773D4B50019989E /* DadFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DadFace.png; sourceTree = "<group>"; };
 		E26D64671773D4B50019989E /* DanFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DanFace.png; sourceTree = "<group>"; };
 		E26D64681773D4B50019989E /* DotsFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DotsFace.png; sourceTree = "<group>"; };
@@ -44,7 +52,7 @@
 		E26D64701773D72E0019989E /* CatFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CatFace.png; sourceTree = "<group>"; };
 		E26D648E177601C70019989E /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
 		E26D648F177601C70019989E /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
-		E26D64941776383C0019989E /* AddContactView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddContactView.xib; sourceTree = "<group>"; };
+		E26D64941776383C0019989E /* AddContactView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddContactView.xib; path = SmartContacts/AddContactView.xib; sourceTree = "<group>"; };
 		E295D11A1771BE0F00442A1B /* SmartContacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartContacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E295D11D1771BE0F00442A1B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		E295D1201771BE0F00442A1B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -63,9 +71,14 @@
 		E295D1491771DE9C00442A1B /* ContactTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactTableCellView.m; sourceTree = "<group>"; };
 		E2ADCE80177214AE00123DCF /* GiseFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GiseFace.png; sourceTree = "<group>"; };
 		E2ADCE81177214AE00123DCF /* TomFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TomFace.png; sourceTree = "<group>"; };
-		E2ADCE891772523C00123DCF /* ContactDetailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactDetailsController.h; sourceTree = "<group>"; };
-		E2ADCE8A1772523C00123DCF /* ContactDetailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactDetailsController.m; sourceTree = "<group>"; };
-		E2ADCE8C177254FE00123DCF /* ContactDetails.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactDetails.xib; sourceTree = "<group>"; };
+		E2ADCE891772523C00123DCF /* ContactDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactDetailsViewController.h; sourceTree = "<group>"; };
+		E2ADCE8A1772523C00123DCF /* ContactDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactDetailsViewController.m; sourceTree = "<group>"; };
+		E2ADCE8C177254FE00123DCF /* ContactDetails.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContactDetails.xib; path = SmartContacts/ContactDetails.xib; sourceTree = "<group>"; };
+		E2AE4A41177A627800F7DBCA /* MouseDownTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MouseDownTextField.h; sourceTree = "<group>"; };
+		E2AE4A42177A627800F7DBCA /* MouseDownTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MouseDownTextField.m; sourceTree = "<group>"; };
+		E2B4A31F1778BDA4008DBE0B /* AddContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddContactViewController.h; sourceTree = "<group>"; };
+		E2B4A3201778BDA4008DBE0B /* AddContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddContactViewController.m; sourceTree = "<group>"; };
+		E2B4A3221778D26F008DBE0B /* windowBottomFade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = windowBottomFade.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,20 +113,12 @@
 		E295D11C1771BE0F00442A1B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E295D11D1771BE0F00442A1B /* Cocoa.framework */,
-				E295D11F1771BE0F00442A1B /* Other Frameworks */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		E295D11F1771BE0F00442A1B /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
 				E295D1201771BE0F00442A1B /* AppKit.framework */,
+				E295D11D1771BE0F00442A1B /* Cocoa.framework */,
 				E295D1211771BE0F00442A1B /* CoreData.framework */,
 				E295D1221771BE0F00442A1B /* Foundation.framework */,
 			);
-			name = "Other Frameworks";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		E295D1231771BE0F00442A1B /* SmartContacts */ = {
@@ -121,10 +126,12 @@
 			children = (
 				E295D12F1771BE0F00442A1B /* AppDelegate.h */,
 				E295D1301771BE0F00442A1B /* AppDelegate.m */,
-				E2ADCE891772523C00123DCF /* ContactDetailsController.h */,
-				E2ADCE8A1772523C00123DCF /* ContactDetailsController.m */,
 				E295D1481771DE9C00442A1B /* ContactTableCellView.h */,
 				E295D1491771DE9C00442A1B /* ContactTableCellView.m */,
+				E2AE4A41177A627800F7DBCA /* MouseDownTextField.h */,
+				E2AE4A42177A627800F7DBCA /* MouseDownTextField.m */,
+				E2AE4A4A177A6FDC00F7DBCA /* Controllers */,
+				E2AE4A46177A69EF00F7DBCA /* Views */,
 				E295D13D1771BE2300442A1B /* Resources */,
 				E295D13E1771BF5A00442A1B /* Data */,
 				E295D1241771BE0F00442A1B /* Supporting Files */,
@@ -135,11 +142,11 @@
 		E295D1241771BE0F00442A1B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E295D1251771BE0F00442A1B /* SmartContacts-Info.plist */,
-				E295D1261771BE0F00442A1B /* InfoPlist.strings */,
 				E295D1291771BE0F00442A1B /* main.m */,
-				E295D12B1771BE0F00442A1B /* SmartContacts-Prefix.pch */,
 				E295D12C1771BE0F00442A1B /* Credits.rtf */,
+				E295D1261771BE0F00442A1B /* InfoPlist.strings */,
+				E295D1251771BE0F00442A1B /* SmartContacts-Info.plist */,
+				E295D12B1771BE0F00442A1B /* SmartContacts-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -147,12 +154,10 @@
 		E295D13D1771BE2300442A1B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				E295D1321771BE0F00442A1B /* MainMenu.xib */,
-				E2ADCE8C177254FE00123DCF /* ContactDetails.xib */,
-				E26D64941776383C0019989E /* AddContactView.xib */,
 				E26D64601773CEC70019989E /* avatarMask.png */,
-				E26D64611773CEC70019989E /* avatarWhiteRing.png */,
+				E26D64611773CEC70019989E /* avatarBezel.png */,
 				E26D64641773CF530019989E /* circularMask.png */,
+				E2B4A3221778D26F008DBE0B /* windowBottomFade.png */,
 				E26D64701773D72E0019989E /* CatFace.png */,
 				E26D64661773D4B50019989E /* DadFace.png */,
 				E26D64671773D4B50019989E /* DanFace.png */,
@@ -173,6 +178,31 @@
 				E26D648F177601C70019989E /* Contact.m */,
 			);
 			name = Data;
+			sourceTree = "<group>";
+		};
+		E2AE4A46177A69EF00F7DBCA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E295D1321771BE0F00442A1B /* MainMenu.xib */,
+				E2ADCE8C177254FE00123DCF /* ContactDetails.xib */,
+				E23B9C6E177C92C800226107 /* EditContactView.xib */,
+				E26D64941776383C0019989E /* AddContactView.xib */,
+			);
+			name = Views;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		E2AE4A4A177A6FDC00F7DBCA /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E2ADCE891772523C00123DCF /* ContactDetailsViewController.h */,
+				E2ADCE8A1772523C00123DCF /* ContactDetailsViewController.m */,
+				E23B9C6F177C92C800226107 /* EditContactViewController.h */,
+				E23B9C70177C92C800226107 /* EditContactViewController.m */,
+				E2B4A31F1778BDA4008DBE0B /* AddContactViewController.h */,
+				E2B4A3201778BDA4008DBE0B /* AddContactViewController.m */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,7 +263,7 @@
 				E2ADCE83177214AE00123DCF /* TomFace.png in Resources */,
 				E2ADCE8D177254FE00123DCF /* ContactDetails.xib in Resources */,
 				E26D64621773CEC70019989E /* avatarMask.png in Resources */,
-				E26D64631773CEC70019989E /* avatarWhiteRing.png in Resources */,
+				E26D64631773CEC70019989E /* avatarBezel.png in Resources */,
 				E26D64651773CF530019989E /* circularMask.png in Resources */,
 				E26D646B1773D4B50019989E /* DadFace.png in Resources */,
 				E26D646C1773D4B50019989E /* DanFace.png in Resources */,
@@ -242,6 +272,8 @@
 				E26D646F1773D4B50019989E /* GiseFace2.png in Resources */,
 				E26D64711773D72E0019989E /* CatFace.png in Resources */,
 				E26D64951776383C0019989E /* AddContactView.xib in Resources */,
+				E2B4A3231778D26F008DBE0B /* windowBottomFade.png in Resources */,
+				E23B9C71177C92C800226107 /* EditContactView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,8 +288,11 @@
 				E295D1311771BE0F00442A1B /* AppDelegate.m in Sources */,
 				E295D1371771BE0F00442A1B /* SmartContacts.xcdatamodeld in Sources */,
 				E295D14A1771DE9C00442A1B /* ContactTableCellView.m in Sources */,
-				E2ADCE8B1772523C00123DCF /* ContactDetailsController.m in Sources */,
+				E2ADCE8B1772523C00123DCF /* ContactDetailsViewController.m in Sources */,
 				E26D6490177601C70019989E /* Contact.m in Sources */,
+				E2B4A3211778BDA4008DBE0B /* AddContactViewController.m in Sources */,
+				E2AE4A43177A627800F7DBCA /* MouseDownTextField.m in Sources */,
+				E23B9C72177C92C800226107 /* EditContactViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +321,7 @@
 				E295D1331771BE0F00442A1B /* en */,
 			);
 			name = MainMenu.xib;
+			path = SmartContacts;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

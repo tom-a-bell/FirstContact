@@ -12,7 +12,6 @@
 @private
     IBOutlet NSButton *detailsButton;
     IBOutlet NSTextField *subTitleTextField;
-    IBOutlet NSProgressIndicator *progessIndicator;
     BOOL _isSmallSize;
 }
 
