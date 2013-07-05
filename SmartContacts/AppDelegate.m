@@ -10,6 +10,9 @@
 
 #import "AppDelegate.h"
 #import "Contact.h"
+#import "Model.h"
+#import "Usage.h"
+
 #import "ContactTableCellView.h"
 #import "ContactDetailsViewController.h"
 #import "EditContactViewController.h"
@@ -33,22 +36,6 @@
         [_tableView reloadData];
     }
     
-    // To make a popover detachable to a separate window you need:
-    // 1) a separate NSWindow instance
-    //      - it must not be visible:
-    //          (if created by Interface Builder: not "Visible at Launch")
-    //          (if created in code: must not be ordered front)
-    //      - must not be released when closed
-    //      - ideally the same size as the view controller's view frame size
-    //
-    // 2) two separate NSViewController instances
-    //      - one for the popover, the other for the detached window
-    //      - view best loaded as a sebarate nib (file's owner = NSViewController)
-    //
-    // To make the popover detached, simply drag the visible popover away from its attached view
-    //
-    // Fore more detailed information, refer to NSPopover.h
-    
     detachedWindow.contentView = detachedWindowViewController.view;
 }
 
@@ -62,22 +49,19 @@
    viewForTableColumn:(NSTableColumn *)tableColumn
                   row:(NSInteger)row
 {
-    // Group our "model" object, which is a dictionary
-    NSDictionary *dictionary = [_tableContents objectAtIndex:row];
-    
     NSString *identifier = [tableColumn identifier];
-    
     if ([identifier isEqualToString:@"ContactList"])
     {
         // We pass us as the owner so we can setup target/actions into this main controller object
         ContactTableCellView *cellView = [tableView makeViewWithIdentifier:@"ContactCell" owner:self];
 
         // Then setup properties on the cellView based on the column
-        cellView.textField.stringValue = [dictionary objectForKey:@"Name"];
-        cellView.subTitleTextField.stringValue = [dictionary objectForKey:@"Relation"];
+        Contact *contact = [_tableContents objectAtIndex:row];
+        cellView.textField.stringValue = contact.fullName;
+        cellView.subTitleTextField.stringValue = contact.relation;
 
         //  Specify the button source images
-        NSImage *image = [dictionary objectForKey:@"Image"];
+        NSImage *image = [[NSImage alloc] initWithData:contact.image];
         NSImage *mask  = [NSImage imageNamed:@"avatarMask"];
         NSImage *bezel = [NSImage imageNamed:@"avatarBezel"];
 
@@ -88,7 +72,9 @@
         cellView.detailsButton.alternateImage = pushImage;
 
         return cellView;
-    } else {
+    }
+    else
+    {
         NSAssert1(NO, @"Unhandled table column identifier %@", identifier);
     }
     return nil;
@@ -157,8 +143,13 @@
     }
     
     NSURL *url = [applicationFilesDirectory URLByAppendingPathComponent:@"SmartContacts.storedata"];
+    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+                             [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
     NSPersistentStoreCoordinator *coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
-    if (![coordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error]) {
+    if (![coordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil
+                                             URL:url options:options error:&error])
+    {
         [[NSApplication sharedApplication] presentError:error];
         return nil;
     }
@@ -290,9 +281,32 @@
         
         // Find out which row was clicked and pass the relevant contact details to the popup
         NSInteger row = [_tableView rowForView:sender];
-        if (row != -1) {
-            NSDictionary *contactDetails = [_tableContents objectAtIndex:row];
-            [detailsViewController setContact:[contactDetails valueForKey:@"Contact"]];
+        if (row != -1)
+        {
+            // Get the contact details
+            Contact *contact = [_tableContents objectAtIndex:row];
+
+            // Pass the contact details to the popover view controller
+            [detailsViewController setContact:contact];
+            
+            // Add an entry to the usage table each time a contact is viewed
+            Usage *newAccess = [NSEntityDescription insertNewObjectForEntityForName:@"Usage"
+                                                             inManagedObjectContext:[self managedObjectContext]];
+            newAccess.contact = contact;
+            newAccess.date = [NSDate date];
+            
+            // Revise the priority model each time a contact is viewed
+            for (int i = 0; i < [_tableContents count]; i++)
+            {
+                Contact *thisContact = [_tableContents objectAtIndex:i];
+                Model *newModel = [NSEntityDescription insertNewObjectForEntityForName:@"Model"
+                                                                inManagedObjectContext:[self managedObjectContext]];
+                if (i == row)
+                    [newModel updateParametersUsingModel:currentModel forContact:thisContact wasSelected:YES];
+                else
+                    [newModel updateParametersUsingModel:currentModel forContact:thisContact wasSelected:NO];
+                currentModel = newModel;
+            }
         }
     }
     else
@@ -451,11 +465,7 @@
 - (void)popoverDidClose:(NSNotification *)notification
 {
     popover = nil;
-
-    [self willChangeValueForKey:@"_tableContents"];
-    _tableContents = self.getContactList;
-    [self didChangeValueForKey:@"_tableContents"];
-    [_tableView reloadData];
+    [self updateTableView];
 }
 
 // -------------------------------------------------------------------------------
@@ -473,17 +483,15 @@
     return window;
 }
 
-
 -(NSMutableArray *)getContactList
 {
     // Instantiate the managed object context.
     NSManagedObjectContext *moc = self.managedObjectContext;
-
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
     
     // Sort the entries by last name, then by first name.
     NSSortDescriptor *sortByLastName = [[NSSortDescriptor alloc] initWithKey:@"lastName" ascending:YES];
     NSSortDescriptor *sortByFirstName = [[NSSortDescriptor alloc] initWithKey:@"firstName" ascending:YES];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
     [request setSortDescriptors:@[sortByLastName, sortByFirstName]];
     
     // Execute the fetch request by sending it to the managed object context.
@@ -494,23 +502,59 @@
         NSLog(@"Error while fetching\n%@", ([error localizedDescription] != nil) ?[error localizedDescription] : @"Unknown Error");
     }
     
-    // Add the contacts to the contact list
+    // Get the current model if not already retrieved.
+    if (currentModel == nil) [self getCurrentModel];
+    
+    // Add the contacts to a mutable array.
     NSMutableArray *contactList = [NSMutableArray new];
     for (Contact *contact in fetchedContacts)
     {
-        [contactList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                contact, @"Contact",
-                                contact.fullName, @"Name",
-                                contact.relation, @"Relation",
-                                contact.email, @"Email",
-                                contact.phone, @"Phone",
-                                contact.fullAddress, @"Address",
-                                [[NSImage alloc] initWithData:contact.image], @"Image",
-                                contact.birthday, @"Birthday",
-                                nil]];
+        [contactList addObject:contact];
     }
+    
+    // Sort the contact list by priority.
+    [contactList sortUsingComparator:(NSComparator)^(Contact *contact1, Contact *contact2)
+    {
+        NSNumber *priority1 = [currentModel priorityForContact:contact1];
+        NSNumber *priority2 = [currentModel priorityForContact:contact2];
+        return [priority2 compare:priority1];
+    }];
 
     return contactList;
+}
+
+- (void)updateTableView
+{
+    NSMutableArray *newContactList = self.getContactList;
+    
+    [_tableView beginUpdates];
+    [self willChangeValueForKey:@"_tableContents"];
+    [newContactList enumerateObjectsUsingBlock:^(id object, NSUInteger insertionPoint, BOOL *stop) {
+        
+        NSUInteger deletionPoint = [_tableContents indexOfObject:object];
+        
+        // Do nothing if the object's position remains unchanged
+        if (insertionPoint == deletionPoint) return;
+        
+        // If the object already exists in the table, replay this particular move on the table contents array
+        if (deletionPoint != NSNotFound)
+        {
+            [_tableContents removeObjectAtIndex:deletionPoint];
+            [_tableContents insertObject:object atIndex:insertionPoint];
+            
+            // Now tell the table view to animate the moving row
+            [_tableView moveRowAtIndex:deletionPoint toIndex:insertionPoint];
+        }
+        
+        // If the object is a new addition to the table, insert it into the table contents array
+        else
+        {
+            [_tableContents insertObject:object atIndex:insertionPoint];
+            [_tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:insertionPoint] withAnimation:NSTableViewAnimationSlideDown];
+        }
+    }];
+    [self didChangeValueForKey:@"_tableContents"];
+    [_tableView endUpdates];
 }
 
 - (NSImage *)createButtonImage:(NSImage *)image withMask:(NSImage *)mask withBezel:(NSImage *)bezel
@@ -567,83 +611,69 @@
     return finalImage;
 }
 
-@end
+// Get the current model used to determine contact priority values
+- (void)getCurrentModel
+{
+    if (currentModel == nil)
+    {
+        // Get all saved versions of the model parameters, sorted by date with the most recent entry first
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Model"];
+        NSSortDescriptor *sortByDate = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
+        [request setSortDescriptors:@[sortByDate]];
+        
+        NSError *error;
+        NSArray *fetchedModels = [[self managedObjectContext] executeFetchRequest:request error:&error];
+        if (fetchedModels == nil)
+        {
+            NSLog(@"Error while fetching models\n%@", ([error localizedDescription] != nil) ?[error localizedDescription] : @"Unknown Error");
+        }
+        
+        if ([fetchedModels count] > 0)
+        {
+            // Use the most recent model
+            currentModel = fetchedModels[0];
+        }
+        else
+        {
+            // Create an initial model if none exist
+            currentModel = [self createInitialModel];
+        }
+    }
+}
 
-//    [contactList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-//                            @"Tom Bell", @"Name",
-//                            @"Me", @"Relation",
-//                            @"tom.bell.main@gmail.com", @"Email",
-//                            @"+34 662 557 811", @"Phone",
-//                            @"Calle de los Cañizares, 1, 2D\
-//                            28012 Madrid", @"Address",
-//                            [NSImage imageNamed:@"TomFace"], @"Image",
-//                            [NSDate dateWithString:@"1980-10-18 00:00:00 +0000"], @"Birthday",
-//                            nil]];
-//
-//    [contactList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-//                            @"Gise Bañó Esplugues", @"Name",
-//                            @"Girlfriend", @"Relation",
-//                            @"gise.esplugues@outlook.com", @"Email",
-//                            @"+34 637 015 834", @"Phone",
-//                            @"Calle de los Cañizares, 1, 2D\
-//                            28012 Madrid", @"Address",
-//                            [NSImage imageNamed:@"GiseFace2"], @"Image",
-//                            [NSDate dateWithString:@"1985-09-25 00:00:00 +0100"], @"Birthday",
-//                            nil]];
-//
-//    [contactList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-//                            @"Hilary Bell", @"Name",
-//                            @"Mum", @"Relation",
-//                            @"hbell554@btinternet.com", @"Email",
-//                            @"+44 1536 771375", @"Phone",
-//                            @"12 Corby Road\
-//                            Cottingham\
-//                            Market Harborough\
-//                            Leicestershire\
-//                            LE16 8XH", @"Address",
-//                            [NSImage imageNamed:@"CatFace"], @"Image",
-//                            [NSDate dateWithString:@"1950-04-18 00:00:00 +0000"], @"Birthday",
-//                            nil]];
-//
-//    [contactList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-//                            @"Steven Bell", @"Name",
-//                            @"Dad", @"Relation",
-//                            @"steve@stevenbellediting.co.uk", @"Email",
-//                            @"+44 7717 742432", @"Phone",
-//                            @"12 Corby Road\
-//                            Cottingham\
-//                            Market Harborough\
-//                            Leicestershire\
-//                            LE16 8XH", @"Address",
-//                            [NSImage imageNamed:@"DadFace"], @"Image",
-//                            [NSDate dateWithString:@"1950-04-01 00:00:00 +0000"], @"Birthday",
-//                            nil]];
-//
-//    [contactList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-//                            @"Katherine Bell", @"Name",
-//                            @"Sister", @"Relation",
-//                            @"katherine.bell@twobirds.com", @"Email",
-//                            @"+44 7971 975111", @"Phone",
-//                            @"Bird & Bird (Services) Limited\
-//                            15 Fetter Lane\
-//                            London\
-//                            EC4A 1JP", @"Address",
-//                            [NSImage imageNamed:@"DotsFace2"], @"Image",
-//                            [NSDate dateWithString:@"1985-05-16 00:00:00 +0000"], @"Birthday",
-//                            nil]];
-//
-//    [contactList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-//                            @"Dan Bell", @"Name",
-//                            @"Brother", @"Relation",
-//                            @"danjbell@hotmail.co.uk", @"Email",
-//                            @"+44 7816 267170", @"Phone",
-//                            @"Flat 16\
-//                            Sutherland House\
-//                            Royal Herbert Pavilions\
-//                            Gilbert Close\
-//                            Shooters Hill\
-//                            London\
-//                            SE18 4PS", @"Address",
-//                            [NSImage imageNamed:@"DanFace"], @"Image",
-//                            [NSDate dateWithString:@"1982-12-14 00:00:00 +0000"], @"Birthday",
-//                            nil]];
+// Create an initial priority model with default parameters
+- (Model *)createInitialModel
+{
+    Model *initialModel = [NSEntityDescription insertNewObjectForEntityForName:@"Model"
+                                                        inManagedObjectContext:[self managedObjectContext]];
+    initialModel.date = [NSDate date];
+    initialModel.alpha = [NSNumber numberWithDouble:1.0e-4];
+    initialModel.theta0 = [NSNumber numberWithDouble:0.0];
+    initialModel.theta1 = [NSNumber numberWithDouble:1.0];
+    initialModel.theta2 = [NSNumber numberWithDouble:0.5];
+    initialModel.theta3 = [NSNumber numberWithDouble:0.1];
+    initialModel.theta4 = [NSNumber numberWithDouble:0.5];
+    initialModel.theta5 = [NSNumber numberWithDouble:0.0];
+    initialModel.theta6 = [NSNumber numberWithDouble:0.0];
+    
+    return initialModel;
+}
+
+// Delete all saved models
+- (void)deleteSavedModels
+{
+    NSError *error;
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Model"];
+    NSArray *fetchedModels = [[self managedObjectContext] executeFetchRequest:request error:&error];
+    if (fetchedModels == nil)
+    {
+        NSLog(@"Error while fetching models\n%@", ([error localizedDescription] != nil) ?[error localizedDescription] : @"Unknown Error");
+    }
+    
+    for (Model *model in fetchedModels)
+    {
+        [[self managedObjectContext] deleteObject:model];
+    }
+}
+
+@end

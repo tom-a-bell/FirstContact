@@ -12,7 +12,6 @@
 
 @synthesize detailsButton = _detailsButton;
 @synthesize subTitleTextField = _subTitleTextField;
-@synthesize progessIndicator = _progessIndicator;
 
 - (void)layoutViewsForSmallSize:(BOOL)smallSize animated:(BOOL)animated {
     if (_isSmallSize != smallSize) {

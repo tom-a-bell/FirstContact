@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import "Contact.h"
+#import "Model.h"
+#import "Usage.h"
 
 @class AddContactViewController;
 @class ContactDetailsViewController;
@@ -29,6 +31,9 @@
     // An array of dictionaries that contain the contents to display
     NSMutableArray *_tableContents;
     IBOutlet NSTableView *_tableView;
+    
+    // The current model used to predict the priority of each contact
+    Model *currentModel;
 }
 
 @property (assign) IBOutlet NSWindow *window;

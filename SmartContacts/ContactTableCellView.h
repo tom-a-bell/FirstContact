@@ -17,7 +17,6 @@
 
 @property(assign) NSButton *detailsButton;
 @property(assign) NSTextField *subTitleTextField;
-@property(assign) NSProgressIndicator *progessIndicator;
 
 - (void)layoutViewsForSmallSize:(BOOL)smallSize animated:(BOOL)animated;
 

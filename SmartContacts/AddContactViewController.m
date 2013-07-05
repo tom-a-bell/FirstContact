@@ -17,7 +17,7 @@
 - (IBAction)addNewContact:(id)sender
 {
     Contact *newContact = [NSEntityDescription insertNewObjectForEntityForName:@"Contact"
-                                                                inManagedObjectContext:managedObjectContext];
+                                               inManagedObjectContext:managedObjectContext];
     
     newContact.firstName = self.firstName.stringValue;
     newContact.lastName = self.lastName.stringValue;

@@ -2,13 +2,12 @@
 //  Contact.h
 //  SmartContacts
 //
-//  Created by Tom Bell on 22/06/2013.
+//  Created by Tom Bell on 02/07/2013.
 //  Copyright (c) 2013 Tom Bell. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-
 
 @interface Contact : NSManagedObject
 
@@ -24,8 +23,19 @@
 @property (nonatomic, retain) NSString * postcode;
 @property (nonatomic, retain) NSString * country;
 @property (nonatomic, retain) NSDate   * birthday;
+@property (nonatomic, retain) NSSet *accessedOn;
 
 - (NSString *)fullName;
 - (NSString *)fullAddress;
+- (NSArray *)getFeatures;
+
+@end
+
+@interface Contact (CoreDataGeneratedAccessors)
+
+- (void)addAccessedOnObject:(NSManagedObject *)value;
+- (void)removeAccessedOnObject:(NSManagedObject *)value;
+- (void)addAccessedOn:(NSSet *)values;
+- (void)removeAccessedOn:(NSSet *)values;
 
 @end
