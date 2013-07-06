@@ -17,7 +17,7 @@
 - (NSNumber *)priorityForContact:(Contact *)contact
 {
     double hypothesis = [self hypothesisForContact:contact].doubleValue;
-    if (hypothesis < 1.0e-5) hypothesis = 0;
+    if (hypothesis < 1.0e-8) hypothesis = 0;
     return [NSNumber numberWithDouble:hypothesis];
 }
 

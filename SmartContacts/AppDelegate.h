@@ -43,6 +43,8 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
+@property (weak) IBOutlet NSImageView *bottomFade;
+
 - (IBAction)showInsertPopover:(id)sender;
 - (IBAction)showDetailsPopover:(id)sender;
 - (IBAction)closePopover:(id)sender;

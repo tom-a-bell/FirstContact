@@ -37,50 +37,17 @@
     }
     
     detachedWindow.contentView = detachedWindowViewController.view;
+    
+    // Configure the table's scroll view to send frame change notifications
+    id clipView = [[_tableView enclosingScrollView] contentView];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(tableScrolledNotificationHandler:)
+                                                 name:NSViewBoundsDidChangeNotification
+                                               object:clipView];
 }
 
-// The only essential/required tableview dataSource method
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    return [_tableContents count];
-}
-
-// This method is optional if you use bindings to provide the data
-- (NSView *)tableView:(NSTableView *)tableView
-   viewForTableColumn:(NSTableColumn *)tableColumn
-                  row:(NSInteger)row
-{
-    NSString *identifier = [tableColumn identifier];
-    if ([identifier isEqualToString:@"ContactList"])
-    {
-        // We pass us as the owner so we can setup target/actions into this main controller object
-        ContactTableCellView *cellView = [tableView makeViewWithIdentifier:@"ContactCell" owner:self];
-
-        // Then setup properties on the cellView based on the column
-        Contact *contact = [_tableContents objectAtIndex:row];
-        cellView.textField.stringValue = contact.fullName;
-        cellView.subTitleTextField.stringValue = contact.relation;
-
-        //  Specify the button source images
-        NSImage *image = [[NSImage alloc] initWithData:contact.image];
-        NSImage *mask  = [NSImage imageNamed:@"avatarMask"];
-        NSImage *bezel = [NSImage imageNamed:@"avatarBezel"];
-
-        NSImage *mainImage = [self createButtonImage:image withMask:nil withBezel:bezel];
-        NSImage *pushImage = [self createButtonImage:image withMask:mask withBezel:bezel];
-
-        cellView.detailsButton.image = mainImage;
-        cellView.detailsButton.alternateImage = pushImage;
-
-        return cellView;
-    }
-    else
-    {
-        NSAssert1(NO, @"Unhandled table column identifier %@", identifier);
-    }
-    return nil;
-}
-
-// Returns the directory the application uses to store the Core Data store file. This code uses a directory named "com.TomBell.SmartContacts" in the user's Application Support directory.
+// Returns the directory the application uses to store the Core Data store file.
+// This code uses a directory named "com.TomBell.SmartContacts" in the user's Application Support directory.
 - (NSURL *)applicationFilesDirectory
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -257,6 +224,9 @@
     return YES;
 }
 
+#pragma mark -
+#pragma mark Popover
+
 // Show the relevant contact details in a popover view.
 - (IBAction)showDetailsPopover:(id)sender
 {
@@ -424,7 +394,7 @@
 }
 
 #pragma mark -
-#pragma mark NSPopoverDelegate
+#pragma mark Popover Delegate
 
 // -------------------------------------------------------------------------------
 // Invoked on the delegate when the NSPopoverWillShowNotification notification is sent.
@@ -481,6 +451,58 @@
     windowFrame.size.height += 20;
     [window setFrame:windowFrame display:YES animate:YES];
     return window;
+}
+
+#pragma mark -
+#pragma mark Table View
+
+// The only essential/required tableview dataSource method
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
+    return [_tableContents count];
+}
+
+// This method is optional if you use bindings to provide the data
+- (NSView *)tableView:(NSTableView *)tableView
+   viewForTableColumn:(NSTableColumn *)tableColumn
+                  row:(NSInteger)row
+{
+    NSString *identifier = [tableColumn identifier];
+    if ([identifier isEqualToString:@"ContactList"])
+    {
+        // We pass us as the owner so we can setup target/actions into this main controller object
+        ContactTableCellView *cellView = [tableView makeViewWithIdentifier:@"ContactCell" owner:self];
+        
+        Contact *contact = [_tableContents objectAtIndex:row];
+        cellView.textField.stringValue = contact.fullName;
+        
+        // Determine what to field to show as the subtitle based on available information
+        if (contact.company != nil && [contact.company isNotEqualTo:@""])
+        {
+            cellView.subTitleTextField.stringValue = contact.company;
+        }
+        else
+        {
+            cellView.subTitleTextField.stringValue = contact.relation;
+        }
+        
+        //  Specify the button source images
+        NSImage *image = [[NSImage alloc] initWithData:contact.image];
+        NSImage *mask  = [NSImage imageNamed:@"avatarMask"];
+        NSImage *bezel = [NSImage imageNamed:@"avatarBezel"];
+        
+        NSImage *mainImage = [self createButtonImage:image withMask:nil withBezel:bezel];
+        NSImage *pushImage = [self createButtonImage:image withMask:mask withBezel:bezel];
+        
+        cellView.detailsButton.image = mainImage;
+        cellView.detailsButton.alternateImage = pushImage;
+        
+        return cellView;
+    }
+    else
+    {
+        NSAssert1(NO, @"Unhandled table column identifier %@", identifier);
+    }
+    return nil;
 }
 
 -(NSMutableArray *)getContactList
@@ -610,6 +632,39 @@
     
     return finalImage;
 }
+
+- (void)tableScrolledNotificationHandler:(NSNotification *)notification
+{
+    
+    if ([notification object] == [[_tableView enclosingScrollView] contentView])
+    {
+        // Index of the last entry in the contact list
+        int lastRow = (int)[_tableContents count] - 1;
+
+        // Rectangles enclosing the scroll view, the last row in the table view and the fade gradient
+        NSRect rectOfScrollView = [[_tableView enclosingScrollView] frame];
+        NSRect rectOfCellInTableView = [_tableView frameOfCellAtColumn:0 row:lastRow];
+        NSRect rectOfCellInScrollView = [_tableView convertRect:rectOfCellInTableView toView:[_tableView enclosingScrollView]];
+        NSRect fadeFrame = [self.bottomFade frame];
+
+        // Pixel locations of the bottom of the cell and the bottom of the scroll view
+        int bottomOfCell = rectOfCellInScrollView.origin.y + rectOfCellInScrollView.size.height;
+        int bottomOfView = rectOfScrollView.origin.y + rectOfScrollView.size.height;
+
+        float distanceFromBottom = bottomOfCell - bottomOfView;
+
+        if (distanceFromBottom < fadeFrame.size.height*0.5)
+        {
+            NSPoint newOrigin;
+            newOrigin.x = fadeFrame.origin.x;
+            newOrigin.y = distanceFromBottom - fadeFrame.size.height*0.5;
+            [self.bottomFade setFrameOrigin:newOrigin];
+        }
+    }
+}
+
+#pragma mark -
+#pragma mark Priority Model
 
 // Get the current model used to determine contact priority values
 - (void)getCurrentModel

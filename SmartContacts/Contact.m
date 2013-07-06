@@ -98,8 +98,8 @@
                                 (183 - abs([birthday timeIntervalSinceNow]) / (24 * 60 * 60))];
     [features addObject:daysToBirthday];
 
-    // Add a feature indicating if the contact is the user themself (=1)
-    if ([self.relation isEqualToString:@"Me"]) [features addObject:[NSNumber numberWithInteger:1]];
+    // Add a feature indicating if the contact is the user themself (=10)
+    if ([self.relation isEqualToString:@"Me"]) [features addObject:[NSNumber numberWithInteger:10]];
     else [features addObject:[NSNumber numberWithInteger:0]];
     
     // Return an immutable copy of the feature array
