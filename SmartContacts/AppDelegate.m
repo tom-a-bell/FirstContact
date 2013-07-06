@@ -18,6 +18,8 @@
 #import "EditContactViewController.h"
 #import "AddContactViewController.h"
 
+#import "FacebookContent.h"
+
 @implementation AppDelegate
 
 @synthesize popover;
@@ -475,8 +477,14 @@
         Contact *contact = [_tableContents objectAtIndex:row];
         cellView.textField.stringValue = contact.fullName;
         
-        // Determine what to field to show as the subtitle based on available information
-        if (contact.company != nil && [contact.company isNotEqualTo:@""])
+        NSString *facebookStatus = [FacebookContent statusForContact:contact];
+
+        // Determine what to show as the subtitle based on available information
+        if (facebookStatus != nil)
+        {
+            cellView.subTitleTextField.stringValue = facebookStatus;
+        }
+        else if (contact.company != nil && [contact.company isNotEqualTo:@""])
         {
             cellView.subTitleTextField.stringValue = contact.company;
         }
@@ -533,6 +541,9 @@
     {
         [contactList addObject:contact];
     }
+    
+//    FacebookContent *facebookContent = [[FacebookContent alloc] init];
+//    [facebookContent findMatchesForContacts:contactList];
     
     // Sort the contact list by priority.
     [contactList sortUsingComparator:(NSComparator)^(Contact *contact1, Contact *contact2)

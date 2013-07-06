@@ -23,6 +23,7 @@
 @property (nonatomic, retain) NSString * postcode;
 @property (nonatomic, retain) NSString * country;
 @property (nonatomic, retain) NSDate   * birthday;
+@property (nonatomic, retain) NSNumber * facebookID;
 @property (nonatomic, retain) NSSet *accessedOn;
 
 - (NSString *)fullName;

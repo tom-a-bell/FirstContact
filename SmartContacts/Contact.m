@@ -23,6 +23,7 @@
 @dynamic postcode;
 @dynamic country;
 @dynamic birthday;
+@dynamic facebookID;
 @dynamic accessedOn;
 
 - (NSString *)fullName
