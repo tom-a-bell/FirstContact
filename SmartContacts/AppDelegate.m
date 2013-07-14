@@ -32,13 +32,22 @@
 {
     if (_tableContents == nil)
     {
-        _tableContents = self.getContactList;
         [self willChangeValueForKey:@"_tableContents"];
+        _tableContents = self.getContactList;
         [self didChangeValueForKey:@"_tableContents"];
         [_tableView reloadData];
     }
     
     detachedWindow.contentView = detachedWindowViewController.view;
+    
+    facebookContent = [[FacebookContent alloc] init];
+    [facebookContent getAccessToken];
+    
+    facebookQueryTimer = CreateDispatchTimer(10ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC,
+                                             dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+    ^{
+        NSLog(@"Timer fired.");
+    });
     
     // Configure the table's scroll view to send frame change notifications
     id clipView = [[_tableView enclosingScrollView] contentView];
@@ -212,6 +221,8 @@
         }
     }
     
+    facebookQueryTimer = nil;
+    
     return NSTerminateNow;
 }
 
@@ -288,7 +299,7 @@
 }
 
 // -------------------------------------------------------------------------------
-//  showInsertPopover:sender
+//  Enter the details for a new contact in a popover view.
 // -------------------------------------------------------------------------------
 - (IBAction)showInsertPopover:(id)sender
 {
@@ -477,14 +488,8 @@
         Contact *contact = [_tableContents objectAtIndex:row];
         cellView.textField.stringValue = contact.fullName;
         
-        NSString *facebookStatus = [FacebookContent statusForContact:contact];
-
         // Determine what to show as the subtitle based on available information
-        if (facebookStatus != nil)
-        {
-            cellView.subTitleTextField.stringValue = facebookStatus;
-        }
-        else if (contact.company != nil && [contact.company isNotEqualTo:@""])
+        if (contact.company != nil && [contact.company isNotEqualTo:@""])
         {
             cellView.subTitleTextField.stringValue = contact.company;
         }
@@ -492,7 +497,20 @@
         {
             cellView.subTitleTextField.stringValue = contact.relation;
         }
-        
+
+        // Asynchronously fetch the contact's facebook status message, if available
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
+        dispatch_async(queue, ^{
+            NSString *facebookStatus = [facebookContent statusForContact:contact];
+            
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                if (facebookStatus != nil)
+                {
+                    cellView.subTitleTextField.stringValue = facebookStatus;
+                }
+            });
+        });
+
         //  Specify the button source images
         NSImage *image = [[NSImage alloc] initWithData:contact.image];
         NSImage *mask  = [NSImage imageNamed:@"avatarMask"];
@@ -740,6 +758,19 @@
     {
         [[self managedObjectContext] deleteObject:model];
     }
+}
+
+// Create a GCD dispatch source timer on a background thread
+dispatch_source_t CreateDispatchTimer(uint64_t interval, uint64_t leeway, dispatch_queue_t queue, dispatch_block_t block)
+{
+    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    if (timer)
+    {
+        dispatch_source_set_timer(timer, dispatch_walltime(NULL, 0), interval, leeway);
+        dispatch_source_set_event_handler(timer, block);
+        dispatch_resume(timer);
+    }
+    return timer;
 }
 
 @end

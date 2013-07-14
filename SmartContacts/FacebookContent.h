@@ -7,14 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <PhFacebook/PhFacebook.h>
 #import "Contact.h"
 
-@interface FacebookContent : NSObject
+@interface FacebookContent : NSObject <PhFacebookDelegate>
+{
+    PhFacebook *fb;
+}
 
 @property NSString *accessToken;
 
-+ (void)findMatchesForContacts:(NSArray *)contactList;
-+ (NSNumber *)idForContact:(Contact *)contact;
-+ (NSString *)statusForContact:(Contact *)contact;
+- (void)getAccessToken;
+- (void)findMatchesForContacts:(NSArray *)contactList;
+- (NSNumber *)idForContact:(Contact *)contact;
+- (NSString *)statusForContact:(Contact *)contact;
 
 @end

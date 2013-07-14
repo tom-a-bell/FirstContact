@@ -10,9 +10,18 @@
 
 @implementation FacebookContent
 
-+ (void)findMatchesForContacts:(NSArray *)contactList
+@synthesize accessToken;
+
+- (void)getAccessToken
 {
-    NSString *accessToken = @"CAACEdEose0cBAKzAeopdzgDXgWLuaTRkMmOt7F2bnBYqNZChEYFpp9vGwpoQw9IkCUMII7ZAHF2FWMjx1iU2f0JcXJDueJyNEK2X7Ni2uMgKaaK22D4ZBKOwuP6N7gzYTKEvaIGMZAdKjjCu9MZA6wLz7MBRg8EgN2L6FQls73ebB6sVhh6SHwUzPhLroEezZCqASQ84ZAIfwZDZD";
+    NSString* APPLICATION_ID = @"294739090671217";
+    fb = [[PhFacebook alloc] initWithApplicationID:APPLICATION_ID delegate:self];
+    [fb getAccessTokenForPermissions:[NSArray arrayWithObjects: @"friends_status", nil] cached:YES];
+}
+
+- (void)findMatchesForContacts:(NSArray *)contactList
+{
+    if (accessToken == nil) [self getAccessToken];
     
     NSString *queryString = [[NSString alloc] initWithFormat:@"https://graph.facebook.com/me/friends?access_token=%@", accessToken];
     
@@ -86,9 +95,9 @@
     }
 }
 
-+ (NSNumber *)idForContact:(Contact *)contact
+- (NSNumber *)idForContact:(Contact *)contact
 {
-     NSString *accessToken = @"CAACEdEose0cBAKzAeopdzgDXgWLuaTRkMmOt7F2bnBYqNZChEYFpp9vGwpoQw9IkCUMII7ZAHF2FWMjx1iU2f0JcXJDueJyNEK2X7Ni2uMgKaaK22D4ZBKOwuP6N7gzYTKEvaIGMZAdKjjCu9MZA6wLz7MBRg8EgN2L6FQls73ebB6sVhh6SHwUzPhLroEezZCqASQ84ZAIfwZDZD";
+    if (accessToken == nil) [self getAccessToken];
     
     NSString *queryString = [[NSString alloc] initWithFormat:@"https://graph.facebook.com/me/friends?access_token=%@", accessToken];
     
@@ -162,11 +171,15 @@
     return nil;
 }
 
-+ (NSString *)statusForContact:(Contact *)contact
+- (NSString *)statusForContact:(Contact *)contact
 {
     if (contact.facebookID == nil) return nil;
 
-     NSString *accessToken = @"CAACEdEose0cBAKzAeopdzgDXgWLuaTRkMmOt7F2bnBYqNZChEYFpp9vGwpoQw9IkCUMII7ZAHF2FWMjx1iU2f0JcXJDueJyNEK2X7Ni2uMgKaaK22D4ZBKOwuP6N7gzYTKEvaIGMZAdKjjCu9MZA6wLz7MBRg8EgN2L6FQls73ebB6sVhh6SHwUzPhLroEezZCqASQ84ZAIfwZDZD";
+    if (accessToken == nil)
+    {
+//        [self getAccessToken];
+        return nil;
+    }
     
     NSString *statusQuery = [[NSString alloc] initWithFormat:@"https://graph.facebook.com/%@/statuses?access_token=%@", contact.facebookID, accessToken];
     
@@ -200,6 +213,25 @@
         NSLog(@"Unrecognised data type for returned JSON object:\n\n%@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
     }
     return nil;
+}
+
+#pragma mark PhFacebookDelegate methods
+
+- (void) tokenResult: (NSDictionary*) result
+{
+    if ([[result valueForKey: @"valid"] boolValue])
+        accessToken = fb.accessToken;
+    else
+        NSLog(@"Error retrieving Facebook access token: %@", [result valueForKey: @"error"]);
+}
+
+- (void) requestResult: (NSDictionary*) result
+{
+}
+
+- (void) willShowUINotification: (PhFacebook*) sender
+{
+    [NSApp requestUserAttention: NSInformationalRequest];
 }
 
 @end

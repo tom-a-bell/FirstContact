@@ -15,6 +15,8 @@
 		E26D64631773CEC70019989E /* avatarBezel.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D64611773CEC70019989E /* avatarBezel.png */; };
 		E26D64651773CF530019989E /* circularMask.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D64641773CF530019989E /* circularMask.png */; };
 		E26D64951776383C0019989E /* AddContactView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E26D64941776383C0019989E /* AddContactView.xib */; };
+		E27476971791FFF6007FB2EB /* PhFacebook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E27476961791FFF6007FB2EB /* PhFacebook.framework */; };
+		E2747699179200BB007FB2EB /* PhFacebook.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E27476961791FFF6007FB2EB /* PhFacebook.framework */; };
 		E295D11E1771BE0F00442A1B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E295D11D1771BE0F00442A1B /* Cocoa.framework */; };
 		E295D1281771BE0F00442A1B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E295D1261771BE0F00442A1B /* InfoPlist.strings */; };
 		E295D12A1771BE0F00442A1B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E295D1291771BE0F00442A1B /* main.m */; };
@@ -32,8 +34,22 @@
 		E2BDDBD01783810D008C10B6 /* Usage.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BDDBCF1783810D008C10B6 /* Usage.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		E27476981792009A007FB2EB /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E2747699179200BB007FB2EB /* PhFacebook.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		E22042421787A929006A2824 /* SmartContacts 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SmartContacts 4.xcdatamodel"; sourceTree = "<group>"; };
+		E2187B1817934EB700C3474C /* SmartContacts 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SmartContacts 5.xcdatamodel"; sourceTree = "<group>"; };
+		E22042421787A929006A2824 /* SmartContacts 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartContacts 4.xcdatamodel"; sourceTree = "<group>"; };
 		E22042431787A9F4006A2824 /* FacebookContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookContent.h; sourceTree = "<group>"; };
 		E22042441787A9F4006A2824 /* FacebookContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookContent.m; sourceTree = "<group>"; };
 		E2333CA017861DE20036E3AB /* SmartContacts 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartContacts 3.xcdatamodel"; sourceTree = "<group>"; };
@@ -46,6 +62,7 @@
 		E26D64611773CEC70019989E /* avatarBezel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatarBezel.png; sourceTree = "<group>"; };
 		E26D64641773CF530019989E /* circularMask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circularMask.png; sourceTree = "<group>"; };
 		E26D64941776383C0019989E /* AddContactView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddContactView.xib; path = SmartContacts/AddContactView.xib; sourceTree = "<group>"; };
+		E27476961791FFF6007FB2EB /* PhFacebook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PhFacebook.framework; sourceTree = "<group>"; };
 		E295D11A1771BE0F00442A1B /* SmartContacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartContacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E295D11D1771BE0F00442A1B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		E295D1201771BE0F00442A1B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -83,6 +100,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E295D11E1771BE0F00442A1B /* Cocoa.framework in Frameworks */,
+				E27476971791FFF6007FB2EB /* PhFacebook.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,6 +140,7 @@
 				E295D11D1771BE0F00442A1B /* Cocoa.framework */,
 				E295D1211771BE0F00442A1B /* CoreData.framework */,
 				E295D1221771BE0F00442A1B /* Foundation.framework */,
+				E27476961791FFF6007FB2EB /* PhFacebook.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -217,6 +236,7 @@
 				E295D1161771BE0F00442A1B /* Sources */,
 				E295D1171771BE0F00442A1B /* Frameworks */,
 				E295D1181771BE0F00442A1B /* Resources */,
+				E27476981792009A007FB2EB /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -386,10 +406,16 @@
 		E295D13B1771BE0F00442A1B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartContacts/SmartContacts-Prefix.pch";
 				INFOPLIST_FILE = "SmartContacts/SmartContacts-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -398,10 +424,16 @@
 		E295D13C1771BE0F00442A1B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartContacts/SmartContacts-Prefix.pch";
 				INFOPLIST_FILE = "SmartContacts/SmartContacts-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -434,12 +466,13 @@
 		E295D1351771BE0F00442A1B /* SmartContacts.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				E2187B1817934EB700C3474C /* SmartContacts 5.xcdatamodel */,
 				E2333CA017861DE20036E3AB /* SmartContacts 3.xcdatamodel */,
 				E22042421787A929006A2824 /* SmartContacts 4.xcdatamodel */,
 				E2EE810D178372A200624A1E /* SmartContacts 2.xcdatamodel */,
 				E295D1361771BE0F00442A1B /* SmartContacts 1.xcdatamodel */,
 			);
-			currentVersion = E22042421787A929006A2824 /* SmartContacts 4.xcdatamodel */;
+			currentVersion = E2187B1817934EB700C3474C /* SmartContacts 5.xcdatamodel */;
 			path = SmartContacts.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
