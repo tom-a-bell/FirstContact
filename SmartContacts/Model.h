@@ -14,6 +14,7 @@
 
 @property (nonatomic, retain) NSDate   * date;
 @property (nonatomic, retain) NSNumber * alpha;
+@property (nonatomic, retain) NSArray  * theta;
 @property (nonatomic, retain) NSNumber * theta0;
 @property (nonatomic, retain) NSNumber * theta1;
 @property (nonatomic, retain) NSNumber * theta2;

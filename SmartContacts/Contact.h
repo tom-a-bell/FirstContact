@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+@class Address, Email, Phone, Usage;
+
 @interface Contact : NSManagedObject
 
 @property (nonatomic, retain) NSData   * image;
@@ -24,7 +26,12 @@
 @property (nonatomic, retain) NSString * country;
 @property (nonatomic, retain) NSDate   * birthday;
 @property (nonatomic, retain) NSNumber * facebookID;
-@property (nonatomic, retain) NSSet *accessedOn;
+@property (nonatomic, retain) NSString * facebookStatus;
+
+@property (nonatomic, retain) NSSet    * hasEmail;
+@property (nonatomic, retain) NSSet    * hasPhone;
+@property (nonatomic, retain) NSSet    * hasAddress;
+@property (nonatomic, retain) NSSet    * accessedOn;
 
 - (NSString *)fullName;
 - (NSString *)fullAddress;
@@ -34,8 +41,23 @@
 
 @interface Contact (CoreDataGeneratedAccessors)
 
-- (void)addAccessedOnObject:(NSManagedObject *)value;
-- (void)removeAccessedOnObject:(NSManagedObject *)value;
+- (void)addHasEmailObject:(Email *)value;
+- (void)removeHasEmailObject:(Email *)value;
+- (void)addHasEmail:(NSSet *)values;
+- (void)removeHasEmail:(NSSet *)values;
+
+- (void)addHasPhoneObject:(Phone *)value;
+- (void)removeHasPhoneObject:(Phone *)value;
+- (void)addHasPhone:(NSSet *)values;
+- (void)removeHasPhone:(NSSet *)values;
+
+- (void)addHasAddressObject:(Address *)value;
+- (void)removeHasAddressObject:(Address *)value;
+- (void)addHasAddress:(NSSet *)values;
+- (void)removeHasAddress:(NSSet *)values;
+
+- (void)addAccessedOnObject:(Usage *)value;
+- (void)removeAccessedOnObject:(Usage *)value;
 - (void)addAccessedOn:(NSSet *)values;
 - (void)removeAccessedOn:(NSSet *)values;
 

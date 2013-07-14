@@ -12,7 +12,7 @@
 
 @implementation Model
 
-@dynamic date, alpha, theta0, theta1, theta2, theta3, theta4, theta5, theta6;
+@dynamic date, alpha, theta, theta0, theta1, theta2, theta3, theta4, theta5, theta6;
 
 - (NSNumber *)priorityForContact:(Contact *)contact
 {
@@ -73,7 +73,7 @@
     double alpha = model.alpha.doubleValue;
     
     NSMutableArray *theta = [parameterVector mutableCopy];
-
+    
     for (int i = 0; i < n; i++)
     {
         double gradient = (h - y) * [featureVector[i] doubleValue];
@@ -90,6 +90,7 @@
     self.theta4 = theta[4];
     self.theta5 = theta[5];
     self.theta6 = theta[6];
+    self.theta  = [theta copy];
 }
 
 @end

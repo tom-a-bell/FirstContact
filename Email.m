@@ -1,17 +1,18 @@
 //
-//  Usage.m
+//  Email.m
 //  SmartContacts
 //
-//  Created by Tom Bell on 02/07/2013.
+//  Created by Tom Bell on 15/07/2013.
 //  Copyright (c) 2013 Tom Bell. All rights reserved.
 //
 
-#import "Usage.h"
+#import "Email.h"
 #import "Contact.h"
 
-@implementation Usage
+@implementation Email
 
-@dynamic date;
+@dynamic address;
+@dynamic type;
 @dynamic contact;
 
 @end
