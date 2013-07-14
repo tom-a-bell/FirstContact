@@ -7,7 +7,6 @@
         <attribute name="country" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="facebookID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="facebookStatus" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="firstName" attributeType="String" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="lastName" attributeType="String" syncable="YES"/>
@@ -33,8 +32,8 @@
         <relationship name="contact" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Contact" inverseName="accessedOn" inverseEntity="Contact" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Contact" positionX="151" positionY="219" width="128" height="268"/>
-        <element name="Model" positionX="367" positionY="297" width="128" height="193"/>
-        <element name="Usage" positionX="367" positionY="219" width="128" height="73"/>
+        <element name="Contact" positionX="160" positionY="192" width="128" height="268"/>
+        <element name="Model" positionX="367" positionY="315" width="128" height="193"/>
+        <element name="Usage" positionX="367" positionY="192" width="128" height="73"/>
     </elements>
 </model>

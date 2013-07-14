@@ -12,6 +12,7 @@
 		E2187B21179359F700C3474C /* Email.m in Sources */ = {isa = PBXBuildFile; fileRef = E2187B20179359F700C3474C /* Email.m */; };
 		E2187B2417935A6600C3474C /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = E2187B2317935A6600C3474C /* Model.m */; };
 		E2187B2717935C7400C3474C /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = E2187B2617935C7300C3474C /* Contact.m */; };
+		E2187B291793618100C3474C /* SmartContacts4-5.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = E2187B281793618100C3474C /* SmartContacts4-5.xcmappingmodel */; };
 		E22042451787A9F4006A2824 /* FacebookContent.m in Sources */ = {isa = PBXBuildFile; fileRef = E22042441787A9F4006A2824 /* FacebookContent.m */; };
 		E23B9C71177C92C800226107 /* EditContactView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E23B9C6E177C92C800226107 /* EditContactView.xib */; };
 		E23B9C72177C92C800226107 /* EditContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E23B9C70177C92C800226107 /* EditContactViewController.m */; };
@@ -54,14 +55,15 @@
 		E2187B1817934EB700C3474C /* SmartContacts 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SmartContacts 5.xcdatamodel"; sourceTree = "<group>"; };
 		E2187B19179359E000C3474C /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Address.h; sourceTree = "<group>"; };
 		E2187B1A179359E000C3474C /* Address.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Address.m; sourceTree = "<group>"; };
-		E2187B1C179359EE00C3474C /* Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Phone.h; path = ../Phone.h; sourceTree = "<group>"; };
-		E2187B1D179359EE00C3474C /* Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Phone.m; path = ../Phone.m; sourceTree = "<group>"; };
-		E2187B1F179359F700C3474C /* Email.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Email.h; path = ../Email.h; sourceTree = "<group>"; };
-		E2187B20179359F700C3474C /* Email.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Email.m; path = ../Email.m; sourceTree = "<group>"; };
+		E2187B1C179359EE00C3474C /* Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Phone.h; sourceTree = "<group>"; };
+		E2187B1D179359EE00C3474C /* Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Phone.m; sourceTree = "<group>"; };
+		E2187B1F179359F700C3474C /* Email.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Email.h; sourceTree = "<group>"; };
+		E2187B20179359F700C3474C /* Email.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Email.m; sourceTree = "<group>"; };
 		E2187B2217935A6500C3474C /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		E2187B2317935A6600C3474C /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
 		E2187B2517935C7300C3474C /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
 		E2187B2617935C7300C3474C /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
+		E2187B281793618100C3474C /* SmartContacts4-5.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "SmartContacts4-5.xcmappingmodel"; sourceTree = "<group>"; };
 		E22042421787A929006A2824 /* SmartContacts 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartContacts 4.xcdatamodel"; sourceTree = "<group>"; };
 		E22042431787A9F4006A2824 /* FacebookContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookContent.h; sourceTree = "<group>"; };
 		E22042441787A9F4006A2824 /* FacebookContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookContent.m; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				E295D1351771BE0F00442A1B /* SmartContacts.xcdatamodeld */,
+				E2187B281793618100C3474C /* SmartContacts4-5.xcmappingmodel */,
 				E2187B2517935C7300C3474C /* Contact.h */,
 				E2187B2617935C7300C3474C /* Contact.m */,
 				E2187B1F179359F700C3474C /* Email.h */,
@@ -328,6 +331,7 @@
 				E2187B21179359F700C3474C /* Email.m in Sources */,
 				E2187B2417935A6600C3474C /* Model.m in Sources */,
 				E2187B2717935C7400C3474C /* Contact.m in Sources */,
+				E2187B291793618100C3474C /* SmartContacts4-5.xcmappingmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
