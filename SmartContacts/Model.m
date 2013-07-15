@@ -26,8 +26,7 @@
 {
     // Create the feature and parameter vectors
     NSArray *featureVector = [contact getFeatures];
-    NSArray *parameterVector = @[self.theta0, self.theta1, self.theta2, self.theta3,
-                                 self.theta4, self.theta5, self.theta6];
+    NSArray *parameterVector = self.theta;
     
     long n = MIN([featureVector count], [parameterVector count]);
     
@@ -52,45 +51,33 @@
 - (void)updateParametersUsingModel:(Model *)model forContact:(Contact *)contact wasSelected:(BOOL)selected
 {
     // Set the initial parameter values to those of the supplied model
-    self.alpha  = [model.alpha copy];
-    self.theta0 = [model.theta0 copy];
-    self.theta1 = [model.theta1 copy];
-    self.theta2 = [model.theta2 copy];
-    self.theta3 = [model.theta3 copy];
-    self.theta4 = [model.theta4 copy];
-    self.theta5 = [model.theta5 copy];
-    self.theta6 = [model.theta6 copy];
+    self.alpha = [model.alpha copy];
+    self.theta = [model.theta copy];
     
     // Create the feature and parameter vectors
     NSArray *featureVector = [contact getFeatures];
-    NSArray *parameterVector = @[model.theta0, model.theta1, model.theta2, model.theta3,
-                                 model.theta4, model.theta5, model.theta6];
+    NSMutableArray *theta  = [NSMutableArray new];
     
-    long n = MIN([featureVector count], [parameterVector count]);
-    
+    long n = [featureVector count];
     double y = (double)selected;
     double h = [self hypothesisForContact:contact].doubleValue;
     double alpha = model.alpha.doubleValue;
     
-    NSMutableArray *theta = [parameterVector mutableCopy];
-    
     for (int i = 0; i < n; i++)
     {
+        // Compute the gradient of the cost function, dJ/dtheta_i
         double gradient = (h - y) * [featureVector[i] doubleValue];
-        theta[i] = [NSNumber numberWithDouble:([theta[i] doubleValue] - alpha * gradient)];
+        
+        // Use stochastic gradient descent to update or add the value for theta_i
+        if (i < [model.theta count])
+            [theta addObject:[NSNumber numberWithDouble:([model.theta[i] doubleValue] - alpha * gradient)]];
+        else
+            [theta addObject:[NSNumber numberWithDouble:(-alpha * gradient)]];
     }
     
     // Store the updated parameter values
     self.date = [NSDate date];
-    self.alpha = [model.alpha copy];
-    self.theta0 = theta[0];
-    self.theta1 = theta[1];
-    self.theta2 = theta[2];
-    self.theta3 = theta[3];
-    self.theta4 = theta[4];
-    self.theta5 = theta[5];
-    self.theta6 = theta[6];
-    self.theta  = [theta copy];
+    self.theta = [theta copy];
 }
 
 @end

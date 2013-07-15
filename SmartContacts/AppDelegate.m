@@ -18,7 +18,7 @@
 #import "EditContactViewController.h"
 #import "AddContactViewController.h"
 
-#import "FacebookContent.h"
+#import "FacebookQuery.h"
 
 @implementation AppDelegate
 
@@ -39,14 +39,49 @@
     }
     
     detachedWindow.contentView = detachedWindowViewController.view;
+
+    facebookQuery = [[FacebookQuery alloc] init];
     
-    facebookContent = [[FacebookContent alloc] init];
-    [facebookContent getAccessToken];
-    
-    facebookQueryTimer = CreateDispatchTimer(10ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC,
-                                             dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+    // Create an hourly dispatch timer on the global queue to
+    // fetch each contact's Facebook status message, if available
+    facebookStatusUpdateTimer = CreateDispatchTimer(3600ull * NSEC_PER_SEC, 60ull * NSEC_PER_SEC,
+                                                    dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul),
     ^{
-        NSLog(@"Timer fired.");
+        NSManagedObjectContext *moc = self.managedObjectContext;
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
+        NSError *error;
+        NSArray *fetchedContacts = [moc executeFetchRequest:request error:&error];
+        if (fetchedContacts == nil)
+        {
+            NSLog(@"Error while fetching contacts\n%@", ([error localizedDescription] != nil) ?[error localizedDescription] : @"Unknown Error");
+        }
+        
+        [facebookQuery getAccessToken];
+        for (Contact *contact in fetchedContacts)
+        {
+            [facebookQuery statusForContact:contact];
+        }
+    });
+    
+    // Create a daily dispatch timer on the global queue to search
+    // for the missing Facebook IDs for new contacts, if available
+    facebookStatusUpdateTimer = CreateDispatchTimer(86400ull * NSEC_PER_SEC, 60ull * NSEC_PER_SEC,
+                                                    dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul),
+    ^{
+        NSManagedObjectContext *moc = self.managedObjectContext;
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
+        NSError *error;
+        NSArray *fetchedContacts = [moc executeFetchRequest:request error:&error];
+        if (fetchedContacts == nil)
+        {
+            NSLog(@"Error while fetching contacts\n%@", ([error localizedDescription] != nil) ?[error localizedDescription] : @"Unknown Error");
+        }
+        
+        [facebookQuery getAccessToken];
+        for (Contact *contact in fetchedContacts)
+        {
+            [facebookQuery idForContact:contact];
+        }
     });
     
     // Configure the table's scroll view to send frame change notifications
@@ -221,7 +256,8 @@
         }
     }
     
-    facebookQueryTimer = nil;
+    facebookIdQueryTimer = nil;
+    facebookStatusUpdateTimer = nil;
     
     return NSTerminateNow;
 }
@@ -489,7 +525,11 @@
         cellView.textField.stringValue = contact.fullName;
         
         // Determine what to show as the subtitle based on available information
-        if (contact.company != nil && [contact.company isNotEqualTo:@""])
+        if (contact.facebookStatus != nil && [contact.facebookStatus isNotEqualTo:@""])
+        {
+            cellView.subTitleTextField.stringValue = contact.facebookStatus;
+        }
+        else if (contact.company != nil && [contact.company isNotEqualTo:@""])
         {
             cellView.subTitleTextField.stringValue = contact.company;
         }
@@ -498,21 +538,16 @@
             cellView.subTitleTextField.stringValue = contact.relation;
         }
 
-        // Asynchronously fetch the contact's facebook status message, if available
-        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
-        dispatch_async(queue, ^{
-            NSString *facebookStatus = [facebookContent statusForContact:contact];
-            
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                if (facebookStatus != nil)
-                {
-                    cellView.subTitleTextField.stringValue = facebookStatus;
-                }
-            });
-        });
-
         //  Specify the button source images
-        NSImage *image = [[NSImage alloc] initWithData:contact.image];
+        NSImage *image = nil;
+        if (contact.image != nil)
+        {
+            image = [[NSImage alloc] initWithData:contact.image];
+        }
+        else
+        {
+            image = [NSImage imageNamed:@"NSUser"];
+        }
         NSImage *mask  = [NSImage imageNamed:@"avatarMask"];
         NSImage *bezel = [NSImage imageNamed:@"avatarBezel"];
         
@@ -547,7 +582,7 @@
     NSArray *fetchedContacts = [moc executeFetchRequest:request error:&error];
     if (fetchedContacts == nil)
     {
-        NSLog(@"Error while fetching\n%@", ([error localizedDescription] != nil) ?[error localizedDescription] : @"Unknown Error");
+        NSLog(@"Error while fetching contacts\n%@", ([error localizedDescription] != nil) ?[error localizedDescription] : @"Unknown Error");
     }
     
     // Get the current model if not already retrieved.
@@ -560,8 +595,7 @@
         [contactList addObject:contact];
     }
     
-//    FacebookContent *facebookContent = [[FacebookContent alloc] init];
-//    [facebookContent findMatchesForContacts:contactList];
+//    [facebookQuery findMatchesForContacts:contactList];
     
     // Sort the contact list by priority.
     [contactList sortUsingComparator:(NSComparator)^(Contact *contact1, Contact *contact2)
@@ -730,16 +764,14 @@
 {
     Model *initialModel = [NSEntityDescription insertNewObjectForEntityForName:@"Model"
                                                         inManagedObjectContext:[self managedObjectContext]];
-    initialModel.date = [NSDate date];
+    initialModel.date  = [NSDate date];
     initialModel.alpha = [NSNumber numberWithDouble:1.0e-4];
-    initialModel.theta0 = [NSNumber numberWithDouble:0.0];
-    initialModel.theta1 = [NSNumber numberWithDouble:1.0];
-    initialModel.theta2 = [NSNumber numberWithDouble:0.5];
-    initialModel.theta3 = [NSNumber numberWithDouble:0.1];
-    initialModel.theta4 = [NSNumber numberWithDouble:0.5];
-    initialModel.theta5 = [NSNumber numberWithDouble:0.0];
-    initialModel.theta6 = [NSNumber numberWithDouble:0.0];
-    
+    initialModel.theta = @[[NSNumber numberWithDouble:0.0],
+                           [NSNumber numberWithDouble:1.0],
+                           [NSNumber numberWithDouble:0.5],
+                           [NSNumber numberWithDouble:0.1],
+                           [NSNumber numberWithDouble:0.5],
+                           [NSNumber numberWithDouble:1.0]];
     return initialModel;
 }
 

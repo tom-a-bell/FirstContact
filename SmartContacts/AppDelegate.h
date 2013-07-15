@@ -11,7 +11,7 @@
 #import "Model.h"
 #import "Usage.h"
 
-@class FacebookContent;
+@class FacebookQuery;
 @class AddContactViewController;
 @class ContactDetailsViewController;
 
@@ -36,9 +36,10 @@
     // The current model used to predict the priority of each contact
     Model *currentModel;
 
-    // The Facebook graph API handler and query timer
-    FacebookContent *facebookContent;
-    dispatch_source_t facebookQueryTimer;
+    // The Facebook graph API handler and query timers
+    FacebookQuery *facebookQuery;
+    dispatch_source_t facebookIdQueryTimer;
+    dispatch_source_t facebookStatusUpdateTimer;
 }
 
 @property (assign) IBOutlet NSWindow *window;

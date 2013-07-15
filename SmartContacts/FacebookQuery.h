@@ -10,7 +10,7 @@
 #import <PhFacebook/PhFacebook.h>
 #import "Contact.h"
 
-@interface FacebookContent : NSObject <PhFacebookDelegate>
+@interface FacebookQuery : NSObject <PhFacebookDelegate>
 {
     PhFacebook *fb;
 }
@@ -18,8 +18,8 @@
 @property NSString *accessToken;
 
 - (void)getAccessToken;
+- (void)idForContact:(Contact *)contact;
+- (void)statusForContact:(Contact *)contact;
 - (void)findMatchesForContacts:(NSArray *)contactList;
-- (NSNumber *)idForContact:(Contact *)contact;
-- (NSString *)statusForContact:(Contact *)contact;
 
 @end
