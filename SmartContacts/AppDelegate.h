@@ -35,11 +35,15 @@
     
     // The current model used to predict the priority of each contact
     Model *currentModel;
+    
+    // GCD dispatch source timer to update the priority order of the contact list
+    dispatch_source_t priorityListUpdateTimer;
 
     // The Facebook graph API handler and query timers
     FacebookQuery *facebookQuery;
-    dispatch_source_t facebookIdQueryTimer;
+    dispatch_source_t facebookAccessTokenTimer;
     dispatch_source_t facebookStatusUpdateTimer;
+    dispatch_source_t facebookIdQueryTimer;
 }
 
 @property (assign) IBOutlet NSWindow *window;

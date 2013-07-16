@@ -41,12 +41,32 @@
     detachedWindow.contentView = detachedWindowViewController.view;
 
     facebookQuery = [[FacebookQuery alloc] init];
+    [facebookQuery getAccessToken];
     
+//    // Create a half-hourly dispatch timer on the main queue to
+//    // update each contact's priority and sort the contact list
+//    priorityListUpdateTimer = CreateDispatchTimer(1800ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC,
+//                                                  dispatch_get_main_queue(),
+//    ^{
+//        NSLog(@"Refreshing contact list priority order...");
+//        [self updateTableView];
+//    });
+    
+    // Create a half-hourly dispatch timer on the main queue
+    // to refresh the Facebook API access token
+    facebookAccessTokenTimer = CreateDispatchTimer(1800ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC,
+                                                   dispatch_get_main_queue(),
+    ^{
+        NSLog(@"Refreshing Facebook access token...");
+        [facebookQuery getAccessToken];
+    });
+                                                        
     // Create an hourly dispatch timer on the global queue to
     // fetch each contact's Facebook status message, if available
-    facebookStatusUpdateTimer = CreateDispatchTimer(3600ull * NSEC_PER_SEC, 60ull * NSEC_PER_SEC,
-                                                    dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul),
+    facebookStatusUpdateTimer = CreateDispatchTimer(3600ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC,
+                                                    dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
     ^{
+        NSLog(@"Retrieving Facebook status updates...");
         NSManagedObjectContext *moc = self.managedObjectContext;
         NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
         NSError *error;
@@ -55,8 +75,6 @@
         {
             NSLog(@"Error while fetching contacts\n%@", ([error localizedDescription] != nil) ?[error localizedDescription] : @"Unknown Error");
         }
-        
-        [facebookQuery getAccessToken];
         for (Contact *contact in fetchedContacts)
         {
             [facebookQuery statusForContact:contact];
@@ -65,9 +83,10 @@
     
     // Create a daily dispatch timer on the global queue to search
     // for the missing Facebook IDs for new contacts, if available
-    facebookStatusUpdateTimer = CreateDispatchTimer(86400ull * NSEC_PER_SEC, 60ull * NSEC_PER_SEC,
-                                                    dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul),
+    facebookIdQueryTimer = CreateDispatchTimer(86400ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC,
+                                               dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0),
     ^{
+        NSLog(@"Searching for missing Facebook IDs...");
         NSManagedObjectContext *moc = self.managedObjectContext;
         NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
         NSError *error;
@@ -76,14 +95,12 @@
         {
             NSLog(@"Error while fetching contacts\n%@", ([error localizedDescription] != nil) ?[error localizedDescription] : @"Unknown Error");
         }
-        
-        [facebookQuery getAccessToken];
         for (Contact *contact in fetchedContacts)
         {
             [facebookQuery idForContact:contact];
         }
     });
-    
+
     // Configure the table's scroll view to send frame change notifications
     id clipView = [[_tableView enclosingScrollView] contentView];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -256,8 +273,12 @@
         }
     }
     
+    dispatch_source_cancel(facebookIdQueryTimer);
+    dispatch_source_cancel(facebookStatusUpdateTimer);
+    dispatch_source_cancel(facebookAccessTokenTimer);
     facebookIdQueryTimer = nil;
     facebookStatusUpdateTimer = nil;
+    facebookAccessTokenTimer = nil;
     
     return NSTerminateNow;
 }
@@ -792,13 +813,13 @@
     }
 }
 
-// Create a GCD dispatch source timer on a background thread
+// Create a GCD dispatch source timer on the specified queue, with a 60 second delay before the first call
 dispatch_source_t CreateDispatchTimer(uint64_t interval, uint64_t leeway, dispatch_queue_t queue, dispatch_block_t block)
 {
     dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
     if (timer)
     {
-        dispatch_source_set_timer(timer, dispatch_walltime(NULL, 0), interval, leeway);
+        dispatch_source_set_timer(timer, dispatch_walltime(NULL, 60ull * NSEC_PER_SEC), interval, leeway);
         dispatch_source_set_event_handler(timer, block);
         dispatch_resume(timer);
     }

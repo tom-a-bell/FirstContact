@@ -21,12 +21,9 @@
 
 - (void)idForContact:(Contact *)contact
 {
-    
-    NSLog(@"Searching for Facebook ID for %@", contact.fullName);
-    
-    if (contact.facebookID != nil) return;
     if (accessToken == nil) return;
-
+    if (contact.facebookID.longValue != 0) return;
+    
     // First check if the contact is the Facebook user
     NSString *queryString = [[NSString alloc] initWithFormat:@"https://graph.facebook.com/me?access_token=%@", accessToken];
     NSURL *queryUrl = [NSURL URLWithString:queryString];
@@ -85,7 +82,6 @@
         NSSet *friends = results[@"data"];
         for (NSDictionary *friend in friends)
         {
-            NSLog(@"Querying full name for Facebook friend %@ (id=%@)",  friend[@"name"], friend[@"id"]);
             queryString = [[NSString alloc] initWithFormat:@"https://graph.facebook.com/%@?access_token=%@", friend[@"id"], accessToken];
             queryUrl = [NSURL URLWithString:queryString];
             data = [NSData dataWithContentsOfURL:queryUrl];
@@ -128,13 +124,13 @@
 
 - (void)statusForContact:(Contact *)contact
 {
-    if (contact.facebookID == nil) return;
     if (accessToken == nil) return;
+    if (contact.facebookID.longValue == 0) return;
     
-    NSString *statusQuery = [[NSString alloc] initWithFormat:@"https://graph.facebook.com/%@/statuses?access_token=%@", contact.facebookID, accessToken];
+    NSString *statusQuery = [[NSString alloc] initWithFormat:@"https://graph.facebook.com/%@/statuses?access_token=%@",
+                             contact.facebookID, accessToken];
     NSURL *queryUrl = [NSURL URLWithString:statusQuery];
     NSData *data = [NSData dataWithContentsOfURL:queryUrl];
-    
     if (data == nil) return;
     
     NSError *error = nil;
@@ -165,7 +161,7 @@
 
 - (void)findMatchesForContacts:(NSArray *)contactList
 {
-    if (accessToken == nil) [self getAccessToken];
+    if (accessToken == nil) return;
     
     NSString *queryString = [[NSString alloc] initWithFormat:@"https://graph.facebook.com/me/friends?access_token=%@", accessToken];
     
@@ -244,9 +240,13 @@
 - (void) tokenResult: (NSDictionary*) result
 {
     if ([[result valueForKey: @"valid"] boolValue])
+    {
         accessToken = fb.accessToken;
+    }
     else
+    {
         NSLog(@"Error retrieving Facebook access token: %@", [result valueForKey: @"error"]);
+    }
 }
 
 - (void) requestResult: (NSDictionary*) result
@@ -255,7 +255,8 @@
 
 - (void) willShowUINotification: (PhFacebook*) sender
 {
-    [NSApp requestUserAttention: NSInformationalRequest];
+    NSLog(@"Creating Facebook login window...");
+    [NSApp requestUserAttention:NSInformationalRequest];
 }
 
 @end
