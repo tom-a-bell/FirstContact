@@ -12,8 +12,7 @@
 #import "Usage.h"
 
 @class FacebookQuery;
-@class AddContactViewController;
-@class ContactDetailsViewController;
+@class PreferencesWindowController;
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSPopoverDelegate,
                                    NSTableViewDelegate, NSTableViewDataSource>
@@ -28,6 +27,9 @@
     // View controllers for popovers and detachable windows
     NSViewController *popoverViewController;
     NSViewController *detachedWindowViewController;
+    
+    // Window controller for preferences
+    PreferencesWindowController *preferencesWindowController;
 
     // An array of dictionaries that contain the contents to display
     NSMutableArray *_tableContents;
@@ -54,6 +56,9 @@
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @property (weak) IBOutlet NSImageView *bottomFade;
+
+- (IBAction)menuItemOpenSelected:(id)sender;
+- (IBAction)menuItemPreferencesSelected:(id)sender;
 
 - (IBAction)showInsertPopover:(id)sender;
 - (IBAction)showDetailsPopover:(id)sender;

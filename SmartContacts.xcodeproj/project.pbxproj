@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E20E89A4179D617900D6F80D /* PreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E20E89A2179D617900D6F80D /* PreferencesWindowController.m */; };
+		E20E89A5179D617900D6F80D /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E20E89A3179D617900D6F80D /* PreferencesWindow.xib */; };
+		E20E89A7179DFF6800D6F80D /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E20E89A6179DFF6800D6F80D /* AddressBook.framework */; };
+		E20E89A9179F2BE700D6F80D /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = E20E89A8179F2BE700D6F80D /* profile.png */; };
 		E2187B1B179359E000C3474C /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = E2187B1A179359E000C3474C /* Address.m */; };
 		E2187B1E179359EE00C3474C /* Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = E2187B1D179359EE00C3474C /* Phone.m */; };
 		E2187B21179359F700C3474C /* Email.m in Sources */ = {isa = PBXBuildFile; fileRef = E2187B20179359F700C3474C /* Email.m */; };
@@ -53,7 +57,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		E2187B1817934EB700C3474C /* SmartContacts 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SmartContacts 5.xcdatamodel"; sourceTree = "<group>"; };
+		E20E89A1179D617900D6F80D /* PreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesWindowController.h; sourceTree = "<group>"; };
+		E20E89A2179D617900D6F80D /* PreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesWindowController.m; sourceTree = "<group>"; };
+		E20E89A3179D617900D6F80D /* PreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PreferencesWindow.xib; path = SmartContacts/PreferencesWindow.xib; sourceTree = "<group>"; };
+		E20E89A6179DFF6800D6F80D /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		E20E89A8179F2BE700D6F80D /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
+		E2187B1817934EB700C3474C /* SmartContacts 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartContacts 5.xcdatamodel"; sourceTree = "<group>"; };
 		E2187B19179359E000C3474C /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Address.h; sourceTree = "<group>"; };
 		E2187B1A179359E000C3474C /* Address.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Address.m; sourceTree = "<group>"; };
 		E2187B1C179359EE00C3474C /* Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Phone.h; sourceTree = "<group>"; };
@@ -112,6 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E20E89A7179DFF6800D6F80D /* AddressBook.framework in Frameworks */,
 				E295D11E1771BE0F00442A1B /* Cocoa.framework in Frameworks */,
 				E27476971791FFF6007FB2EB /* PhFacebook.framework in Frameworks */,
 			);
@@ -154,6 +164,7 @@
 		E295D11C1771BE0F00442A1B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E20E89A6179DFF6800D6F80D /* AddressBook.framework */,
 				E295D1201771BE0F00442A1B /* AppKit.framework */,
 				E295D11D1771BE0F00442A1B /* Cocoa.framework */,
 				E295D1211771BE0F00442A1B /* CoreData.framework */,
@@ -194,6 +205,7 @@
 				E26D64601773CEC70019989E /* avatarMask.png */,
 				E26D64611773CEC70019989E /* avatarBezel.png */,
 				E26D64641773CF530019989E /* circularMask.png */,
+				E20E89A8179F2BE700D6F80D /* profile.png */,
 				E2B4A3221778D26F008DBE0B /* windowBottomFade.png */,
 			);
 			name = Resources;
@@ -227,6 +239,7 @@
 				E26D64941776383C0019989E /* AddContactView.xib */,
 				E23B9C6E177C92C800226107 /* EditContactView.xib */,
 				E2ADCE8C177254FE00123DCF /* ContactDetailsView.xib */,
+				E20E89A3179D617900D6F80D /* PreferencesWindow.xib */,
 				E295D1481771DE9C00442A1B /* ContactTableCellView.h */,
 				E295D1491771DE9C00442A1B /* ContactTableCellView.m */,
 			);
@@ -237,6 +250,8 @@
 		E2AE4A4A177A6FDC00F7DBCA /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E20E89A1179D617900D6F80D /* PreferencesWindowController.h */,
+				E20E89A2179D617900D6F80D /* PreferencesWindowController.m */,
 				E2ADCE891772523C00123DCF /* ContactDetailsViewController.h */,
 				E2ADCE8A1772523C00123DCF /* ContactDetailsViewController.m */,
 				E23B9C6F177C92C800226107 /* EditContactViewController.h */,
@@ -310,6 +325,8 @@
 				E2B4A3231778D26F008DBE0B /* windowBottomFade.png in Resources */,
 				E23B9C71177C92C800226107 /* EditContactView.xib in Resources */,
 				E2187B331794DD4C00C3474C /* SmartContacts.icns in Resources */,
+				E20E89A5179D617900D6F80D /* PreferencesWindow.xib in Resources */,
+				E20E89A9179F2BE700D6F80D /* profile.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,6 +353,7 @@
 				E2187B2417935A6600C3474C /* Model.m in Sources */,
 				E2187B2717935C7400C3474C /* Contact.m in Sources */,
 				E2187B291793618100C3474C /* SmartContacts4-5.xcmappingmodel in Sources */,
+				E20E89A4179D617900D6F80D /* PreferencesWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

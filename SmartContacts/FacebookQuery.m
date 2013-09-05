@@ -29,6 +29,12 @@
     NSURL *queryUrl = [NSURL URLWithString:queryString];
     NSData *data = [NSData dataWithContentsOfURL:queryUrl];
     
+    if (data == nil)
+    {
+        NSLog(@"No data returned from Facebook user details query");
+        return;
+    }
+    
     NSError *error = nil;
     id object = [NSJSONSerialization JSONObjectWithData:data
                                                 options:NSJSONReadingMutableContainers

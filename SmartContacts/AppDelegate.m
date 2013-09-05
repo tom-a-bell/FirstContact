@@ -17,6 +17,7 @@
 #import "ContactDetailsViewController.h"
 #import "EditContactViewController.h"
 #import "AddContactViewController.h"
+#import "PreferencesWindowController.h"
 
 #import "FacebookQuery.h"
 
@@ -295,6 +296,28 @@
 }
 
 #pragma mark -
+#pragma mark Menu Items
+
+- (IBAction)menuItemOpenSelected:(id)sender
+{
+    NSLog(@"File->Open menu item selected");
+}
+
+- (IBAction)menuItemPreferencesSelected:(id)sender
+{
+    if (preferencesWindowController == nil)
+    {
+        preferencesWindowController = [[PreferencesWindowController alloc] initWithWindowNibName:@"PreferencesWindow"];
+        
+        // Instantiate the managed object context in the Preferences window controller
+        [preferencesWindowController setManagedObjectContext:[self managedObjectContext]];
+        
+        // Show the Preferences window
+        [preferencesWindowController showWindow:self];
+    }
+}
+
+#pragma mark -
 #pragma mark Popover
 
 // Show the relevant contact details in a popover view.
@@ -304,7 +327,7 @@
     {
         // Instantiate the view controller
         ContactDetailsViewController *detailsViewController =
-        [[ContactDetailsViewController alloc] initWithNibName:@"ContactDetails" bundle:nil];
+        [[ContactDetailsViewController alloc] initWithNibName:@"ContactDetailsView" bundle:nil];
         
         popoverViewController = detailsViewController;
         detachedWindowViewController = detailsViewController;
@@ -412,16 +435,17 @@
 - (void)showDetailsPopoverWithContact:(Contact *)contact
 {
     ContactDetailsViewController *detailsViewController =
-    [[ContactDetailsViewController alloc] initWithNibName:@"ContactDetails" bundle:nil];
+    [[ContactDetailsViewController alloc] initWithNibName:@"ContactDetailsView" bundle:nil];
     
+    // Pass the contact details to the view controller
+    [detailsViewController setContact:contact];
+
+    // Retain the controller for both the popover and detached window
     popoverViewController = detailsViewController;
     detachedWindowViewController = detailsViewController;
     
     // Specify the view controller content of the popover
     self.popover.contentViewController = popoverViewController;
-    
-    // Pass the contact details to the view controller
-    [detailsViewController setContact:contact];
 }
 
 // -------------------------------------------------------------------------------
@@ -554,9 +578,13 @@
         {
             cellView.subTitleTextField.stringValue = contact.company;
         }
-        else
+        else if (contact.relation != nil && [contact.relation isNotEqualTo:@""])
         {
             cellView.subTitleTextField.stringValue = contact.relation;
+        }
+        else
+        {
+            cellView.subTitleTextField.stringValue = @" ";
         }
 
         //  Specify the button source images
@@ -567,7 +595,7 @@
         }
         else
         {
-            image = [NSImage imageNamed:@"NSUser"];
+            image = [NSImage imageNamed:@"profile"];
         }
         NSImage *mask  = [NSImage imageNamed:@"avatarMask"];
         NSImage *bezel = [NSImage imageNamed:@"avatarBezel"];
