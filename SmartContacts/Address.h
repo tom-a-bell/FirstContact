@@ -21,4 +21,6 @@
 @property (nonatomic, retain) NSString * type;
 @property (nonatomic, retain) Contact *contact;
 
+- (NSString *)fullAddress;
+
 @end

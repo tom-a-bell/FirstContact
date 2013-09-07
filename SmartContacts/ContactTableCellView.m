@@ -11,6 +11,7 @@
 @implementation ContactTableCellView
 
 @synthesize detailsButton = _detailsButton;
+@synthesize deleteButton = _deleteButton;
 @synthesize subTitleTextField = _subTitleTextField;
 
 - (void)layoutViewsForSmallSize:(BOOL)smallSize animated:(BOOL)animated {

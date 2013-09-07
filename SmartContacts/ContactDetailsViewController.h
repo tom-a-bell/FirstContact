@@ -12,19 +12,17 @@
 
 @interface ContactDetailsViewController : NSViewController <MouseDownTextFieldDelegate>
 {
+@private
     Contact *contact;
-}
 
-@property (weak) IBOutlet MouseDownTextField *name;
-@property (weak) IBOutlet MouseDownTextField *email;
-@property (weak) IBOutlet MouseDownTextField *phone;
-@property (weak) IBOutlet MouseDownTextField *address;
-@property (weak) IBOutlet MouseDownTextField *birthday;
+    CGFloat fieldWidth, fieldHeight, fieldIndent;
+    CGFloat labelWidth, labelHeight, labelIndent;
+    CGFloat sectionSize;
+}
 
 - (IBAction)editContact:(id)sender;
 
 - (void)setContact:(Contact *)contact;
-
 - (void)mouseDownTextFieldClicked:(MouseDownTextField *)textField;
 - (void)mouseUpTextFieldClicked:(MouseDownTextField *)textField;
 

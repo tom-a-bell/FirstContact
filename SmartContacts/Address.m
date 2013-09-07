@@ -19,4 +19,16 @@
 @dynamic type;
 @dynamic contact;
 
+- (NSString *)fullAddress
+{
+    NSString *fullAddress = self.street;
+    if ([self.city isNotEqualTo:@""])
+        fullAddress = [fullAddress stringByAppendingFormat:@"\n%@", self.city];
+    if ([self.postcode isNotEqualTo:@""])
+        fullAddress = [fullAddress stringByAppendingFormat:@"\n%@", self.postcode];
+    if ([self.country isNotEqualTo:@""])
+        fullAddress = [fullAddress stringByAppendingFormat:@"\n%@", self.country];
+    return fullAddress;
+}
+
 @end

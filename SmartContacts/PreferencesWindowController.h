@@ -11,9 +11,14 @@
 @interface PreferencesWindowController : NSWindowController
 {
     NSManagedObjectContext *managedObjectContext;
+
+@private
+    double importProgress;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+
+@property (weak) IBOutlet NSProgressIndicator *progressBar;
 
 - (IBAction)copyAddressBook:(id)sender;
 

@@ -11,11 +11,13 @@
 @interface ContactTableCellView : NSTableCellView {
 @private
     IBOutlet NSButton *detailsButton;
+    IBOutlet NSButton *deleteButton;
     IBOutlet NSTextField *subTitleTextField;
     BOOL _isSmallSize;
 }
 
 @property(assign) NSButton *detailsButton;
+@property(assign) NSButton *deleteButton;
 @property(assign) NSTextField *subTitleTextField;
 
 - (void)layoutViewsForSmallSize:(BOOL)smallSize animated:(BOOL)animated;

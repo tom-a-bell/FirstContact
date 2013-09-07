@@ -46,6 +46,11 @@
     dispatch_source_t facebookAccessTokenTimer;
     dispatch_source_t facebookStatusUpdateTimer;
     dispatch_source_t facebookIdQueryTimer;
+    
+    NSPredicate *searchPredicate;
+    
+    // Delete contacts button visible
+    BOOL deleteMode;
 }
 
 @property (assign) IBOutlet NSWindow *window;
@@ -56,12 +61,18 @@
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @property (weak) IBOutlet NSImageView *bottomFade;
+@property (weak) IBOutlet NSButton *doneButton;
 
 - (IBAction)menuItemOpenSelected:(id)sender;
 - (IBAction)menuItemPreferencesSelected:(id)sender;
+- (IBAction)menuItemDeleteContactsSelected:(id)sender;
 
 - (IBAction)showInsertPopover:(id)sender;
 - (IBAction)showDetailsPopover:(id)sender;
+- (IBAction)deleteContact:(id)sender;
+- (IBAction)doneEditing:(id)sender;
+- (IBAction)filterContacts:(id)sender;
+
 - (IBAction)closePopover:(id)sender;
 - (IBAction)saveAction:(id)sender;
 

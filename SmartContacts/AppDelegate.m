@@ -31,6 +31,11 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    deleteMode = NO;
+    [_doneButton setHidden:YES];
+    
+    searchPredicate = nil;
+    
     if (_tableContents == nil)
     {
         [self willChangeValueForKey:@"_tableContents"];
@@ -58,7 +63,7 @@
     facebookAccessTokenTimer = CreateDispatchTimer(1800ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC,
                                                    dispatch_get_main_queue(),
     ^{
-        NSLog(@"Refreshing Facebook access token...");
+//        NSLog(@"Refreshing Facebook access token...");
         [facebookQuery getAccessToken];
     });
                                                         
@@ -67,7 +72,7 @@
     facebookStatusUpdateTimer = CreateDispatchTimer(3600ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC,
                                                     dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
     ^{
-        NSLog(@"Retrieving Facebook status updates...");
+//        NSLog(@"Retrieving Facebook status updates...");
         NSManagedObjectContext *moc = self.managedObjectContext;
         NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
         NSError *error;
@@ -87,7 +92,7 @@
     facebookIdQueryTimer = CreateDispatchTimer(86400ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC,
                                                dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0),
     ^{
-        NSLog(@"Searching for missing Facebook IDs...");
+//        NSLog(@"Searching for missing Facebook IDs...");
         NSManagedObjectContext *moc = self.managedObjectContext;
         NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
         NSError *error;
@@ -228,6 +233,7 @@
     
     if (![[self managedObjectContext] save:&error]) {
         [[NSApplication sharedApplication] presentError:error];
+        NSLog(@"Unresolved error when saving core data:\n%@\n%@", error, [error userInfo]);
     }
 }
 
@@ -317,6 +323,13 @@
     }
 }
 
+- (IBAction)menuItemDeleteContactsSelected:(id)sender
+{
+    deleteMode = YES;
+    [self.doneButton setHidden:NO];
+    [_tableView reloadData];
+}
+
 #pragma mark -
 #pragma mark Popover
 
@@ -331,16 +344,6 @@
         
         popoverViewController = detailsViewController;
         detachedWindowViewController = detailsViewController;
-        
-        // Create the popover
-        [self createPopover];
-        
-        // Get the button that was clicked
-        NSButton *targetButton = (NSButton *)sender;
-        
-        // Configure the preferred position of the popover
-        NSRectEdge prefEdge = NSMaxYEdge;
-        [self.popover showRelativeToRect:[targetButton bounds] ofView:sender preferredEdge:prefEdge];
         
         // Find out which row was clicked and pass the relevant contact details to the popup
         NSInteger row = [_tableView rowForView:sender];
@@ -370,6 +373,16 @@
                     [newModel updateParametersUsingModel:currentModel forContact:thisContact wasSelected:NO];
                 currentModel = newModel;
             }
+            
+            // Create the popover
+            [self createPopover];
+            
+            // Get the button that was clicked
+            NSButton *targetButton = (NSButton *)sender;
+            
+            // Configure the preferred position of the popover
+            NSRectEdge prefEdge = NSMaxYEdge;
+            [self.popover showRelativeToRect:[targetButton bounds] ofView:sender preferredEdge:prefEdge];
         }
     }
     else
@@ -606,6 +619,8 @@
         cellView.detailsButton.image = mainImage;
         cellView.detailsButton.alternateImage = pushImage;
         
+        cellView.deleteButton.hidden = !deleteMode;
+        
         return cellView;
     }
     else
@@ -625,6 +640,8 @@
     NSSortDescriptor *sortByFirstName = [[NSSortDescriptor alloc] initWithKey:@"firstName" ascending:YES];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
     [request setSortDescriptors:@[sortByLastName, sortByFirstName]];
+
+    [request setPredicate:searchPredicate];
     
     // Execute the fetch request by sending it to the managed object context.
     NSError *error;
@@ -655,6 +672,51 @@
     }];
 
     return contactList;
+}
+
+- (IBAction)deleteContact:(id)sender
+{
+    // Find out which row was clicked and pass the relevant contact details to the popup
+    NSInteger currentRow = [_tableView rowForView:sender];
+    if (currentRow != -1)
+    {
+        // Delete the contact
+        Contact *contact = [_tableContents objectAtIndex:currentRow];
+        [[self managedObjectContext] deleteObject:contact];
+
+        // Update the table data and animate the deleted entry
+        [_tableView beginUpdates];
+        [self willChangeValueForKey:@"_tableContents"];
+        [_tableContents removeObjectAtIndex:currentRow];
+        [_tableView removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:currentRow] withAnimation:NSTableViewAnimationSlideRight];
+        [self didChangeValueForKey:@"_tableContents"];
+        [_tableView endUpdates];
+    }
+}
+
+- (IBAction)doneEditing:(id)sender
+{
+    deleteMode = NO;
+    [self saveAction:sender];
+    [_doneButton setHidden:YES];
+    [_tableView reloadData];
+}
+
+- (IBAction)filterContacts:(id)sender
+{
+    NSString *string = [sender stringValue];
+    NSPredicate *templatePredicate = [NSPredicate predicateWithFormat:@"(firstName contains[cd] $value) or (lastName contains[cd] $value)"];
+    NSDictionary *dictionary = @{@"value" : string};
+
+    if (![string isEqualToString:@""])
+        searchPredicate = [templatePredicate predicateWithSubstitutionVariables:dictionary];
+    else
+        searchPredicate = nil;
+
+    [self willChangeValueForKey:@"_tableContents"];
+    _tableContents = self.getContactList;
+    [self didChangeValueForKey:@"_tableContents"];
+    [_tableView reloadData];
 }
 
 - (void)updateTableView
