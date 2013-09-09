@@ -51,6 +51,8 @@
     
     // Delete contacts button visible
     BOOL deleteMode;
+    
+    NSString *persistentStoreType;
 }
 
 @property (assign) IBOutlet NSWindow *window;
@@ -60,6 +62,7 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
+@property (weak) IBOutlet NSImageView *topFade;
 @property (weak) IBOutlet NSImageView *bottomFade;
 @property (weak) IBOutlet NSButton *doneButton;
 

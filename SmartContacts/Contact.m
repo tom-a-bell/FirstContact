@@ -97,14 +97,21 @@
     [features addObject:dayViews];
     
     // Add the number of days to the most recent birthday as a feature
-    NSDateComponents *todayComponents = [[NSCalendar currentCalendar]
-                                         components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:today];
-    NSDateComponents *birthdayComponents = [[NSCalendar currentCalendar]
-                                            components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:self.birthday];
-    [birthdayComponents setYear:todayComponents.year];
-    NSDate *birthday = [[NSCalendar currentCalendar] dateFromComponents:birthdayComponents];
-    NSNumber *daysToBirthday = [NSNumber numberWithInt:
-                                (183 - abs([birthday timeIntervalSinceNow]) / (24 * 60 * 60))];
+    NSNumber *daysToBirthday;
+    if (self.birthday != nil)
+    {
+        NSDateComponents *todayComponents = [[NSCalendar currentCalendar]
+                                             components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:today];
+        NSDateComponents *birthdayComponents = [[NSCalendar currentCalendar]
+                                                components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:self.birthday];
+        [birthdayComponents setYear:todayComponents.year];
+        NSDate *birthday = [[NSCalendar currentCalendar] dateFromComponents:birthdayComponents];
+        daysToBirthday = [NSNumber numberWithInt:(183 - abs([birthday timeIntervalSinceNow]) / (24 * 60 * 60))];
+    }
+    else
+    {
+        daysToBirthday = [NSNumber numberWithInt:183];
+    }
     [features addObject:daysToBirthday];
     
     // Add a feature indicating if the contact is the user themself (=10)

@@ -31,10 +31,14 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    deleteMode = NO;
+    [self setDefaultPreferences];
     [_doneButton setHidden:YES];
+    deleteMode = NO;
     
     searchPredicate = nil;
+    
+//    persistentStoreType = NSXMLStoreType;
+    persistentStoreType = NSSQLiteStoreType;
     
     if (_tableContents == nil)
     {
@@ -63,7 +67,6 @@
     facebookAccessTokenTimer = CreateDispatchTimer(1800ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC,
                                                    dispatch_get_main_queue(),
     ^{
-//        NSLog(@"Refreshing Facebook access token...");
         [facebookQuery getAccessToken];
     });
                                                         
@@ -72,8 +75,7 @@
     facebookStatusUpdateTimer = CreateDispatchTimer(3600ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC,
                                                     dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
     ^{
-//        NSLog(@"Retrieving Facebook status updates...");
-        NSManagedObjectContext *moc = self.managedObjectContext;
+        NSManagedObjectContext *moc = [self managedObjectContext];
         NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
         NSError *error;
         NSArray *fetchedContacts = [moc executeFetchRequest:request error:&error];
@@ -92,8 +94,7 @@
     facebookIdQueryTimer = CreateDispatchTimer(86400ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC,
                                                dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0),
     ^{
-//        NSLog(@"Searching for missing Facebook IDs...");
-        NSManagedObjectContext *moc = self.managedObjectContext;
+        NSManagedObjectContext *moc = [self managedObjectContext];
         NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
         NSError *error;
         NSArray *fetchedContacts = [moc executeFetchRequest:request error:&error];
@@ -127,7 +128,8 @@
 // Creates if necessary and returns the managed object model for the application.
 - (NSManagedObjectModel *)managedObjectModel
 {
-    if (_managedObjectModel) {
+    if (_managedObjectModel)
+    {
         return _managedObjectModel;
     }
 	
@@ -139,12 +141,14 @@
 // Returns the persistent store coordinator for the application. This implementation creates and returns a coordinator, having added the store for the application to it. (The directory for the store is created, if necessary.)
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator
 {
-    if (_persistentStoreCoordinator) {
+    if (_persistentStoreCoordinator)
+    {
         return _persistentStoreCoordinator;
     }
     
     NSManagedObjectModel *mom = [self managedObjectModel];
-    if (!mom) {
+    if (!mom)
+    {
         NSLog(@"%@:%@ No model to generate a store from", [self class], NSStringFromSelector(_cmd));
         return nil;
     }
@@ -155,17 +159,23 @@
     
     NSDictionary *properties = [applicationFilesDirectory resourceValuesForKeys:@[NSURLIsDirectoryKey] error:&error];
     
-    if (!properties) {
+    if (!properties)
+    {
         BOOL ok = NO;
-        if ([error code] == NSFileReadNoSuchFileError) {
+        if ([error code] == NSFileReadNoSuchFileError)
+        {
             ok = [fileManager createDirectoryAtPath:[applicationFilesDirectory path] withIntermediateDirectories:YES attributes:nil error:&error];
         }
-        if (!ok) {
+        if (!ok)
+        {
             [[NSApplication sharedApplication] presentError:error];
             return nil;
         }
-    } else {
-        if (![properties[NSURLIsDirectoryKey] boolValue]) {
+    }
+    else
+    {
+        if (![properties[NSURLIsDirectoryKey] boolValue])
+        {
             // Customize and localize this error.
             NSString *failureDescription = [NSString stringWithFormat:@"Expected a folder to store application data, found a file (%@).", [applicationFilesDirectory path]];
             
@@ -183,7 +193,7 @@
                              [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
                              [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
     NSPersistentStoreCoordinator *coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
-    if (![coordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil
+    if (![coordinator addPersistentStoreWithType:persistentStoreType configuration:nil
                                              URL:url options:options error:&error])
     {
         [[NSApplication sharedApplication] presentError:error];
@@ -197,16 +207,18 @@
 // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.)
 - (NSManagedObjectContext *)managedObjectContext
 {
-    if (_managedObjectContext) {
+    if (_managedObjectContext)
+    {
         return _managedObjectContext;
     }
     
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (!coordinator) {
+    if (!coordinator)
+    {
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         [dict setValue:@"Failed to initialize the store" forKey:NSLocalizedDescriptionKey];
         [dict setValue:@"There was an error building up the data file." forKey:NSLocalizedFailureReasonErrorKey];
-        NSError *error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:9999 userInfo:dict];
+        NSError *error = [NSError errorWithDomain:@"SmartContacts" code:9999 userInfo:dict];
         [[NSApplication sharedApplication] presentError:error];
         return nil;
     }
@@ -227,11 +239,13 @@
 {
     NSError *error = nil;
     
-    if (![[self managedObjectContext] commitEditing]) {
+    if (![[self managedObjectContext] commitEditing])
+    {
         NSLog(@"%@:%@ unable to commit editing before saving", [self class], NSStringFromSelector(_cmd));
     }
     
-    if (![[self managedObjectContext] save:&error]) {
+    if (![[self managedObjectContext] save:&error])
+    {
         [[NSApplication sharedApplication] presentError:error];
         NSLog(@"Unresolved error when saving core data:\n%@\n%@", error, [error userInfo]);
     }
@@ -241,30 +255,36 @@
 {
     // Save changes in the application's managed object context before the application terminates.
     
-    if (!_managedObjectContext) {
+    if (!_managedObjectContext)
+    {
         return NSTerminateNow;
     }
     
-    if (![[self managedObjectContext] commitEditing]) {
+    if (![[self managedObjectContext] commitEditing])
+    {
         NSLog(@"%@:%@ unable to commit editing to terminate", [self class], NSStringFromSelector(_cmd));
         return NSTerminateCancel;
     }
     
-    if (![[self managedObjectContext] hasChanges]) {
+    if (![[self managedObjectContext] hasChanges])
+    {
         return NSTerminateNow;
     }
     
     NSError *error = nil;
-    if (![[self managedObjectContext] save:&error]) {
-        
+    if (![[self managedObjectContext] save:&error])
+    {
         // Customize this code block to include application-specific recovery steps.
         BOOL result = [sender presentError:error];
-        if (result) {
+        if (result)
+        {
             return NSTerminateCancel;
         }
         
-        NSString *question = NSLocalizedString(@"Could not save changes while quitting. Quit anyway?", @"Quit without saves error question message");
-        NSString *info = NSLocalizedString(@"Quitting now will lose any changes you have made since the last successful save", @"Quit without saves error question info");
+        NSString *question = NSLocalizedString(@"Could not save changes while quitting. Quit anyway?",
+                                               @"Quit without saves error question message");
+        NSString *info = NSLocalizedString(@"Quitting now will lose any changes you have made since the last successful save",
+                                           @"Quit without saves error question info");
         NSString *quitButton = NSLocalizedString(@"Quit anyway", @"Quit anyway button title");
         NSString *cancelButton = NSLocalizedString(@"Cancel", @"Cancel button title");
         NSAlert *alert = [[NSAlert alloc] init];
@@ -275,7 +295,8 @@
         
         NSInteger answer = [alert runModal];
         
-        if (answer == NSAlertAlternateReturn) {
+        if (answer == NSAlertAlternateReturn)
+        {
             return NSTerminateCancel;
         }
     }
@@ -299,6 +320,87 @@
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
 {
     return YES;
+}
+
+- (void)migrateStoreToType:(NSString *)newStoreType
+{
+    newStoreType = NSSQLiteStoreType;
+    
+    NSString *XMLStoreTypeExtension = @"xml";
+    NSString *SQLiteStoreTypeExtension = @"sqlite";
+
+    NSURL *oldURL = [[self applicationFilesDirectory] URLByAppendingPathComponent:@"SmartContacts.storedata"];
+	NSURL *newURL = nil;
+	NSURL *archiveURL = nil;
+    
+	if ([newStoreType isEqualToString:NSXMLStoreType])
+    {
+		newURL = [oldURL URLByAppendingPathExtension:XMLStoreTypeExtension];
+		archiveURL = [oldURL URLByAppendingPathExtension:@"archive"];
+	}
+    else if ([newStoreType isEqualToString:NSSQLiteStoreType])
+    {
+		newURL = [oldURL URLByAppendingPathExtension:SQLiteStoreTypeExtension];
+		archiveURL = [oldURL URLByAppendingPathExtension:@"archive"];
+	}
+    else
+    {
+        NSLog(@"Unrecognised persistent store type: %@", newStoreType);
+        return;
+    }
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:[oldURL path]])
+    {
+        NSLog(@"Persistent store file does not exist: %@", oldURL);
+        return;
+    }
+    
+    NSError *error = nil;
+	if ([[NSFileManager defaultManager] fileExistsAtPath:[newURL path]])
+    {
+		if (![[NSFileManager defaultManager] removeItemAtPath:[newURL path] error:&error])
+        {
+			NSLog(@"Failed to delete the pre-existing file %@: %@", newURL, error);
+			return;
+		}
+	}
+    
+    NSPersistentStoreCoordinator *coordinator = [[self managedObjectContext] persistentStoreCoordinator];
+	NSPersistentStore *oldStore = [coordinator persistentStoreForURL:oldURL];
+    if (!oldStore)
+    {
+        NSLog(@"Failed to retrieve the existing persistent store %@", oldURL);
+        return;
+    }
+
+    NSPersistentStore *newStore = [coordinator migratePersistentStore:oldStore toURL:newURL options:nil
+                                                             withType:newStoreType error:&error];
+    if (!newStore)
+    {
+        NSLog(@"Failed to create the migrated persistent store %@: %@", newURL, error);
+        return;
+    }
+
+//    // Archive the old store
+//    if ([[NSFileManager defaultManager] fileExistsAtPath:[archiveURL path] isDirectory:nil])
+//    {
+//		if (![[NSFileManager defaultManager] removeItemAtPath:[archiveURL path] error:&error])
+//        {
+//            NSLog(@"Failed to delete the pre-existing archive %@: %@", archiveURL, error);
+//			return;
+//        }
+//    }
+//    if (![[NSFileManager defaultManager] moveItemAtPath:[oldURL path] toPath:[archiveURL path] error:&error])
+//    {
+//        NSLog(@"Failed to archive the old store %@: %@", oldURL, error);
+//        return;
+//    }
+//    if (![[NSFileManager defaultManager] moveItemAtPath:[newURL path] toPath:[oldURL path] error:&error])
+//    {
+//        NSLog(@"Failed to rename the new store %@: %@", newURL, error);
+//        return;
+//    }
+//    persistentStoreType = newStoreType;
 }
 
 #pragma mark -
@@ -583,15 +685,16 @@
         cellView.textField.stringValue = contact.fullName;
         
         // Determine what to show as the subtitle based on available information
-        if (contact.facebookStatus != nil && [contact.facebookStatus isNotEqualTo:@""])
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"FacebookStatus"] &&
+            contact.facebookStatus != nil && ![contact.facebookStatus isEqualToString:@""])
         {
             cellView.subTitleTextField.stringValue = contact.facebookStatus;
         }
-        else if (contact.company != nil && [contact.company isNotEqualTo:@""])
+        else if (contact.company != nil && ![contact.company isEqualToString:@""])
         {
             cellView.subTitleTextField.stringValue = contact.company;
         }
-        else if (contact.relation != nil && [contact.relation isNotEqualTo:@""])
+        else if (contact.relation != nil && ![contact.relation isEqualToString:@""])
         {
             cellView.subTitleTextField.stringValue = contact.relation;
         }
@@ -608,7 +711,7 @@
         }
         else
         {
-            image = [NSImage imageNamed:@"profile"];
+            image = [NSImage imageNamed:@"defaultProfile"];
         }
         NSImage *mask  = [NSImage imageNamed:@"avatarMask"];
         NSImage *bezel = [NSImage imageNamed:@"avatarBezel"];
@@ -633,7 +736,7 @@
 -(NSMutableArray *)getContactList
 {
     // Instantiate the managed object context.
-    NSManagedObjectContext *moc = self.managedObjectContext;
+    NSManagedObjectContext *moc = [self managedObjectContext];
     
     // Sort the entries by last name, then by first name.
     NSSortDescriptor *sortByLastName = [[NSSortDescriptor alloc] initWithKey:@"lastName" ascending:YES];
@@ -641,12 +744,13 @@
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Contact"];
     [request setSortDescriptors:@[sortByLastName, sortByFirstName]];
 
-    [request setPredicate:searchPredicate];
+    if (searchPredicate != nil)
+        [request setPredicate:searchPredicate];
     
     // Execute the fetch request by sending it to the managed object context.
-    NSError *error;
+    NSError *error = nil;
     NSArray *fetchedContacts = [moc executeFetchRequest:request error:&error];
-    if (fetchedContacts == nil)
+    if (fetchedContacts == nil || error != nil)
     {
         NSLog(@"Error while fetching contacts\n%@", ([error localizedDescription] != nil) ?[error localizedDescription] : @"Unknown Error");
     }
@@ -660,8 +764,6 @@
     {
         [contactList addObject:contact];
     }
-    
-//    [facebookQuery findMatchesForContacts:contactList];
     
     // Sort the contact list by priority.
     [contactList sortUsingComparator:(NSComparator)^(Contact *contact1, Contact *contact2)
@@ -685,19 +787,28 @@
         [[self managedObjectContext] deleteObject:contact];
 
         // Update the table data and animate the deleted entry
-        [_tableView beginUpdates];
-        [self willChangeValueForKey:@"_tableContents"];
-        [_tableContents removeObjectAtIndex:currentRow];
-        [_tableView removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:currentRow] withAnimation:NSTableViewAnimationSlideRight];
-        [self didChangeValueForKey:@"_tableContents"];
-        [_tableView endUpdates];
+        NSError *error = nil;
+        if (![[self managedObjectContext] save:&error])
+        {
+            [[NSApplication sharedApplication] presentError:error];
+            NSLog(@"Unresolved error when saving core data:\n%@\n%@", error, [error userInfo]);
+        }
+        else
+        {
+            [_tableView beginUpdates];
+            [self willChangeValueForKey:@"_tableContents"];
+            [_tableContents removeObjectAtIndex:currentRow];
+            [_tableView removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:currentRow] withAnimation:NSTableViewAnimationSlideRight];
+            [self didChangeValueForKey:@"_tableContents"];
+            [_tableView endUpdates];
+        }
     }
 }
 
 - (IBAction)doneEditing:(id)sender
 {
     deleteMode = NO;
-    [self saveAction:sender];
+//    [self saveAction:sender];
     [_doneButton setHidden:YES];
     [_tableView reloadData];
 }
@@ -812,27 +923,48 @@
     
     if ([notification object] == [[_tableView enclosingScrollView] contentView])
     {
-        // Index of the last entry in the contact list
+        // Index of the first and last entry in the contact list
+        int firstRow = 0;
         int lastRow = (int)[_tableContents count] - 1;
 
-        // Rectangles enclosing the scroll view, the last row in the table view and the fade gradient
+        // Rectangles enclosing the scroll view, the first and last rows in the table view, and the top and bottom fade gradients
         NSRect rectOfScrollView = [[_tableView enclosingScrollView] frame];
-        NSRect rectOfCellInTableView = [_tableView frameOfCellAtColumn:0 row:lastRow];
-        NSRect rectOfCellInScrollView = [_tableView convertRect:rectOfCellInTableView toView:[_tableView enclosingScrollView]];
-        NSRect fadeFrame = [self.bottomFade frame];
+        NSRect rectOfFirstCellInTableView = [_tableView frameOfCellAtColumn:0 row:firstRow];
+        NSRect rectOfFirstCellInScrollView = [_tableView convertRect:rectOfFirstCellInTableView
+                                                              toView:[_tableView enclosingScrollView]];
+        NSRect rectOfLastCellInTableView = [_tableView frameOfCellAtColumn:0 row:lastRow];
+        NSRect rectOfLastCellInScrollView = [_tableView convertRect:rectOfLastCellInTableView
+                                                             toView:[_tableView enclosingScrollView]];
+        NSRect topFadeFrame = [self.topFade frame];
+        NSRect bottomFadeFrame = [self.bottomFade frame];
+        
+        // Pixel locations of the top of the first cell and the top of the scroll view
+        int topOfCell = rectOfFirstCellInScrollView.origin.y;
+        int topOfView = rectOfScrollView.origin.y;
 
-        // Pixel locations of the bottom of the cell and the bottom of the scroll view
-        int bottomOfCell = rectOfCellInScrollView.origin.y + rectOfCellInScrollView.size.height;
+        // Pixel locations of the bottom of the last cell and the bottom of the scroll view
+        int bottomOfCell = rectOfLastCellInScrollView.origin.y + rectOfLastCellInScrollView.size.height;
         int bottomOfView = rectOfScrollView.origin.y + rectOfScrollView.size.height;
 
+        float distanceFromTop = topOfView - topOfCell;
         float distanceFromBottom = bottomOfCell - bottomOfView;
 
-        if (distanceFromBottom < fadeFrame.size.height*0.5)
+        if (distanceFromTop < topFadeFrame.size.height*0.5)
         {
             NSPoint newOrigin;
-            newOrigin.x = fadeFrame.origin.x;
-            newOrigin.y = distanceFromBottom - fadeFrame.size.height*0.5;
+            newOrigin.x = topFadeFrame.origin.x;
+            newOrigin.y = rectOfScrollView.size.height - distanceFromTop - topFadeFrame.size.height*0.5;
+            [self.topFade setFrameOrigin:newOrigin];
+            [self.topFade setHidden:NO];
+        }
+
+        if (distanceFromBottom < bottomFadeFrame.size.height*0.5)
+        {
+            NSPoint newOrigin;
+            newOrigin.x = bottomFadeFrame.origin.x;
+            newOrigin.y = distanceFromBottom - bottomFadeFrame.size.height*0.5;
             [self.bottomFade setFrameOrigin:newOrigin];
+            [self.bottomFade setHidden:NO];
         }
     }
 }
@@ -901,6 +1033,21 @@
     {
         [[self managedObjectContext] deleteObject:model];
     }
+    
+    [self saveAction:nil];
+}
+
+#pragma mark -
+#pragma mark Helper Methods
+
+- (void)setDefaultPreferences
+{
+    NSDictionary *appDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithBool:NO],  @"FacebookStatus",
+                                 [NSNumber numberWithBool:NO],  @"FacebookPhoto",
+                                 [NSNumber numberWithBool:YES], @"UpcomingBirthdays",
+                                 nil];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
 }
 
 // Create a GCD dispatch source timer on the specified queue, with a 60 second delay before the first call

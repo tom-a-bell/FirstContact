@@ -14,16 +14,34 @@
 
 - (void)getAccessToken
 {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"FacebookStatus"] &&
+        ![[NSUserDefaults standardUserDefaults] boolForKey:@"FacebookPhoto"]) return;
+
+    NSLog(@"Fetching Facebook access token...");
+
     NSString* APPLICATION_ID = @"294739090671217";
+    NSMutableArray *requestedPermissions;
+
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"FacebookStatus"])
+        [requestedPermissions addObject:@"friends_status"];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"FacebookPhoto"])
+        [requestedPermissions addObject:@"friends_about_me"];
+
     fb = [[PhFacebook alloc] initWithApplicationID:APPLICATION_ID delegate:self];
-    [fb getAccessTokenForPermissions:[NSArray arrayWithObjects: @"friends_status", nil] cached:YES];
+    [fb getAccessTokenForPermissions:requestedPermissions cached:YES];
 }
 
 - (void)idForContact:(Contact *)contact
 {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"FacebookStatus"] &&
+        ![[NSUserDefaults standardUserDefaults] boolForKey:@"FacebookPhoto"]) return;
+
+    NSLog(@"Searching for Facebook ID for %@...", contact.fullName);
+    if (contact.facebookID.longValue != 0) NSLog(@"ID already found");
+
     if (accessToken == nil) return;
     if (contact.facebookID.longValue != 0) return;
-    
+   
     // First check if the contact is the Facebook user
     NSString *queryString = [[NSString alloc] initWithFormat:@"https://graph.facebook.com/me?access_token=%@", accessToken];
     NSURL *queryUrl = [NSURL URLWithString:queryString];
@@ -130,9 +148,14 @@
 
 - (void)statusForContact:(Contact *)contact
 {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"FacebookStatus"] &&
+        ![[NSUserDefaults standardUserDefaults] boolForKey:@"FacebookPhoto"]) return;
+
     if (accessToken == nil) return;
     if (contact.facebookID.longValue == 0) return;
     
+    NSLog(@"Retrieving Facebook status for %@...", contact.fullName);
+
     NSString *statusQuery = [[NSString alloc] initWithFormat:@"https://graph.facebook.com/%@/statuses?access_token=%@",
                              contact.facebookID, accessToken];
     NSURL *queryUrl = [NSURL URLWithString:statusQuery];
@@ -167,6 +190,9 @@
 
 - (void)findMatchesForContacts:(NSArray *)contactList
 {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"FacebookStatus"] &&
+        ![[NSUserDefaults standardUserDefaults] boolForKey:@"FacebookPhoto"]) return;
+
     if (accessToken == nil) return;
     
     NSString *queryString = [[NSString alloc] initWithFormat:@"https://graph.facebook.com/me/friends?access_token=%@", accessToken];
@@ -248,6 +274,7 @@
     if ([[result valueForKey: @"valid"] boolValue])
     {
         accessToken = fb.accessToken;
+        if (accessToken == nil) NSLog(@"Failed to retrieve Facebook access token");
     }
     else
     {

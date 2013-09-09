@@ -8,11 +8,18 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class FacebookQuery;
+
 @interface PreferencesWindowController : NSWindowController
 {
     NSManagedObjectContext *managedObjectContext;
 
 @private
+
+    // The Facebook graph API handler
+    FacebookQuery *facebookQuery;
+
+    // Address Book import progress
     double importProgress;
 }
 
@@ -20,6 +27,7 @@
 
 @property (weak) IBOutlet NSProgressIndicator *progressBar;
 
+- (IBAction)getFacebookToken:(id)sender;
 - (IBAction)copyAddressBook:(id)sender;
 
 @end

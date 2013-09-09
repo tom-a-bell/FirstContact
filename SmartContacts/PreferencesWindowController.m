@@ -14,6 +14,8 @@
 #import "Phone.h"
 #import "Address.h"
 
+#import "FacebookQuery.h"
+
 @implementation PreferencesWindowController
 
 @synthesize managedObjectContext;
@@ -32,8 +34,15 @@
 - (void)windowDidLoad
 {
     [super windowDidLoad];
-    
-    // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+    facebookQuery = [[FacebookQuery alloc] init];
+}
+
+- (IBAction)getFacebookToken:(id)sender
+{
+    if ([sender state] == NSOnState)
+    {
+        [facebookQuery getAccessToken];
+    }
 }
 
 // Import all Address Book contacts

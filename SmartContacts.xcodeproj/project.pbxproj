@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E206EE5A17DBBF2700E85A81 /* defaultProfile.png in Resources */ = {isa = PBXBuildFile; fileRef = E206EE5917DBBF2700E85A81 /* defaultProfile.png */; };
+		E206EE5C17DBBF4900E85A81 /* windowTopFade.png in Resources */ = {isa = PBXBuildFile; fileRef = E206EE5B17DBBF4900E85A81 /* windowTopFade.png */; };
 		E20E89A4179D617900D6F80D /* PreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E20E89A2179D617900D6F80D /* PreferencesWindowController.m */; };
 		E20E89A5179D617900D6F80D /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E20E89A3179D617900D6F80D /* PreferencesWindow.xib */; };
 		E20E89A7179DFF6800D6F80D /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E20E89A6179DFF6800D6F80D /* AddressBook.framework */; };
-		E20E89A9179F2BE700D6F80D /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = E20E89A8179F2BE700D6F80D /* profile.png */; };
 		E2187B1B179359E000C3474C /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = E2187B1A179359E000C3474C /* Address.m */; };
 		E2187B1E179359EE00C3474C /* Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = E2187B1D179359EE00C3474C /* Phone.m */; };
 		E2187B21179359F700C3474C /* Email.m in Sources */ = {isa = PBXBuildFile; fileRef = E2187B20179359F700C3474C /* Email.m */; };
@@ -57,11 +58,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E206EE5917DBBF2700E85A81 /* defaultProfile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultProfile.png; sourceTree = "<group>"; };
+		E206EE5B17DBBF4900E85A81 /* windowTopFade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = windowTopFade.png; sourceTree = "<group>"; };
 		E20E89A1179D617900D6F80D /* PreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesWindowController.h; sourceTree = "<group>"; };
 		E20E89A2179D617900D6F80D /* PreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesWindowController.m; sourceTree = "<group>"; };
 		E20E89A3179D617900D6F80D /* PreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PreferencesWindow.xib; path = SmartContacts/PreferencesWindow.xib; sourceTree = "<group>"; };
 		E20E89A6179DFF6800D6F80D /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
-		E20E89A8179F2BE700D6F80D /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
 		E2187B1817934EB700C3474C /* SmartContacts 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartContacts 5.xcdatamodel"; sourceTree = "<group>"; };
 		E2187B19179359E000C3474C /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Address.h; sourceTree = "<group>"; };
 		E2187B1A179359E000C3474C /* Address.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Address.m; sourceTree = "<group>"; };
@@ -74,7 +76,7 @@
 		E2187B2517935C7300C3474C /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
 		E2187B2617935C7300C3474C /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		E2187B281793618100C3474C /* SmartContacts4-5.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "SmartContacts4-5.xcmappingmodel"; sourceTree = "<group>"; };
-		E2187B321794DD4C00C3474C /* SmartContacts.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = SmartContacts.icns; sourceTree = "<group>"; };
+		E2187B321794DD4C00C3474C /* SmartContacts.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = SmartContacts.icns; sourceTree = SOURCE_ROOT; };
 		E22042421787A929006A2824 /* SmartContacts 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartContacts 4.xcdatamodel"; sourceTree = "<group>"; };
 		E22042431787A9F4006A2824 /* FacebookQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookQuery.h; sourceTree = "<group>"; };
 		E22042441787A9F4006A2824 /* FacebookQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookQuery.m; sourceTree = "<group>"; };
@@ -146,7 +148,6 @@
 		E295D1111771BE0F00442A1B = {
 			isa = PBXGroup;
 			children = (
-				E2187B321794DD4C00C3474C /* SmartContacts.icns */,
 				E295D1231771BE0F00442A1B /* SmartContacts */,
 				E295D11C1771BE0F00442A1B /* Frameworks */,
 				E295D11B1771BE0F00442A1B /* Products */,
@@ -205,8 +206,10 @@
 				E26D64601773CEC70019989E /* avatarMask.png */,
 				E26D64611773CEC70019989E /* avatarBezel.png */,
 				E26D64641773CF530019989E /* circularMask.png */,
-				E20E89A8179F2BE700D6F80D /* profile.png */,
+				E206EE5917DBBF2700E85A81 /* defaultProfile.png */,
+				E206EE5B17DBBF4900E85A81 /* windowTopFade.png */,
 				E2B4A3221778D26F008DBE0B /* windowBottomFade.png */,
+				E2187B321794DD4C00C3474C /* SmartContacts.icns */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -326,7 +329,8 @@
 				E23B9C71177C92C800226107 /* EditContactView.xib in Resources */,
 				E2187B331794DD4C00C3474C /* SmartContacts.icns in Resources */,
 				E20E89A5179D617900D6F80D /* PreferencesWindow.xib in Resources */,
-				E20E89A9179F2BE700D6F80D /* profile.png in Resources */,
+				E206EE5A17DBBF2700E85A81 /* defaultProfile.png in Resources */,
+				E206EE5C17DBBF4900E85A81 /* windowTopFade.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

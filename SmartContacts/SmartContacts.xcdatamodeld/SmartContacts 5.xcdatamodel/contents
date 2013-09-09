@@ -24,10 +24,10 @@
         <attribute name="postcode" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="relation" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="street" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="accessedOn" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Usage" inverseName="contact" inverseEntity="Usage" syncable="YES"/>
-        <relationship name="hasAddress" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Address" inverseName="contact" inverseEntity="Address" syncable="YES"/>
-        <relationship name="hasEmail" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Email" inverseName="contact" inverseEntity="Email" syncable="YES"/>
-        <relationship name="hasPhone" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Phone" inverseName="contact" inverseEntity="Phone" syncable="YES"/>
+        <relationship name="accessedOn" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Usage" inverseName="contact" inverseEntity="Usage" syncable="YES"/>
+        <relationship name="hasAddress" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Address" inverseName="contact" inverseEntity="Address" syncable="YES"/>
+        <relationship name="hasEmail" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Email" inverseName="contact" inverseEntity="Email" syncable="YES"/>
+        <relationship name="hasPhone" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Phone" inverseName="contact" inverseEntity="Phone" syncable="YES"/>
     </entity>
     <entity name="Email" representedClassName="Email" syncable="YES">
         <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
@@ -56,11 +56,11 @@
         <relationship name="contact" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Contact" inverseName="accessedOn" inverseEntity="Contact" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Model" positionX="0" positionY="117" width="128" height="195"/>
-        <element name="Email" positionX="-360" positionY="0" width="128" height="88"/>
+        <element name="Address" positionX="-360" positionY="198" width="128" height="148"/>
         <element name="Contact" positionX="-180" positionY="0" width="128" height="313"/>
+        <element name="Email" positionX="-360" positionY="0" width="128" height="88"/>
+        <element name="Model" positionX="0" positionY="117" width="128" height="195"/>
         <element name="Phone" positionX="-360" positionY="99" width="128" height="88"/>
         <element name="Usage" positionX="0" positionY="0" width="128" height="73"/>
-        <element name="Address" positionX="-360" positionY="198" width="128" height="148"/>
     </elements>
 </model>
