@@ -16,8 +16,6 @@
 		E2187B1E179359EE00C3474C /* Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = E2187B1D179359EE00C3474C /* Phone.m */; };
 		E2187B21179359F700C3474C /* Email.m in Sources */ = {isa = PBXBuildFile; fileRef = E2187B20179359F700C3474C /* Email.m */; };
 		E2187B2417935A6600C3474C /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = E2187B2317935A6600C3474C /* Model.m */; };
-		E2187B2717935C7400C3474C /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = E2187B2617935C7300C3474C /* Contact.m */; };
-		E2187B291793618100C3474C /* SmartContacts4-5.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = E2187B281793618100C3474C /* SmartContacts4-5.xcmappingmodel */; };
 		E2187B331794DD4C00C3474C /* SmartContacts.icns in Resources */ = {isa = PBXBuildFile; fileRef = E2187B321794DD4C00C3474C /* SmartContacts.icns */; };
 		E22042451787A9F4006A2824 /* FacebookQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = E22042441787A9F4006A2824 /* FacebookQuery.m */; };
 		E23B9C71177C92C800226107 /* EditContactView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E23B9C6E177C92C800226107 /* EditContactView.xib */; };
@@ -35,13 +33,14 @@
 		E295D1311771BE0F00442A1B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E295D1301771BE0F00442A1B /* AppDelegate.m */; };
 		E295D1341771BE0F00442A1B /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E295D1321771BE0F00442A1B /* MainMenu.xib */; };
 		E295D1371771BE0F00442A1B /* SmartContacts.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E295D1351771BE0F00442A1B /* SmartContacts.xcdatamodeld */; };
-		E295D14A1771DE9C00442A1B /* ContactTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = E295D1491771DE9C00442A1B /* ContactTableCellView.m */; };
-		E2ADCE8B1772523C00123DCF /* ContactDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2ADCE8A1772523C00123DCF /* ContactDetailsViewController.m */; };
-		E2ADCE8D177254FE00123DCF /* ContactDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2ADCE8C177254FE00123DCF /* ContactDetailsView.xib */; };
+		E2ADCE8B1772523C00123DCF /* ShowContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2ADCE8A1772523C00123DCF /* ShowContactViewController.m */; };
+		E2ADCE8D177254FE00123DCF /* ShowContactView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2ADCE8C177254FE00123DCF /* ShowContactView.xib */; };
 		E2AE4A43177A627800F7DBCA /* MouseDownTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = E2AE4A42177A627800F7DBCA /* MouseDownTextField.m */; };
 		E2B4A3211778BDA4008DBE0B /* AddContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B4A3201778BDA4008DBE0B /* AddContactViewController.m */; };
 		E2B4A3231778D26F008DBE0B /* windowBottomFade.png in Resources */ = {isa = PBXBuildFile; fileRef = E2B4A3221778D26F008DBE0B /* windowBottomFade.png */; };
 		E2BDDBD01783810D008C10B6 /* Usage.m in Sources */ = {isa = PBXBuildFile; fileRef = E2BDDBCF1783810D008C10B6 /* Usage.m */; };
+		E2FF317E17E216C60001DDB1 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = E2FF317D17E216C60001DDB1 /* Contact.m */; };
+		E2FF318217E21F8E0001DDB1 /* ContactTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = E2FF318117E21F8E0001DDB1 /* ContactTableCellView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -73,9 +72,6 @@
 		E2187B20179359F700C3474C /* Email.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Email.m; sourceTree = "<group>"; };
 		E2187B2217935A6500C3474C /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		E2187B2317935A6600C3474C /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
-		E2187B2517935C7300C3474C /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
-		E2187B2617935C7300C3474C /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
-		E2187B281793618100C3474C /* SmartContacts4-5.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "SmartContacts4-5.xcmappingmodel"; sourceTree = "<group>"; };
 		E2187B321794DD4C00C3474C /* SmartContacts.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = SmartContacts.icns; sourceTree = SOURCE_ROOT; };
 		E22042421787A929006A2824 /* SmartContacts 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartContacts 4.xcdatamodel"; sourceTree = "<group>"; };
 		E22042431787A9F4006A2824 /* FacebookQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookQuery.h; sourceTree = "<group>"; };
@@ -103,11 +99,9 @@
 		E295D1301771BE0F00442A1B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E295D1331771BE0F00442A1B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		E295D1361771BE0F00442A1B /* SmartContacts 1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartContacts 1.xcdatamodel"; sourceTree = "<group>"; };
-		E295D1481771DE9C00442A1B /* ContactTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContactTableCellView.h; path = SmartContacts/ContactTableCellView.h; sourceTree = "<group>"; };
-		E295D1491771DE9C00442A1B /* ContactTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContactTableCellView.m; path = SmartContacts/ContactTableCellView.m; sourceTree = "<group>"; };
-		E2ADCE891772523C00123DCF /* ContactDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactDetailsViewController.h; sourceTree = "<group>"; };
-		E2ADCE8A1772523C00123DCF /* ContactDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactDetailsViewController.m; sourceTree = "<group>"; };
-		E2ADCE8C177254FE00123DCF /* ContactDetailsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContactDetailsView.xib; path = SmartContacts/ContactDetailsView.xib; sourceTree = "<group>"; };
+		E2ADCE891772523C00123DCF /* ShowContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowContactViewController.h; sourceTree = "<group>"; };
+		E2ADCE8A1772523C00123DCF /* ShowContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowContactViewController.m; sourceTree = "<group>"; };
+		E2ADCE8C177254FE00123DCF /* ShowContactView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ShowContactView.xib; path = SmartContacts/ShowContactView.xib; sourceTree = "<group>"; };
 		E2AE4A41177A627800F7DBCA /* MouseDownTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MouseDownTextField.h; sourceTree = "<group>"; };
 		E2AE4A42177A627800F7DBCA /* MouseDownTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MouseDownTextField.m; sourceTree = "<group>"; };
 		E2B4A31F1778BDA4008DBE0B /* AddContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddContactViewController.h; sourceTree = "<group>"; };
@@ -116,6 +110,12 @@
 		E2BDDBCE1783810D008C10B6 /* Usage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Usage.h; sourceTree = "<group>"; };
 		E2BDDBCF1783810D008C10B6 /* Usage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Usage.m; sourceTree = "<group>"; };
 		E2EE810D178372A200624A1E /* SmartContacts 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SmartContacts 2.xcdatamodel"; sourceTree = "<group>"; };
+		E2FF317B17E20C7F0001DDB1 /* SmartContacts 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SmartContacts 6.xcdatamodel"; sourceTree = "<group>"; };
+		E2FF317C17E216C60001DDB1 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
+		E2FF317D17E216C60001DDB1 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
+		E2FF317F17E21A8A0001DDB1 /* SmartContacts 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SmartContacts 7.xcdatamodel"; sourceTree = "<group>"; };
+		E2FF318017E21F720001DDB1 /* ContactTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContactTableCellView.h; path = SmartContacts/ContactTableCellView.h; sourceTree = "<group>"; };
+		E2FF318117E21F8E0001DDB1 /* ContactTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContactTableCellView.m; path = SmartContacts/ContactTableCellView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,10 +137,18 @@
 			children = (
 				E295D12F1771BE0F00442A1B /* AppDelegate.h */,
 				E295D1301771BE0F00442A1B /* AppDelegate.m */,
-				E22042431787A9F4006A2824 /* FacebookQuery.h */,
-				E22042441787A9F4006A2824 /* FacebookQuery.m */,
-				E2AE4A41177A627800F7DBCA /* MouseDownTextField.h */,
-				E2AE4A42177A627800F7DBCA /* MouseDownTextField.m */,
+				E2FF317C17E216C60001DDB1 /* Contact.h */,
+				E2FF317D17E216C60001DDB1 /* Contact.m */,
+				E2187B1F179359F700C3474C /* Email.h */,
+				E2187B20179359F700C3474C /* Email.m */,
+				E2187B1C179359EE00C3474C /* Phone.h */,
+				E2187B1D179359EE00C3474C /* Phone.m */,
+				E2187B19179359E000C3474C /* Address.h */,
+				E2187B1A179359E000C3474C /* Address.m */,
+				E2187B2217935A6500C3474C /* Model.h */,
+				E2187B2317935A6600C3474C /* Model.m */,
+				E2BDDBCE1783810D008C10B6 /* Usage.h */,
+				E2BDDBCF1783810D008C10B6 /* Usage.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -182,6 +190,7 @@
 				E2AE4A46177A69EF00F7DBCA /* Views */,
 				E2AE4A4A177A6FDC00F7DBCA /* Controllers */,
 				E295D13E1771BF5A00442A1B /* Data */,
+				E2FF317A17E1EAE60001DDB1 /* Helpers */,
 				E295D13D1771BE2300442A1B /* Resources */,
 				E295D1241771BE0F00442A1B /* Supporting Files */,
 			);
@@ -218,19 +227,6 @@
 			isa = PBXGroup;
 			children = (
 				E295D1351771BE0F00442A1B /* SmartContacts.xcdatamodeld */,
-				E2187B281793618100C3474C /* SmartContacts4-5.xcmappingmodel */,
-				E2187B2517935C7300C3474C /* Contact.h */,
-				E2187B2617935C7300C3474C /* Contact.m */,
-				E2187B1F179359F700C3474C /* Email.h */,
-				E2187B20179359F700C3474C /* Email.m */,
-				E2187B1C179359EE00C3474C /* Phone.h */,
-				E2187B1D179359EE00C3474C /* Phone.m */,
-				E2187B19179359E000C3474C /* Address.h */,
-				E2187B1A179359E000C3474C /* Address.m */,
-				E2187B2217935A6500C3474C /* Model.h */,
-				E2187B2317935A6600C3474C /* Model.m */,
-				E2BDDBCE1783810D008C10B6 /* Usage.h */,
-				E2BDDBCF1783810D008C10B6 /* Usage.m */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -239,12 +235,12 @@
 			isa = PBXGroup;
 			children = (
 				E295D1321771BE0F00442A1B /* MainMenu.xib */,
-				E26D64941776383C0019989E /* AddContactView.xib */,
+				E2ADCE8C177254FE00123DCF /* ShowContactView.xib */,
 				E23B9C6E177C92C800226107 /* EditContactView.xib */,
-				E2ADCE8C177254FE00123DCF /* ContactDetailsView.xib */,
+				E26D64941776383C0019989E /* AddContactView.xib */,
 				E20E89A3179D617900D6F80D /* PreferencesWindow.xib */,
-				E295D1481771DE9C00442A1B /* ContactTableCellView.h */,
-				E295D1491771DE9C00442A1B /* ContactTableCellView.m */,
+				E2FF318017E21F720001DDB1 /* ContactTableCellView.h */,
+				E2FF318117E21F8E0001DDB1 /* ContactTableCellView.m */,
 			);
 			name = Views;
 			path = ..;
@@ -253,16 +249,27 @@
 		E2AE4A4A177A6FDC00F7DBCA /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				E20E89A1179D617900D6F80D /* PreferencesWindowController.h */,
-				E20E89A2179D617900D6F80D /* PreferencesWindowController.m */,
-				E2ADCE891772523C00123DCF /* ContactDetailsViewController.h */,
-				E2ADCE8A1772523C00123DCF /* ContactDetailsViewController.m */,
+				E2ADCE891772523C00123DCF /* ShowContactViewController.h */,
+				E2ADCE8A1772523C00123DCF /* ShowContactViewController.m */,
 				E23B9C6F177C92C800226107 /* EditContactViewController.h */,
 				E23B9C70177C92C800226107 /* EditContactViewController.m */,
 				E2B4A31F1778BDA4008DBE0B /* AddContactViewController.h */,
 				E2B4A3201778BDA4008DBE0B /* AddContactViewController.m */,
+				E20E89A1179D617900D6F80D /* PreferencesWindowController.h */,
+				E20E89A2179D617900D6F80D /* PreferencesWindowController.m */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		E2FF317A17E1EAE60001DDB1 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				E22042431787A9F4006A2824 /* FacebookQuery.h */,
+				E22042441787A9F4006A2824 /* FacebookQuery.m */,
+				E2AE4A41177A627800F7DBCA /* MouseDownTextField.h */,
+				E2AE4A42177A627800F7DBCA /* MouseDownTextField.m */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -320,7 +327,7 @@
 				E295D1281771BE0F00442A1B /* InfoPlist.strings in Resources */,
 				E295D12E1771BE0F00442A1B /* Credits.rtf in Resources */,
 				E295D1341771BE0F00442A1B /* MainMenu.xib in Resources */,
-				E2ADCE8D177254FE00123DCF /* ContactDetailsView.xib in Resources */,
+				E2ADCE8D177254FE00123DCF /* ShowContactView.xib in Resources */,
 				E26D64621773CEC70019989E /* avatarMask.png in Resources */,
 				E26D64631773CEC70019989E /* avatarBezel.png in Resources */,
 				E26D64651773CF530019989E /* circularMask.png in Resources */,
@@ -344,8 +351,7 @@
 				E295D12A1771BE0F00442A1B /* main.m in Sources */,
 				E295D1311771BE0F00442A1B /* AppDelegate.m in Sources */,
 				E295D1371771BE0F00442A1B /* SmartContacts.xcdatamodeld in Sources */,
-				E295D14A1771DE9C00442A1B /* ContactTableCellView.m in Sources */,
-				E2ADCE8B1772523C00123DCF /* ContactDetailsViewController.m in Sources */,
+				E2ADCE8B1772523C00123DCF /* ShowContactViewController.m in Sources */,
 				E2B4A3211778BDA4008DBE0B /* AddContactViewController.m in Sources */,
 				E2AE4A43177A627800F7DBCA /* MouseDownTextField.m in Sources */,
 				E23B9C72177C92C800226107 /* EditContactViewController.m in Sources */,
@@ -355,9 +361,9 @@
 				E2187B1E179359EE00C3474C /* Phone.m in Sources */,
 				E2187B21179359F700C3474C /* Email.m in Sources */,
 				E2187B2417935A6600C3474C /* Model.m in Sources */,
-				E2187B2717935C7400C3474C /* Contact.m in Sources */,
-				E2187B291793618100C3474C /* SmartContacts4-5.xcmappingmodel in Sources */,
 				E20E89A4179D617900D6F80D /* PreferencesWindowController.m in Sources */,
+				E2FF317E17E216C60001DDB1 /* Contact.m in Sources */,
+				E2FF318217E21F8E0001DDB1 /* ContactTableCellView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -514,13 +520,15 @@
 		E295D1351771BE0F00442A1B /* SmartContacts.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				E2FF317F17E21A8A0001DDB1 /* SmartContacts 7.xcdatamodel */,
+				E2FF317B17E20C7F0001DDB1 /* SmartContacts 6.xcdatamodel */,
 				E2187B1817934EB700C3474C /* SmartContacts 5.xcdatamodel */,
 				E2333CA017861DE20036E3AB /* SmartContacts 3.xcdatamodel */,
 				E22042421787A929006A2824 /* SmartContacts 4.xcdatamodel */,
 				E2EE810D178372A200624A1E /* SmartContacts 2.xcdatamodel */,
 				E295D1361771BE0F00442A1B /* SmartContacts 1.xcdatamodel */,
 			);
-			currentVersion = E2187B1817934EB700C3474C /* SmartContacts 5.xcdatamodel */;
+			currentVersion = E2FF317F17E21A8A0001DDB1 /* SmartContacts 7.xcdatamodel */;
 			path = SmartContacts.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

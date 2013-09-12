@@ -17,8 +17,6 @@
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"FacebookStatus"] &&
         ![[NSUserDefaults standardUserDefaults] boolForKey:@"FacebookPhoto"]) return;
 
-    NSLog(@"Fetching Facebook access token...");
-
     NSString* APPLICATION_ID = @"294739090671217";
     NSMutableArray *requestedPermissions;
 

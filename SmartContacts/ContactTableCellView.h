@@ -8,18 +8,20 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface ContactTableCellView : NSTableCellView {
+@interface ContactTableCellView : NSTableCellView
+{
 @private
     IBOutlet NSButton *detailsButton;
     IBOutlet NSButton *deleteButton;
-    IBOutlet NSTextField *subTitleTextField;
+    IBOutlet NSTextField *tagLine;
     BOOL _isSmallSize;
 }
 
-@property(assign) NSButton *detailsButton;
-@property(assign) NSButton *deleteButton;
-@property(assign) NSTextField *subTitleTextField;
+@property (assign) IBOutlet NSButton *detailsButton;
+@property (assign) IBOutlet NSButton *deleteButton;
+@property (assign) IBOutlet NSTextField *tagLine;
 
+- (void)layoutViewsForDeleteMode:(BOOL)deleteMode animated:(BOOL)animated;
 - (void)layoutViewsForSmallSize:(BOOL)smallSize animated:(BOOL)animated;
 
 @end

@@ -10,7 +10,7 @@
 #import "Contact.h"
 #import "MouseDownTextField.h"
 
-@interface ContactDetailsViewController : NSViewController <MouseDownTextFieldDelegate>
+@interface ShowContactViewController : NSViewController <MouseDownTextFieldDelegate>
 {
 @private
     Contact *contact;

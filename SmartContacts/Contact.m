@@ -10,6 +10,7 @@
 #import "Address.h"
 #import "Email.h"
 #import "Phone.h"
+#import "Model.h"
 #import "Usage.h"
 
 @implementation Contact
@@ -26,6 +27,7 @@
 @dynamic postcode;
 @dynamic country;
 @dynamic birthday;
+@dynamic priority;
 @dynamic facebookID;
 @dynamic facebookStatus;
 
@@ -33,6 +35,93 @@
 @dynamic hasPhone;
 @dynamic hasAddress;
 @dynamic accessedOn;
+
+@synthesize name = _name;
+@synthesize tag = _tag;
+//@synthesize priority = _priority;
+@synthesize normalButton = _normalButton;
+@synthesize pushedButton = _pushedButton;
+
+- (NSString *)name
+{
+    if (_name) return _name;
+    
+    _name = self.fullName;
+    
+    return _name;
+}
+
+- (void)setName:(NSString *)name
+{
+    _name = name;
+}
+
+- (NSString *)tag
+{
+    if (_tag) return _tag;
+    
+    _tag = @"";
+    
+    // Determine what to show as the tagline based on available information
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"FacebookStatus"] &&
+        self.facebookStatus != nil && ![self.facebookStatus isEqualToString:@""])
+    {
+        _tag = self.facebookStatus;
+    }
+    else if (self.company != nil && ![self.company isEqualToString:@""])
+    {
+        _tag = self.company;
+    }
+    else if (self.relation != nil && ![self.relation isEqualToString:@""])
+    {
+        _tag = self.relation;
+    }
+    
+    return _tag;
+}
+
+- (void)setTag:(NSString *)tag
+{
+    _tag = tag;
+}
+
+- (NSImage *)normalButton
+{
+    if (_normalButton) return _normalButton;
+    
+    NSImage *image = [NSImage imageNamed:@"defaultProfile"];
+    NSImage *bezel = [NSImage imageNamed:@"avatarBezel"];
+    if (self.image) image = [[NSImage alloc] initWithData:self.image];
+    _normalButton = [self createButtonImage:image withMask:nil withBezel:bezel];
+    
+    return _normalButton;
+}
+
+- (void)setNormalButton:(NSImage *)image
+{
+    NSImage *bezel = [NSImage imageNamed:@"avatarBezel"];
+    _normalButton = [self createButtonImage:image withMask:nil withBezel:bezel];
+}
+
+- (NSImage *)pushedButton
+{
+    if (_pushedButton) return _pushedButton;
+    
+    NSImage *image = [NSImage imageNamed:@"defaultProfile"];
+    NSImage *mask  = [NSImage imageNamed:@"avatarMask"];
+    NSImage *bezel = [NSImage imageNamed:@"avatarBezel"];
+    if (self.image) image = [[NSImage alloc] initWithData:self.image];
+    _pushedButton = [self createButtonImage:image withMask:mask withBezel:bezel];
+    
+    return _pushedButton;
+}
+
+- (void)setPushedButton:(NSImage *)image
+{
+    NSImage *mask  = [NSImage imageNamed:@"avatarMask"];
+    NSImage *bezel = [NSImage imageNamed:@"avatarBezel"];
+    _pushedButton = [self createButtonImage:image withMask:mask withBezel:bezel];
+}
 
 - (NSString *)fullName
 {
@@ -49,6 +138,11 @@
     if ([self.country isNotEqualTo:@""])
         fullAddress = [fullAddress stringByAppendingFormat:@"\n%@", self.country];
     return fullAddress;
+}
+
+- (void)setPriorityForModel:(Model *)model
+{
+    self.priority = [model priorityForContact:self];
 }
 
 /* Compute the features describing the priority of the contact
@@ -120,6 +214,60 @@
     
     // Return an immutable copy of the feature array
     return [features copy];
+}
+
+- (NSImage *)createButtonImage:(NSImage *)image withMask:(NSImage *)mask withBezel:(NSImage *)bezel
+{
+    NSImage *finalImage = [[NSImage alloc] initWithSize:NSMakeSize(94, 92)];
+    
+    if (image == nil)
+    {
+        return finalImage;
+    }
+    
+    // Create a CGImageRef from the NSImage in order to apply a circular mask
+    CGImageRef imageRef = [image CGImageForProposedRect:NULL context:NULL hints:NULL];
+    
+    // Create the mask
+    CGImageRef circularMask = [[NSImage imageNamed:@"circularMask"] CGImageForProposedRect:NULL context:NULL hints:NULL];
+    CGImageRef maskRef = CGImageMaskCreate(CGImageGetWidth(circularMask),
+                                           CGImageGetHeight(circularMask),
+                                           CGImageGetBitsPerComponent(circularMask),
+                                           CGImageGetBitsPerPixel(circularMask),
+                                           CGImageGetBytesPerRow(circularMask),
+                                           CGImageGetDataProvider(circularMask), NULL, YES);
+    
+    NSImage *base = [[NSImage alloc] initWithCGImage:CGImageCreateWithMask(imageRef, maskRef)
+                                                size:NSMakeSize(82, 82)];
+    
+    [finalImage lockFocus];
+    
+    // Draw the base image
+    [base drawInRect:NSMakeRect(6, 6, 82, 82)
+            fromRect:NSZeroRect
+           operation:NSCompositeSourceOver fraction:1.0];
+    
+    // Draw the mask overlay image
+    if (mask != nil)
+    {
+        float maskWidth = [mask size].width;
+        float maskHeight = [mask size].height;
+        [mask drawInRect:NSMakeRect((94-maskWidth)/2, (92-maskHeight)/2+1, maskWidth, maskHeight)
+                fromRect:NSZeroRect
+               operation:NSCompositeSourceOver fraction:0.2];
+    }
+    
+    // Draw the bezel overlay image
+    if (bezel != nil)
+    {
+        [bezel drawInRect:NSMakeRect(0, 0, 94, 92)
+                 fromRect:NSZeroRect
+                operation:NSCompositeSourceOver fraction:1.0];
+    }
+    
+    [finalImage unlockFocus];
+    
+    return finalImage;
 }
 
 @end

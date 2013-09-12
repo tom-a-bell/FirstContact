@@ -11,9 +11,9 @@
 #import "Email.h"
 #import "Phone.h"
 #import "Address.h"
-#import "ContactDetailsViewController.h"
+#import "ShowContactViewController.h"
 
-@implementation ContactDetailsViewController
+@implementation ShowContactViewController
 
 - (IBAction)editContact:(id)sender
 {

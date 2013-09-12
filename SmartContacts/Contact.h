@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Address, Email, Phone, Usage;
+@class Address, Email, Phone, Model, Usage;
 
 @interface Contact : NSManagedObject
 
@@ -25,6 +25,7 @@
 @property (nonatomic, retain) NSString * postcode;
 @property (nonatomic, retain) NSString * country;
 @property (nonatomic, retain) NSDate   * birthday;
+@property (nonatomic, retain) NSNumber * priority;
 @property (nonatomic, retain) NSNumber * facebookID;
 @property (nonatomic, retain) NSString * facebookStatus;
 
@@ -33,9 +34,16 @@
 @property (nonatomic, retain) NSSet    * hasAddress;
 @property (nonatomic, retain) NSSet    * accessedOn;
 
+@property (retain) NSString *name;
+@property (retain) NSString *tag;
+//@property (retain) NSNumber *priority;
+@property (retain) NSImage  *normalButton;
+@property (retain) NSImage  *pushedButton;
+
 - (NSString *)fullName;
 - (NSString *)fullAddress;
 - (NSArray *)getFeatures;
+- (void)setPriorityForModel:(Model *)model;
 
 @end
 

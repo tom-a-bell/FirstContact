@@ -15,13 +15,6 @@
 @property (nonatomic, retain) NSDate   * date;
 @property (nonatomic, retain) NSNumber * alpha;
 @property (nonatomic, retain) NSArray  * theta;
-@property (nonatomic, retain) NSNumber * theta0;
-@property (nonatomic, retain) NSNumber * theta1;
-@property (nonatomic, retain) NSNumber * theta2;
-@property (nonatomic, retain) NSNumber * theta3;
-@property (nonatomic, retain) NSNumber * theta4;
-@property (nonatomic, retain) NSNumber * theta5;
-@property (nonatomic, retain) NSNumber * theta6;
 
 - (NSNumber *)priorityForContact:(Contact *)contact;
 - (NSNumber *)costForContact:(Contact *)contact wasSelected:(BOOL)selected;

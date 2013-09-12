@@ -12,18 +12,27 @@
 
 @synthesize detailsButton = _detailsButton;
 @synthesize deleteButton = _deleteButton;
-@synthesize subTitleTextField = _subTitleTextField;
+@synthesize tagLine = _tagLine;
+
+- (void)layoutViewsForDeleteMode:(BOOL)deleteMode animated:(BOOL)animated {
+    CGFloat targetAlpha = deleteMode ? 1 : 0;
+    if (animated) {
+        [[_deleteButton animator] setAlphaValue:targetAlpha];
+    } else {
+        [_deleteButton setAlphaValue:targetAlpha];
+    }
+}
 
 - (void)layoutViewsForSmallSize:(BOOL)smallSize animated:(BOOL)animated {
     if (_isSmallSize != smallSize) {
         _isSmallSize = smallSize;
         CGFloat targetAlpha = _isSmallSize ? 0 : 1;
         if (animated) {
-            [[detailsButton animator] setAlphaValue:targetAlpha];
-            [[subTitleTextField animator] setAlphaValue:targetAlpha];
+            [[_detailsButton animator] setAlphaValue:targetAlpha];
+            [[_tagLine animator] setAlphaValue:targetAlpha];
         } else {
-            [detailsButton setAlphaValue:targetAlpha];
-            [subTitleTextField setAlphaValue:targetAlpha];
+            [_detailsButton setAlphaValue:targetAlpha];
+            [_tagLine setAlphaValue:targetAlpha];
         }
     }
 }

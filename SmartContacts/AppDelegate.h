@@ -7,15 +7,14 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "Contact.h"
-#import "Model.h"
-#import "Usage.h"
 
-@class FacebookQuery;
+@class Contact, Model, Usage;
 @class PreferencesWindowController;
+@class FacebookQuery;
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, NSPopoverDelegate,
-                                   NSTableViewDelegate, NSTableViewDataSource>
+@interface AppDelegate : NSObject <NSApplicationDelegate,
+                                   NSTableViewDelegate,
+                                   NSPopoverDelegate>
 {
 @private
     // Popover object
@@ -30,13 +29,6 @@
     
     // Window controller for preferences
     PreferencesWindowController *preferencesWindowController;
-
-    // An array of dictionaries that contain the contents to display
-    NSMutableArray *_tableContents;
-    IBOutlet NSTableView *_tableView;
-    
-    // The current model used to predict the priority of each contact
-    Model *currentModel;
     
     // GCD dispatch source timer to update the priority order of the contact list
     dispatch_source_t priorityListUpdateTimer;
@@ -47,20 +39,25 @@
     dispatch_source_t facebookStatusUpdateTimer;
     dispatch_source_t facebookIdQueryTimer;
     
-    NSPredicate *searchPredicate;
-    
-    // Delete contacts button visible
+    // Batch delete mode status
     BOOL deleteMode;
     
-    NSString *persistentStoreType;
 }
 
 @property (assign) IBOutlet NSWindow *window;
 @property (retain) NSPopover *popover;
 
-@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (weak) IBOutlet NSTableView *tableView;
+@property (weak) IBOutlet NSArrayController *arrayController;
+
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
+@property (retain) NSString *persistentStoreType;
+
+// The current model used to predict the priority of each contact
+@property (retain) Model *currentModel;
 
 @property (weak) IBOutlet NSImageView *topFade;
 @property (weak) IBOutlet NSImageView *bottomFade;
@@ -74,7 +71,6 @@
 - (IBAction)showDetailsPopover:(id)sender;
 - (IBAction)deleteContact:(id)sender;
 - (IBAction)doneEditing:(id)sender;
-- (IBAction)filterContacts:(id)sender;
 
 - (IBAction)closePopover:(id)sender;
 - (IBAction)saveAction:(id)sender;
