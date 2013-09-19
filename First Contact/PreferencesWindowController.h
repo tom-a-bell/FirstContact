@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class FacebookQuery;
+@class OAuthLoginWindowController;
 
 @interface PreferencesWindowController : NSWindowController
 {
@@ -21,6 +22,9 @@
 
     // Address Book import progress
     double importProgress;
+
+    // LinkedIn query API handler
+    OAuthLoginWindowController *loginWindowController;
 }
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
@@ -28,6 +32,9 @@
 @property (weak) IBOutlet NSProgressIndicator *progressBar;
 
 - (IBAction)getFacebookToken:(id)sender;
+- (IBAction)getLinkedInToken:(id)sender;
+- (IBAction)getTwitterToken:(id)sender;
+
 - (IBAction)copyAddressBook:(id)sender;
 
 @end

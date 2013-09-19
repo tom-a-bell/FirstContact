@@ -36,14 +36,17 @@
 
 @property (retain) NSString *name;
 @property (retain) NSString *tag;
-//@property (retain) NSNumber *priority;
 @property (retain) NSImage  *normalButton;
 @property (retain) NSImage  *pushedButton;
 
 - (NSString *)fullName;
 - (NSString *)fullAddress;
-- (NSArray *)getFeatures;
+
 - (void)setPriorityForModel:(Model *)model;
+- (NSArray *)getFeatures;
+
+- (NSNumber *)daysToNextBirthday:(NSDate *)dateOfBirth;
+- (NSNumber *)daysToNearestBirthday:(NSDate *)dateOfBirth;
 
 @end
 

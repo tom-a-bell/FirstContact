@@ -17,6 +17,9 @@
 		E2187B21179359F700C3474C /* Email.m in Sources */ = {isa = PBXBuildFile; fileRef = E2187B20179359F700C3474C /* Email.m */; };
 		E2187B2417935A6600C3474C /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = E2187B2317935A6600C3474C /* Model.m */; };
 		E2187B331794DD4C00C3474C /* First Contact.icns in Resources */ = {isa = PBXBuildFile; fileRef = E2187B321794DD4C00C3474C /* First Contact.icns */; };
+		E21F431F17E8F4AB00A7CABC /* ContactLogicTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E21F431E17E8F4AB00A7CABC /* ContactLogicTests.m */; };
+		E21F432717E9065700A7CABC /* OAuthLoginWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E21F432517E9065700A7CABC /* OAuthLoginWindowController.m */; };
+		E21F432817E9065700A7CABC /* OAuthLoginWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E21F432617E9065700A7CABC /* OAuthLoginWindow.xib */; };
 		E22042451787A9F4006A2824 /* FacebookQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = E22042441787A9F4006A2824 /* FacebookQuery.m */; };
 		E26D64621773CEC70019989E /* avatarMask.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D64601773CEC70019989E /* avatarMask.png */; };
 		E26D64631773CEC70019989E /* avatarBezel.png in Resources */ = {isa = PBXBuildFile; fileRef = E26D64611773CEC70019989E /* avatarBezel.png */; };
@@ -40,7 +43,6 @@
 		E2DC94DE17E67FF8007FA74A /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DC94DD17E67FF8007FA74A /* SenTestingKit.framework */; };
 		E2DC94DF17E67FF8007FA74A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E295D11D1771BE0F00442A1B /* Cocoa.framework */; };
 		E2DC94E917E67FF8007FA74A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E2DC94E717E67FF8007FA74A /* InfoPlist.strings */; };
-		E2DC94EC17E67FF8007FA74A /* FirstContactLogicTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E2DC94EB17E67FF8007FA74A /* FirstContactLogicTests.m */; };
 		E2DC94F717E680C9007FA74A /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2DC94DD17E67FF8007FA74A /* SenTestingKit.framework */; };
 		E2DC94F817E680C9007FA74A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E295D11D1771BE0F00442A1B /* Cocoa.framework */; };
 		E2DC94FE17E680C9007FA74A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E2DC94FC17E680C9007FA74A /* InfoPlist.strings */; };
@@ -89,6 +91,11 @@
 		E2187B2217935A6500C3474C /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		E2187B2317935A6600C3474C /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
 		E2187B321794DD4C00C3474C /* First Contact.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "First Contact.icns"; path = "First Contact/First Contact.icns"; sourceTree = SOURCE_ROOT; };
+		E21F431D17E8F4AB00A7CABC /* ContactLogicTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactLogicTests.h; sourceTree = "<group>"; };
+		E21F431E17E8F4AB00A7CABC /* ContactLogicTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactLogicTests.m; sourceTree = "<group>"; };
+		E21F432417E9065700A7CABC /* OAuthLoginWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAuthLoginWindowController.h; sourceTree = "<group>"; };
+		E21F432517E9065700A7CABC /* OAuthLoginWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OAuthLoginWindowController.m; sourceTree = "<group>"; };
+		E21F432617E9065700A7CABC /* OAuthLoginWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OAuthLoginWindow.xib; sourceTree = "<group>"; };
 		E22042431787A9F4006A2824 /* FacebookQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookQuery.h; sourceTree = "<group>"; };
 		E22042441787A9F4006A2824 /* FacebookQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookQuery.m; sourceTree = "<group>"; };
 		E26D64601773CEC70019989E /* avatarMask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatarMask.png; sourceTree = "<group>"; };
@@ -128,8 +135,6 @@
 		E2DC94E317E67FF8007FA74A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E2DC94E617E67FF8007FA74A /* FirstContactLogicTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FirstContactLogicTests-Info.plist"; sourceTree = "<group>"; };
 		E2DC94E817E67FF8007FA74A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		E2DC94EA17E67FF8007FA74A /* FirstContactLogicTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstContactLogicTests.h; sourceTree = "<group>"; };
-		E2DC94EB17E67FF8007FA74A /* FirstContactLogicTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstContactLogicTests.m; sourceTree = "<group>"; };
 		E2DC94ED17E67FF8007FA74A /* FirstContactLogicTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FirstContactLogicTests-Prefix.pch"; sourceTree = "<group>"; };
 		E2DC94F617E680C9007FA74A /* FirstContactApplicationTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FirstContactApplicationTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2DC94FB17E680C9007FA74A /* FirstContactApplicationTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FirstContactApplicationTests-Info.plist"; sourceTree = "<group>"; };
@@ -291,6 +296,7 @@
 				E295D1321771BE0F00442A1B /* MainMenu.xib */,
 				E284014A17E2DCC900F3C995 /* EditContactView.xib */,
 				E2ADCE8C177254FE00123DCF /* ShowContactView.xib */,
+				E21F432617E9065700A7CABC /* OAuthLoginWindow.xib */,
 				E20E89A3179D617900D6F80D /* PreferencesWindow.xib */,
 				E2FF318017E21F720001DDB1 /* ContactTableCellView.h */,
 				E2FF318117E21F8E0001DDB1 /* ContactTableCellView.m */,
@@ -309,6 +315,8 @@
 				E284014917E2DCC900F3C995 /* EditContactViewController.m */,
 				E2ADCE891772523C00123DCF /* ShowContactViewController.h */,
 				E2ADCE8A1772523C00123DCF /* ShowContactViewController.m */,
+				E21F432417E9065700A7CABC /* OAuthLoginWindowController.h */,
+				E21F432517E9065700A7CABC /* OAuthLoginWindowController.m */,
 				E20E89A1179D617900D6F80D /* PreferencesWindowController.h */,
 				E20E89A2179D617900D6F80D /* PreferencesWindowController.m */,
 			);
@@ -328,8 +336,8 @@
 		E2DC94E417E67FF8007FA74A /* FirstContactLogicTests */ = {
 			isa = PBXGroup;
 			children = (
-				E2DC94EA17E67FF8007FA74A /* FirstContactLogicTests.h */,
-				E2DC94EB17E67FF8007FA74A /* FirstContactLogicTests.m */,
+				E21F431D17E8F4AB00A7CABC /* ContactLogicTests.h */,
+				E21F431E17E8F4AB00A7CABC /* ContactLogicTests.m */,
 				E2DC94E517E67FF8007FA74A /* Supporting Files */,
 			);
 			path = FirstContactLogicTests;
@@ -440,7 +448,7 @@
 		E295D1121771BE0F00442A1B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Tom Bell";
 			};
 			buildConfigurationList = E295D1151771BE0F00442A1B /* Build configuration list for PBXProject "First Contact" */;
@@ -480,6 +488,7 @@
 				E206EE5A17DBBF2700E85A81 /* defaultProfile.png in Resources */,
 				E206EE5C17DBBF4900E85A81 /* windowTopFade.png in Resources */,
 				E284014C17E2DCC900F3C995 /* EditContactView.xib in Resources */,
+				E21F432817E9065700A7CABC /* OAuthLoginWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -551,6 +560,7 @@
 				E284014517E25DB100F3C995 /* ContactEntryCellView.m in Sources */,
 				E284014B17E2DCC900F3C995 /* EditContactViewController.m in Sources */,
 				E2EC99F817E593E900652105 /* First Contact.xcdatamodeld in Sources */,
+				E21F432717E9065700A7CABC /* OAuthLoginWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -558,7 +568,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E2DC94EC17E67FF8007FA74A /* FirstContactLogicTests.m in Sources */,
+				E21F431F17E8F4AB00A7CABC /* ContactLogicTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -628,7 +638,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -661,7 +670,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -722,12 +730,14 @@
 		E2DC94EE17E67FF8007FA74A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/First Contact.app/Contents/MacOS/First Contact";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FirstContactLogicTests/FirstContactLogicTests-Prefix.pch";
 				INFOPLIST_FILE = "FirstContactLogicTests/FirstContactLogicTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -735,12 +745,14 @@
 		E2DC94EF17E67FF8007FA74A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/First Contact.app/Contents/MacOS/First Contact";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FirstContactLogicTests/FirstContactLogicTests-Prefix.pch";
 				INFOPLIST_FILE = "FirstContactLogicTests/FirstContactLogicTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
@@ -803,6 +815,7 @@
 				E2DC94EF17E67FF8007FA74A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E2DC950317E680C9007FA74A /* Build configuration list for PBXNativeTarget "FirstContactApplicationTests" */ = {
 			isa = XCConfigurationList;
@@ -811,6 +824,7 @@
 				E2DC950517E680C9007FA74A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

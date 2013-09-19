@@ -8,6 +8,7 @@
 
 #import <AddressBook/AddressBook.h>
 #import "PreferencesWindowController.h"
+#import "OAuthLoginWindowController.h"
 
 #import "Contact.h"
 #import "Email.h"
@@ -32,6 +33,21 @@
     {
         [facebookQuery getAccessToken];
     }
+}
+
+- (IBAction)getLinkedInToken:(id)sender
+{
+    if ([sender state] == NSOnState)
+    {
+        loginWindowController = [[OAuthLoginWindowController alloc] initWithWindowNibName:@"OAuthLoginWindow"];
+
+        // Show the signin window
+        [loginWindowController showWindow:self];
+    }
+}
+
+- (IBAction)getTwitterToken:(id)sender
+{
 }
 
 // Import all Address Book contacts

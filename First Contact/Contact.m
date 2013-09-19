@@ -38,7 +38,6 @@
 
 @synthesize name = _name;
 @synthesize tag = _tag;
-//@synthesize priority = _priority;
 @synthesize normalButton = _normalButton;
 @synthesize pushedButton = _pushedButton;
 
@@ -62,19 +61,19 @@
     
     // Determine what to show as the tagline based on available information
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UpcomingBirthdays"] &&
-        [[self daysToNextBirthday] integerValue] == 0)
+        [[self daysToNextBirthday:self.birthday] integerValue] == 0)
     {
         _tag = @"Birthday today!";
     }
     else if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UpcomingBirthdays"] &&
-        [[self daysToNextBirthday] integerValue] == 1)
+             [[self daysToNextBirthday:self.birthday] integerValue] == 1)
     {
         _tag = @"Birthday tomorrow!";
     }
     else if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UpcomingBirthdays"] &&
-        [[self daysToNextBirthday] integerValue] < 15)
+             [[self daysToNextBirthday:self.birthday] integerValue] < 15)
     {
-        _tag = [NSString stringWithFormat:@"Birthday in %@ days!", [self daysToNextBirthday]];
+        _tag = [NSString stringWithFormat:@"Birthday in %@ days!", [self daysToNextBirthday:self.birthday]];
     }
     else if ([[NSUserDefaults standardUserDefaults] boolForKey:@"FacebookStatus"] &&
              self.facebookStatus != nil && ![self.facebookStatus isEqualToString:@""])
@@ -204,7 +203,7 @@
     [features addObject:dayViews];
     
     // Add the number of days to the most recent birthday as a feature
-    NSNumber *daysToBirthday = [self daysToNearestBirthday];
+    NSNumber *daysToBirthday = [self daysToNearestBirthday:self.birthday];
     [features addObject:[NSNumber numberWithInteger:(183 - daysToBirthday.integerValue)]];
 
     // Add a feature indicating if the contact is the user themself
@@ -217,10 +216,10 @@
     return [features copy];
 }
 
-- (NSNumber *)daysToNextBirthday
+- (NSNumber *)daysToNextBirthday:(NSDate *)dateOfBirth
 {
     NSNumber *daysToBirthday;
-    if (self.birthday)
+    if (dateOfBirth)
     {
         NSDate *today;
         NSDate *nextBirthday;
@@ -229,7 +228,7 @@
         NSDateComponents *todayComponents = [[NSCalendar currentCalendar]
                                              components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:now];
         NSDateComponents *birthdayComponents = [[NSCalendar currentCalendar]
-                                                components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:self.birthday];
+                                                components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:dateOfBirth];
 
         [birthdayComponents setYear:todayComponents.year];
         today = [[NSCalendar currentCalendar] dateFromComponents:todayComponents];
@@ -251,10 +250,10 @@
     return daysToBirthday;
 }
 
-- (NSNumber *)daysToNearestBirthday
+- (NSNumber *)daysToNearestBirthday:(NSDate *)dateOfBirth
 {
     NSNumber *daysToBirthday;
-    if (self.birthday)
+    if (dateOfBirth)
     {
         NSDate *today;
         NSDate *nearestBirthday;
@@ -263,7 +262,7 @@
         NSDateComponents *todayComponents = [[NSCalendar currentCalendar]
                                              components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:now];
         NSDateComponents *birthdayComponents = [[NSCalendar currentCalendar]
-                                                components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:self.birthday];
+                                                components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:dateOfBirth];
 
         [birthdayComponents setYear:todayComponents.year];
         today = [[NSCalendar currentCalendar] dateFromComponents:todayComponents];
