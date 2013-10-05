@@ -335,39 +335,6 @@
     return nil;
 }
 
-//- (void)updateEntryAttributes
-//{
-//    for (int row = 0; row < [_tableContents count]; row++)
-//    {
-//        NSObject *entry = [_tableContents objectAtIndex:row];
-//        ContactEntryCellView *cellView = [_tableView viewAtColumn:0 row:row makeIfNecessary:NO];
-//        
-//        // Read the attributes from the cellView for the appropriate entry type
-//        if ([entry class] == [Email class])
-//        {
-//            Email *email = [_tableContents objectAtIndex:row];
-//            email.type = cellView.label.titleOfSelectedItem;
-//            email.address = cellView.entry.stringValue;
-//        }
-//        else if ([entry class] == [Phone class])
-//        {
-//            Phone *phone = [_tableContents objectAtIndex:row];
-//            phone.type = cellView.label.titleOfSelectedItem;
-//            phone.number = cellView.entry.stringValue;
-//        }
-//        else if ([entry class] == [Address class])
-//        {
-//            Address *address = [_tableContents objectAtIndex:row];
-//            address.type = cellView.label.titleOfSelectedItem;
-//            address.street = cellView.entry.stringValue;
-//            address.city = cellView.city.stringValue;
-//            address.region = cellView.region.stringValue;
-//            address.postcode = cellView.postcode.stringValue;
-//            address.country = cellView.country.stringValue;
-//        }
-//    }
-//}
-
 - (void)updateContactAttributes
 {
     self.contact.image = [self.portraitImage.image TIFFRepresentation];

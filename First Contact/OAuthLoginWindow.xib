@@ -16,24 +16,32 @@
         <customObject id="-3" userLabel="Application"/>
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" wantsToBeColor="NO" animationBehavior="default" id="1">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="480" height="380"/>
+            <rect key="contentRect" x="354" y="172" width="440" height="585"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1280" height="778"/>
             <view key="contentView" id="2">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="380"/>
+                <rect key="frame" x="0.0" y="0.0" width="440" height="585"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <webView translatesAutoresizingMaskIntoConstraints="NO" id="5">
-                        <rect key="frame" x="20" y="20" width="440" height="340"/>
+                    <webView maintainsBackForwardList="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5">
+                        <rect key="frame" x="0.0" y="0.0" width="440" height="585"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12"/>
+                        <webPreferences key="preferences" defaultFontSize="12" defaultFixedFontSize="12" plugInsEnabled="NO" javaEnabled="NO" javaScriptCanOpenWindowsAutomatically="NO"/>
+                        <connections>
+                            <outlet property="frameLoadDelegate" destination="-2" id="RuD-WE-iEQ"/>
+                            <outlet property="policyDelegate" destination="-2" id="6bp-yq-C3n"/>
+                        </connections>
                     </webView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="5" secondAttribute="bottom" constant="20" symbolic="YES" id="10"/>
-                    <constraint firstAttribute="trailing" secondItem="5" secondAttribute="trailing" constant="20" symbolic="YES" id="11"/>
-                    <constraint firstItem="5" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" symbolic="YES" id="12"/>
-                    <constraint firstItem="5" firstAttribute="top" secondItem="2" secondAttribute="top" constant="20" symbolic="YES" id="13"/>
+                    <constraint firstItem="5" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="2Oj-ux-8xN"/>
+                    <constraint firstItem="5" firstAttribute="top" secondItem="2" secondAttribute="top" id="Eet-4G-ttS"/>
+                    <constraint firstItem="5" firstAttribute="top" secondItem="2" secondAttribute="top" id="Gix-wE-ISh"/>
+                    <constraint firstItem="5" firstAttribute="top" secondItem="2" secondAttribute="top" id="KwP-IZ-SLa"/>
+                    <constraint firstAttribute="bottom" secondItem="5" secondAttribute="bottom" id="LSc-UG-mQV"/>
+                    <constraint firstAttribute="trailing" secondItem="5" secondAttribute="trailing" id="XZv-88-61d"/>
+                    <constraint firstAttribute="trailing" secondItem="5" secondAttribute="trailing" id="jBs-EN-ElC"/>
+                    <constraint firstItem="5" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="vbL-7y-byl"/>
+                    <constraint firstAttribute="bottom" secondItem="5" secondAttribute="bottom" id="xBS-Pp-ZDl"/>
                 </constraints>
             </view>
             <connections>
