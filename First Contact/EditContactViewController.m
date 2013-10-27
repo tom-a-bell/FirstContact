@@ -255,8 +255,8 @@
 - (IBAction)save:(id)sender
 {
     if ([self.firstName.stringValue isEqualToString:@""] &&
-        [self.lastName.stringValue  isEqualToString:@""] &&
-        [self.company.stringValue   isEqualToString:@""])
+        [self.lastName.stringValue isEqualToString:@""] &&
+        [self.company.stringValue isEqualToString:@""])
     {
         NSAlert *alert = [[NSAlert alloc] init];
         [alert addButtonWithTitle:@"OK"];
@@ -397,6 +397,8 @@
                 [self.delegate deleteManagedObject:address];
         }
     }
+
+    [self.contact updateProperties];
 }
 
 - (NSArray *)selectedFilesFromDialog

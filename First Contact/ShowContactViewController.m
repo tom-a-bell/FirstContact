@@ -97,18 +97,12 @@
         [self addSectionBreak];
     }
 
-    // The contact must have a name or a company entry (or both)
-    if ([self isValid:contact.fullName])
+    if ([self isValid:contact.company] && contact.company != contact.fullName)
     {
-        if ([self isValid:contact.company])
-            [self addEntry:contact.company];
-    
-        [self addEntry:contact.fullName inBold:YES];
+        [self addEntry:contact.company];
     }
-    else
-    {
-        [self addEntry:contact.company inBold:YES];
-    }
+
+    [self addEntry:contact.fullName inBold:YES];
 
     [self addSectionBreak];
 }

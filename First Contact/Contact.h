@@ -28,18 +28,22 @@
 @property (nonatomic, retain) NSNumber * priority;
 @property (nonatomic, retain) NSNumber * facebookID;
 @property (nonatomic, retain) NSString * facebookStatus;
+@property (nonatomic, retain) NSData   * normalButton;
+@property (nonatomic, retain) NSData   * pushedButton;
 
 @property (nonatomic, retain) NSSet    * hasEmail;
 @property (nonatomic, retain) NSSet    * hasPhone;
 @property (nonatomic, retain) NSSet    * hasAddress;
 @property (nonatomic, retain) NSSet    * accessedOn;
 
-@property (retain) NSString *name;
-@property (retain) NSString *tag;
-@property (retain) NSImage  *normalButton;
-@property (retain) NSImage  *pushedButton;
+@property (readonly, retain) NSString  * fullName;
+@property (readonly, retain) NSString  * tag;
+@property (readonly, retain) NSImage   * normalButtonImage;
+@property (readonly, retain) NSImage   * pushedButtonImage;
 
-- (NSString *)fullName;
+- (void)updateProperties;
+- (BOOL)isValid;
+
 - (NSString *)fullAddress;
 
 - (void)setPriorityForModel:(Model *)model;

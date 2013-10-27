@@ -30,39 +30,36 @@
 @dynamic priority;
 @dynamic facebookID;
 @dynamic facebookStatus;
+@dynamic normalButton;
+@dynamic pushedButton;
 
 @dynamic hasEmail;
 @dynamic hasPhone;
 @dynamic hasAddress;
 @dynamic accessedOn;
 
-@synthesize name = _name;
+@synthesize fullName = _fullName;
 @synthesize tag = _tag;
-@synthesize normalButton = _normalButton;
-@synthesize pushedButton = _pushedButton;
+@synthesize normalButtonImage = _normalButtonImage;
+@synthesize pushedButtonImage = _pushedButtonImage;
 
-- (NSString *)name
+- (NSString *)fullName
 {
-    if ([self.fullName isEqualToString:@""])
-    {
-        _name = self.company;
-    }
-    else
-    {
-        _name = self.fullName;
-    }
-    return _name;
-}
+    if (_fullName) return _fullName;
 
-- (void)setName:(NSString *)name
-{
-    _name = name;
+    _fullName = [@[self.firstName, self.lastName] componentsJoinedByString:@" "];
+    if ([_fullName isEqualToString:@" "])
+    {
+        _fullName = self.company;
+    }
+
+    return _fullName;
 }
 
 - (NSString *)tag
 {
-    _tag = @"";
-    
+    if (_tag) return _tag;
+
     // Determine what to show as the tagline based on available information
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"UpcomingBirthdays"] &&
         [[self daysToNextBirthday:self.birthday] integerValue] == 0)
@@ -80,15 +77,15 @@
         _tag = [NSString stringWithFormat:@"Birthday in %@ days!", [self daysToNextBirthday:self.birthday]];
     }
     else if ([[NSUserDefaults standardUserDefaults] boolForKey:@"FacebookStatus"] &&
-             self.facebookStatus != nil && ![self.facebookStatus isEqualToString:@""])
+             [self.facebookStatus length] != 0)
     {
         _tag = self.facebookStatus;
     }
-    else if (self.company != nil && ![self.company isEqualToString:@""] && ![self.fullName isEqualToString:@""])
+    else if ([self.company length] != 0 && self.company != self.fullName)
     {
         _tag = self.company;
     }
-    else if (self.relation != nil && ![self.relation isEqualToString:@""])
+    else if ([self.relation length] != 0)
     {
         _tag = self.relation;
     }
@@ -96,63 +93,61 @@
     return _tag;
 }
 
-- (void)setTag:(NSString *)tag
+- (NSImage *)normalButtonImage
 {
-    _tag = tag;
-}
+    if (_normalButtonImage) return _normalButtonImage;
 
-- (NSImage *)normalButton
-{
-    if (_normalButton) return _normalButton;
-    
-    NSImage *image = [NSImage imageNamed:@"defaultProfile"];
-    NSImage *bezel = [NSImage imageNamed:@"avatarBezel"];
-    if (self.image) image = [[NSImage alloc] initWithData:self.image];
-    _normalButton = [self createButtonImage:image withMask:nil withBezel:bezel];
-    
-    return _normalButton;
-}
-
-- (void)setNormalButton:(NSImage *)image
-{
-    NSImage *bezel = [NSImage imageNamed:@"avatarBezel"];
-    _normalButton = [self createButtonImage:image withMask:nil withBezel:bezel];
-}
-
-- (NSImage *)pushedButton
-{
-    if (_pushedButton) return _pushedButton;
-    
-    NSImage *image = [NSImage imageNamed:@"defaultProfile"];
-    NSImage *mask  = [NSImage imageNamed:@"avatarMask"];
-    NSImage *bezel = [NSImage imageNamed:@"avatarBezel"];
-    if (self.image) image = [[NSImage alloc] initWithData:self.image];
-    _pushedButton = [self createButtonImage:image withMask:mask withBezel:bezel];
-    
-    return _pushedButton;
-}
-
-- (void)setPushedButton:(NSImage *)image
-{
-    NSImage *mask  = [NSImage imageNamed:@"avatarMask"];
-    NSImage *bezel = [NSImage imageNamed:@"avatarBezel"];
-    _pushedButton = [self createButtonImage:image withMask:mask withBezel:bezel];
-}
-
-- (NSString *)fullName
-{
-    NSString *fullName = [[NSString alloc] init];
-    if ([self.firstName isNotEqualTo:@""])
+    if (!self.normalButton)
     {
-        fullName = [fullName stringByAppendingString:self.firstName];
+        NSImage *image = [NSImage imageNamed:@"defaultProfile"];
+        NSImage *bezel = [NSImage imageNamed:@"avatarBezel"];
+        if (self.image) image = [[NSImage alloc] initWithData:self.image];
+        self.normalButton = [[self createButtonImage:image withMask:nil withBezel:bezel] TIFFRepresentation];
     }
-    if ([self.lastName isNotEqualTo:@""])
+
+    _normalButtonImage = [[NSImage alloc] initWithData:self.normalButton];
+    return _normalButtonImage;
+}
+
+- (NSImage *)pushedButtonImage
+{
+    if (_pushedButtonImage) return _pushedButtonImage;
+
+    if (!self.pushedButton)
     {
-        if ([fullName isNotEqualTo:@""])
-            fullName = [fullName stringByAppendingString:@" "];
-        fullName = [fullName stringByAppendingString:self.lastName];
+        NSImage *image = [NSImage imageNamed:@"defaultProfile"];
+        NSImage *mask  = [NSImage imageNamed:@"avatarMask"];
+        NSImage *bezel = [NSImage imageNamed:@"avatarBezel"];
+        if (self.image) image = [[NSImage alloc] initWithData:self.image];
+        self.pushedButton = [[self createButtonImage:image withMask:mask withBezel:bezel] TIFFRepresentation];
     }
-    return fullName;
+
+    _pushedButtonImage = [[NSImage alloc] initWithData:self.pushedButton];
+    return _pushedButtonImage;
+}
+
+- (void)updateProperties
+{
+    self.normalButton = nil;
+    _normalButtonImage = nil;
+    [self normalButtonImage];
+
+    self.pushedButton = nil;
+    _pushedButtonImage = nil;
+    [self pushedButtonImage];
+
+    _fullName = nil;
+    [self fullName];
+
+    _tag = nil;
+    [self tag];
+}
+
+- (BOOL)isValid
+{
+    return (([self.firstName length] > 0) ||
+            ([self.lastName length] > 0) ||
+            ([self.company length] > 0));
 }
 
 - (NSString *)fullAddress

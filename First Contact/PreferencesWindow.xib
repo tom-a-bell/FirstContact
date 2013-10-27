@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1080" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PreferencesWindowController">
@@ -24,7 +24,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button toolTip="Indicate when someone has an upcoming birthday" focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="27" userLabel="Show Birthdays">
-                        <rect key="frame" x="18" y="154" width="186" height="18"/>
+                        <rect key="frame" x="18" y="154" width="185" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Show upcoming birthdays" bezelStyle="regularSquare" imagePosition="left" state="on" focusRingType="none" inset="2" id="28">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -35,7 +35,7 @@
                         </connections>
                     </button>
                     <button toolTip="Show the latest status messages from contacts' Facebook profiles" focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="10" userLabel="Facebook Status">
-                        <rect key="frame" x="18" y="134" width="222" height="18"/>
+                        <rect key="frame" x="18" y="134" width="220" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Fetch contacts' Facebook status" bezelStyle="regularSquare" imagePosition="left" state="on" focusRingType="none" inset="2" id="11">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -47,7 +47,7 @@
                         </connections>
                     </button>
                     <button focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="17" userLabel="Facebook Photo">
-                        <rect key="frame" x="18" y="114" width="202" height="18"/>
+                        <rect key="frame" x="18" y="114" width="201" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Use Facebook profile photos" bezelStyle="regularSquare" imagePosition="left" state="on" focusRingType="none" inset="2" id="18">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -59,7 +59,7 @@
                         </connections>
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="70" userLabel="LinkedIn Status">
-                        <rect key="frame" x="18" y="94" width="216" height="18"/>
+                        <rect key="frame" x="18" y="94" width="214" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Fetch contacts' LinkedIn status" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="71">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -70,7 +70,7 @@
                         </connections>
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="74" userLabel="LinkedIn Details">
-                        <rect key="frame" x="18" y="74" width="282" height="18"/>
+                        <rect key="frame" x="18" y="74" width="280" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Fill missing contact details from LinkedIn" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="75">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -81,7 +81,7 @@
                         </connections>
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="78" userLabel="Twitter Feed">
-                        <rect key="frame" x="18" y="54" width="203" height="18"/>
+                        <rect key="frame" x="18" y="54" width="201" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Fetch contacts' Twitter feeds" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="79">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -92,7 +92,7 @@
                         </connections>
                     </button>
                     <button toolTip="Import all your Address Book contacts" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="23" userLabel="Import Contacts">
-                        <rect key="frame" x="44" y="13" width="230" height="32"/>
+                        <rect key="frame" x="44" y="13" width="228" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Import Address Book contacts" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="24">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -104,7 +104,7 @@
                         </connections>
                     </button>
                     <progressIndicator hidden="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="57" userLabel="Progress Bar">
-                        <rect key="frame" x="276" y="22" width="16" height="16"/>
+                        <rect key="frame" x="274" y="22" width="16" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </progressIndicator>
                 </subviews>

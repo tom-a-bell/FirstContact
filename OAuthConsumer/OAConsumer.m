@@ -31,27 +31,32 @@
 
 #pragma mark init
 
-- (id)initWithKey:(const NSString *)aKey secret:(const NSString *)aSecret realm:(const NSString *)aRealm {
-	self = [super init];
-    if (self) {
+- (id)initWithKey:(NSString * const)aKey secret:(NSString * const)aSecret realm:(NSString * const)aRealm
+{
+    self = [super init];
+    if (self)
+    {
         self.key = aKey;
         self.secret = aSecret;
         self.realm = aRealm;
     }
-	return self;
+    return self;
 }
 
-- (BOOL)isEqual:(id)object {
-	if ([object isKindOfClass:[self class]]) {
-		return [self isEqualToConsumer:(OAConsumer*)object];
-	}
-	return NO;
+- (BOOL)isEqual:(id)object
+{
+    if ([object isKindOfClass:[self class]])
+    {
+        return [self isEqualToConsumer:(OAConsumer*)object];
+    }
+    return NO;
 }
 
-- (BOOL)isEqualToConsumer:(OAConsumer *)aConsumer {
-	return ([self.key isEqualToString:aConsumer.key] &&
-			[self.secret isEqualToString:aConsumer.secret] &&
-            [self.realm isEqualToString:aConsumer.realm]);
+- (BOOL)isEqualToConsumer:(OAConsumer *)aConsumer
+{
+    return ([self.key    isEqualToString:aConsumer.key] &&
+            [self.secret isEqualToString:aConsumer.secret] &&
+            [self.realm  isEqualToString:aConsumer.realm]);
 }
 
 @end
