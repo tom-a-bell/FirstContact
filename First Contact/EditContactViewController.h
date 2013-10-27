@@ -42,6 +42,7 @@
 @property (weak) AppDelegate *delegate;
 @property BOOL needsSaving;
 
+- (IBAction)selectImage:(id)sender;
 - (IBAction)addLabel:(id)sender;
 - (IBAction)addEntry:(id)sender;
 - (IBAction)save:(id)sender;
@@ -49,8 +50,6 @@
 
 - (IBAction)insertLabel:(id)sender;
 - (IBAction)cancelLabel:(id)sender;
-
-
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil contact:(Contact*)contactOrNil delegate:(id)delegate;
 

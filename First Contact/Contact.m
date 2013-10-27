@@ -43,8 +43,14 @@
 
 - (NSString *)name
 {
-//    if (_name) return _name;
-    _name = self.fullName;
+    if ([self.fullName isEqualToString:@""])
+    {
+        _name = self.company;
+    }
+    else
+    {
+        _name = self.fullName;
+    }
     return _name;
 }
 
@@ -55,8 +61,6 @@
 
 - (NSString *)tag
 {
-//    if (_tag) return _tag;
-    
     _tag = @"";
     
     // Determine what to show as the tagline based on available information
@@ -80,7 +84,7 @@
     {
         _tag = self.facebookStatus;
     }
-    else if (self.company != nil && ![self.company isEqualToString:@""])
+    else if (self.company != nil && ![self.company isEqualToString:@""] && ![self.fullName isEqualToString:@""])
     {
         _tag = self.company;
     }
@@ -137,7 +141,18 @@
 
 - (NSString *)fullName
 {
-    return [self.firstName stringByAppendingFormat:@" %@", self.lastName];
+    NSString *fullName = [[NSString alloc] init];
+    if ([self.firstName isNotEqualTo:@""])
+    {
+        fullName = [fullName stringByAppendingString:self.firstName];
+    }
+    if ([self.lastName isNotEqualTo:@""])
+    {
+        if ([fullName isNotEqualTo:@""])
+            fullName = [fullName stringByAppendingString:@" "];
+        fullName = [fullName stringByAppendingString:self.lastName];
+    }
+    return fullName;
 }
 
 - (NSString *)fullAddress
@@ -281,16 +296,13 @@
 - (NSImage *)createButtonImage:(NSImage *)image withMask:(NSImage *)mask withBezel:(NSImage *)bezel
 {
     NSImage *finalImage = [[NSImage alloc] initWithSize:NSMakeSize(94, 92)];
-    
-    if (image == nil)
-    {
-        return finalImage;
-    }
-    
+
+    if (!image) return finalImage;
+
     // Create a CGImageRef from the NSImage in order to apply a circular mask
     CGImageRef imageRef = [image CGImageForProposedRect:NULL context:NULL hints:NULL];
-    
-    // Create the mask
+
+    // Create the circular mask
     CGImageRef circularMask = [[NSImage imageNamed:@"circularMask"] CGImageForProposedRect:NULL context:NULL hints:NULL];
     CGImageRef maskRef = CGImageMaskCreate(CGImageGetWidth(circularMask),
                                            CGImageGetHeight(circularMask),
@@ -298,19 +310,18 @@
                                            CGImageGetBitsPerPixel(circularMask),
                                            CGImageGetBytesPerRow(circularMask),
                                            CGImageGetDataProvider(circularMask), NULL, YES);
-    
-    NSImage *base = [[NSImage alloc] initWithCGImage:CGImageCreateWithMask(imageRef, maskRef)
-                                                size:NSMakeSize(82, 82)];
-    
+
+    CGImageRef maskedRef = CGImageCreateWithMask(imageRef, maskRef);
+    NSImage *base = [[NSImage alloc] initWithCGImage:maskedRef size:NSMakeSize(82, 82)];
+
+    // Lock the image before drawing
     [finalImage lockFocus];
-    
+
     // Draw the base image
-    [base drawInRect:NSMakeRect(6, 6, 82, 82)
-            fromRect:NSZeroRect
-           operation:NSCompositeSourceOver fraction:1.0];
-    
+    [base drawInRect:NSMakeRect(6, 6, 82, 82) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+
     // Draw the mask overlay image
-    if (mask != nil)
+    if (mask)
     {
         float maskWidth = [mask size].width;
         float maskHeight = [mask size].height;
@@ -318,18 +329,147 @@
                 fromRect:NSZeroRect
                operation:NSCompositeSourceOver fraction:0.2];
     }
-    
+
     // Draw the bezel overlay image
-    if (bezel != nil)
+    if (bezel)
     {
         [bezel drawInRect:NSMakeRect(0, 0, 94, 92)
                  fromRect:NSZeroRect
                 operation:NSCompositeSourceOver fraction:1.0];
     }
-    
+
+    // Release the image
     [finalImage unlockFocus];
-    
+
+    // Release the Core Foundation objects
+    CFRelease(maskRef);
+    CFRelease(maskedRef);
+
     return finalImage;
+}
+
+// Crop and scale the supplied image to the standard portrait image dimensions
+- (NSImage *)createPortraitImage:(NSImage *)image
+{
+    CGFloat portraitSize = 164;
+
+    // Crop the image to a square around its centre
+    NSImage *croppedImage = [self cropImage:image];
+
+    // Resample the cropped image to the standard portrait size if it is larger
+    NSImage *finalImage = nil;
+    if ([croppedImage size].width > portraitSize)
+    {
+        finalImage = [self scaleImage:croppedImage toSize:NSMakeSize(portraitSize, portraitSize)];
+    }
+    else
+    {
+        finalImage = croppedImage;
+    }
+
+    return finalImage;
+}
+
+// Crop the supplied image to square format
+- (NSImage *)cropImage:(NSImage *)image
+{
+    if (![image isValid]) return nil;
+
+    // Determine the original pixel dimensions of the NSImage by finding the maximum size of its image representations
+    NSInteger width  = 0;
+    NSInteger height = 0;
+
+    // Determine the correct image dimensions of the file
+    for (NSImageRep *imageRep in [image representations])
+    {
+        if ([imageRep pixelsWide] > width)  width  = [imageRep pixelsWide];
+        if ([imageRep pixelsHigh] > height) height = [imageRep pixelsHigh];
+    }
+
+    NSSize imageSize = NSMakeSize((CGFloat)width, (CGFloat)height);
+    NSImage * originalImage = [[NSImage alloc] initWithSize:imageSize];
+
+    [originalImage addRepresentations:[image representations]];
+
+    if (imageSize.width == imageSize.height) return originalImage;
+
+    // Determine the smaller of the two image dimensions to use for the square crop size
+    CGFloat size = MIN(imageSize.width, imageSize.height);
+
+    // Determine the appropriate origin for the centre of the square image
+    CGFloat x = (imageSize.width  - size) * 0.5;
+    CGFloat y = (imageSize.height - size) * 0.5;
+
+    // Create a CGImageRef of the NSImage from which to produce the cropped version
+    CGImageRef imageRef = [originalImage CGImageForProposedRect:NULL context:NULL hints:NULL];
+
+    // Crop the image to the square region around its centre
+    CGImageRef croppedImageRef = CGImageCreateWithImageInRect(imageRef, CGRectMake(x, y, size, size));
+
+    NSImage *croppedImage = [[NSImage alloc] initWithCGImage:croppedImageRef size:NSMakeSize(size, size)];
+
+    // Release the Core Foundation objects
+    CFRelease(croppedImageRef);
+
+    return croppedImage;
+}
+
+- (NSImage *)scaleImage:(NSImage *)image toSize:(NSSize)targetSize
+{
+    if (![image isValid]) return nil;
+
+    NSSize imageSize = [image size];
+
+    if (NSEqualSizes(imageSize, targetSize)) return image;
+
+    CGFloat imageWidth  = imageSize.width;
+    CGFloat imageHeight = imageSize.height;
+
+    CGFloat targetWidth  = targetSize.width;
+    CGFloat targetHeight = targetSize.height;
+
+    CGFloat widthFactor  = targetWidth / imageWidth;
+    CGFloat heightFactor = targetHeight / imageHeight;
+
+    CGFloat scaleFactor  = 0.0;
+    if (widthFactor < heightFactor)
+    {
+        scaleFactor = widthFactor;
+    }
+    else
+    {
+        scaleFactor = heightFactor;
+    }
+
+    CGFloat scaledWidth  = imageWidth  * scaleFactor;
+    CGFloat scaledHeight = imageHeight * scaleFactor;
+
+    NSPoint thumbnailPoint = NSZeroPoint;
+    if (widthFactor > heightFactor)
+    {
+        thumbnailPoint.x = (targetWidth - scaledWidth) * 0.5;
+    }
+    else if (widthFactor < heightFactor)
+    {
+        thumbnailPoint.y = (targetHeight - scaledHeight) * 0.5;
+    }
+
+    NSImage *scaledImage = [[NSImage alloc] initWithSize:targetSize];
+
+    // Lock the image before drawing
+    [scaledImage lockFocus];
+
+    NSRect thumbnailRect;
+    thumbnailRect.origin = thumbnailPoint;
+    thumbnailRect.size.width = scaledWidth;
+    thumbnailRect.size.height = scaledHeight;
+            
+    [image drawInRect:thumbnailRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+
+    // Release the image
+    [scaledImage unlockFocus];
+
+    return scaledImage;
 }
 
 @end

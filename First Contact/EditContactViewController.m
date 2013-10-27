@@ -146,9 +146,6 @@
         // Pass the view controller as the owner so it can set up target/actions into this main controller object
         ContactEntryCellView *cellView = [tableView makeViewWithIdentifier:@"Entry" owner:self];
         
-        // Set the popup button's menu title to the row number as a workaround so that it can be identified later
-        [cellView.labelOptions setTitle:[NSString stringWithFormat:@"%ld", (long)row]];
-        
         // Set up properties on the cellView based on the entry type
         if ([entry class] == [Email class])
         {
@@ -257,6 +254,19 @@
 
 - (IBAction)save:(id)sender
 {
+    if ([self.firstName.stringValue isEqualToString:@""] &&
+        [self.lastName.stringValue  isEqualToString:@""] &&
+        [self.company.stringValue   isEqualToString:@""])
+    {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert addButtonWithTitle:@"OK"];
+        [alert setMessageText:@"Invalid entry"];
+        [alert setInformativeText:@"The contact must have at least a first name, last name, or company name."];
+        [alert setAlertStyle:NSCriticalAlertStyle];
+        [alert runModal];
+        return;
+    }
+
     self.needsSaving = YES;
     [self updateContactAttributes];
     [self.delegate closePopover:self];
@@ -268,17 +278,25 @@
     [self.delegate closePopover:self];
 }
 
+- (IBAction)selectImage:(id)sender
+{
+    NSArray *filePaths = [self selectedFilesFromDialog];
+    if (filePaths)
+    {
+        NSImage *selectedImage = [[NSImage alloc] initWithContentsOfURL:[filePaths objectAtIndex:0]];
+        self.portraitImage.image = [self.contact createPortraitImage:selectedImage];
+    }
+}
+
 - (IBAction)addLabel:(id)sender
 {
     if (_customLabelWindowController) return;
     
-    // Workaround to determine the row of the table that was selected
-    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-    [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-    NSInteger row = [[numberFormatter numberFromString:[[sender menu] title]] integerValue];
-    
+    if (![[[sender selectedItem] title] isEqualToString: @"Custom..."]) return;
+
     // Store the row that called the custom label action
-    _selectedRow = row;
+    NSInteger selectedRow = [_tableView rowForView:sender];
+    _selectedRow = selectedRow;
     
     // Instantiate the custom label window controller and show the window
     _customLabelWindowController = [[NSWindowController alloc] initWithWindow:self.customLabelWindow];
@@ -337,16 +355,12 @@
 
 - (void)updateContactAttributes
 {
-    self.contact.image = [self.portraitImage.image TIFFRepresentation];
     self.contact.firstName = self.firstName.stringValue;
-    self.contact.lastName = self.lastName.stringValue;
-    self.contact.relation = self.relation.stringValue;
-    self.contact.company = self.company.stringValue;
+    self.contact.lastName  = self.lastName.stringValue;
+    self.contact.relation  = self.relation.stringValue;
+    self.contact.company   = self.company.stringValue;
 
-    if ([self.contact.firstName isEqualToString:@""]) self.contact.firstName = nil;
-    if ([self.contact.lastName isEqualToString:@""])  self.contact.lastName = nil;
-    if ([self.contact.relation isEqualToString:@""])  self.contact.relation = nil;
-    if ([self.contact.company isEqualToString:@""])   self.contact.company = nil;
+    self.contact.image = [[self.contact createPortraitImage:self.portraitImage.image] TIFFRepresentation];
 
     for (int row = 0; row < [_tableContents count]; row++)
     {
@@ -383,6 +397,26 @@
                 [self.delegate deleteManagedObject:address];
         }
     }
+}
+
+- (NSArray *)selectedFilesFromDialog
+{
+    NSOpenPanel * panel = [NSOpenPanel openPanel];
+
+    [panel setAllowedFileTypes:[NSImage imageTypes]];
+    [panel setTitle:@"Select portrait image"];
+    [panel setAllowsMultipleSelection:NO];
+    [panel setCanChooseDirectories:NO];
+    [panel setCanChooseFiles:YES];
+    [panel setFloatingPanel:YES];
+    [panel setPrompt:@"Select"];
+
+    NSInteger result = [panel runModal];
+    if (result == NSOKButton)
+    {
+        return [panel URLs];
+    }
+    return nil;
 }
 
 @end

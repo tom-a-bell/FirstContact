@@ -25,51 +25,55 @@
 
 @synthesize url, method, parameters, files, ticket;
 
-- (id)init {
+- (id)init
+{
 	return [self initWithURL:nil
 					  method:nil
 				  parameters:nil
 					   files:nil];
 }
 
-- (id)initWithURL:(NSURL *)aURL {
+- (id)initWithURL:(NSURL *)aURL
+{
 	return [self initWithURL:aURL
 					  method:nil
 				  parameters:nil
 					   files:nil];
 }
 
-- (id)initWithURL:(NSURL *)aURL method:(NSString *)aMethod {
+- (id)initWithURL:(NSURL *)aURL method:(NSString *)aMethod
+{
 	return [self initWithURL:aURL
 					  method:aMethod
 				  parameters:nil
 					   files:nil];
 }
 
-- (id)initWithURL:(NSURL *)aURL parameters:(NSArray *)theParameters {
+- (id)initWithURL:(NSURL *)aURL parameters:(NSArray *)theParameters
+{
 	return [self initWithURL:aURL
 					  method:nil
 				  parameters:theParameters];
 }
 
-- (id)initWithURL:(NSURL *)aURL method:(NSString *)aMethod parameters:(NSArray *)theParameters {
+- (id)initWithURL:(NSURL *)aURL method:(NSString *)aMethod parameters:(NSArray *)theParameters
+{
 	return [self initWithURL:aURL
 					  method:aMethod
 				  parameters:theParameters
 					   files:nil];
 }
 
-- (id)initWithURL:(NSURL *)aURL parameters:(NSArray *)theParameters files:(NSDictionary*)theFiles {
+- (id)initWithURL:(NSURL *)aURL parameters:(NSArray *)theParameters files:(NSDictionary*)theFiles
+{
 	return [self initWithURL:aURL
 					  method:@"POST"
 				  parameters:theParameters
 					   files:theFiles];
 }
 
-- (id)initWithURL:(NSURL *)aURL
-		   method:(NSString *)aMethod
-	   parameters:(NSArray *)theParameters
-			files:(NSDictionary*)theFiles {
+- (id)initWithURL:(NSURL *)aURL method:(NSString *)aMethod parameters:(NSArray *)theParameters files:(NSDictionary*)theFiles
+{
 	url = aURL;
 	method = aMethod;
 	parameters = theParameters;
@@ -93,11 +97,11 @@
 
 - (void)callFinished:(OAServiceTicket *)aTicket withData:(NSData *)data {
 	self.ticket = aTicket;
-	if (ticket.didSucceed) {
-//		NSLog(@"Call body: %@", ticket.body);
+	if (ticket.didSucceed)
+    {
 		[delegate performSelector:finishedSelector withObject:self withObject:ticket.body];
-	} else {
-//		NSLog(@"Failed call body: %@", ticket.body);
+	} else
+    {
 		[self callFailed:ticket withError:nil];
 	}
 }
@@ -106,7 +110,7 @@
 		  token:(OAToken *)token
 		  realm:(NSString *)realm
 	   delegate:(NSObject <OACallDelegate> *)aDelegate
-	didFinish:(SEL)finished
+	  didFinish:(SEL)finished
 
 {
 	delegate = aDelegate;
@@ -117,22 +121,24 @@
 												token:token
                                               callback:nil
 									 signatureProvider:nil];
-	if(method) {
+	if(method)
+    {
 		[request setHTTPMethod:method];
 	}
 
-	if (self.parameters) {
+	if (self.parameters)
+    {
 		[request setParameters:self.parameters];
 	}
-	if (self.files) {
-		for (NSString *key in self.files) {
 
-/* Commented out because I have no idea why Photo.jpg needs to be here			
- 
-            [request attachFileWithName:@"file" filename:NSLocalizedString(@"Photo.jpg", @"") data:[self.files objectForKey:key]];
-*/
+	if (self.files)
+    {
+        // This does not appear to be implemented...
+		for (NSString *key in self.files)
+        {
 		}
 	}
+
 	fetcher = [[OADataFetcher alloc] init];
 	[fetcher fetchDataWithRequest:request
 						 delegate:self
@@ -140,20 +146,24 @@
 				  didFailSelector:@selector(callFailed:withError:)];
 }
 
-/*- (BOOL)isEqual:(id)object {
-	if ([object isKindOfClass:[self class]]) {
+/*
+- (BOOL)isEqual:(id)object {
+	if ([object isKindOfClass:[self class]])
+    {
 		return [self isEqualToCall:(OACall *)object];
 	}
 	return NO;
 }
 
-- (BOOL)isEqualToCall:(OACall *)aCall {
+- (BOOL)isEqualToCall:(OACall *)aCall
+{
 	return (delegate == aCall->delegate
 			&& finishedSelector == aCall->finishedSelector 
 			&& [url isEqualTo:aCall.url]
 			&& [method isEqualToString:aCall.method]
 			&& [parameters isEqualToArray:aCall.parameters]
 			&& [files isEqualToDictionary:aCall.files]);
-}*/
+}
+*/
 
 @end

@@ -17,19 +17,16 @@
                                    NSPopoverDelegate>
 {
 @private
-    // Popover object
-    NSPopover *popover;
-
     // Detached window for popover
     IBOutlet NSWindow *detachedWindow;
 
     // View controllers for popovers and detachable windows
     NSViewController *popoverViewController;
     NSViewController *detachedWindowViewController;
-    
+
     // Window controller for preferences
     PreferencesWindowController *preferencesWindowController;
-    
+
     // GCD dispatch source timer to update the priority order of the contact list
     dispatch_source_t priorityUpdateTimer;
 
@@ -39,10 +36,9 @@
     dispatch_source_t facebookAccessTokenTimer;
     dispatch_source_t facebookStatusUpdateTimer;
     dispatch_source_t facebookIdQueryTimer;
-    
+
     // Batch delete mode status
     BOOL deleteMode;
-    
 }
 
 @property (assign) IBOutlet NSWindow *window;

@@ -410,48 +410,48 @@
 - (void)migrateStoreToType:(NSString *)newStoreType
 {
     newStoreType = NSSQLiteStoreType;
-    
+
     NSString *XMLStoreTypeExtension = @"xml";
     NSString *SQLiteStoreTypeExtension = @"sqlite";
 
     NSURL *oldURL = [[self applicationFilesDirectory] URLByAppendingPathComponent:@"First Contact.storedata"];
-	NSURL *newURL = nil;
-	NSURL *archiveURL = nil;
-    
-	if ([newStoreType isEqualToString:NSXMLStoreType])
+    NSURL *newURL = nil;
+//    NSURL *archiveURL = nil;
+
+    if ([newStoreType isEqualToString:NSXMLStoreType])
     {
-		newURL = [oldURL URLByAppendingPathExtension:XMLStoreTypeExtension];
-		archiveURL = [oldURL URLByAppendingPathExtension:@"archive"];
-	}
+        newURL = [oldURL URLByAppendingPathExtension:XMLStoreTypeExtension];
+//        archiveURL = [oldURL URLByAppendingPathExtension:@"archive"];
+    }
     else if ([newStoreType isEqualToString:NSSQLiteStoreType])
     {
 		newURL = [oldURL URLByAppendingPathExtension:SQLiteStoreTypeExtension];
-		archiveURL = [oldURL URLByAppendingPathExtension:@"archive"];
-	}
+//        archiveURL = [oldURL URLByAppendingPathExtension:@"archive"];
+    }
     else
     {
         NSLog(@"Unrecognised persistent store type: %@", newStoreType);
         return;
     }
-    
+
     if (![[NSFileManager defaultManager] fileExistsAtPath:[oldURL path]])
     {
         NSLog(@"Persistent store file does not exist: %@", oldURL);
         return;
     }
-    
+
     NSError *error = nil;
-	if ([[NSFileManager defaultManager] fileExistsAtPath:[newURL path]])
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[newURL path]])
     {
-		if (![[NSFileManager defaultManager] removeItemAtPath:[newURL path] error:&error])
+        if (![[NSFileManager defaultManager] removeItemAtPath:[newURL path] error:&error])
         {
-			NSLog(@"Failed to delete the pre-existing file %@: %@", newURL, error);
-			return;
-		}
-	}
-    
+            NSLog(@"Failed to delete the pre-existing file %@: %@", newURL, error);
+            return;
+        }
+    }
+
     NSPersistentStoreCoordinator *coordinator = [[self managedObjectContext] persistentStoreCoordinator];
-	NSPersistentStore *oldStore = [coordinator persistentStoreForURL:oldURL];
+    NSPersistentStore *oldStore = [coordinator persistentStoreForURL:oldURL];
     if (!oldStore)
     {
         NSLog(@"Failed to retrieve the existing persistent store %@", oldURL);

@@ -24,7 +24,8 @@
 @class OAMutableURLRequest;
 @class OAServiceTicket;
 
-@interface OACall : NSObject {
+@interface OACall : NSObject
+{
 	NSURL *url;
 	NSString *method;
 	NSArray *parameters;

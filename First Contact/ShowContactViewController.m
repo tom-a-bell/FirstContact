@@ -96,13 +96,20 @@
         [self addEntry:contact.email withLabel:@"Email"];
         [self addSectionBreak];
     }
-    
-    if ([self isValid:contact.company])
-        [self addEntry:contact.company];
-    
+
+    // The contact must have a name or a company entry (or both)
     if ([self isValid:contact.fullName])
-        [self addEntry:contact.fullName inBold:YES];
+    {
+        if ([self isValid:contact.company])
+            [self addEntry:contact.company];
     
+        [self addEntry:contact.fullName inBold:YES];
+    }
+    else
+    {
+        [self addEntry:contact.company inBold:YES];
+    }
+
     [self addSectionBreak];
 }
 

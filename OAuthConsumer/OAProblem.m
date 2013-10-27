@@ -4,7 +4,7 @@
 //
 //  Created by Alberto García Hierro on 03/09/08.
 //  Copyright 2008 Alberto García Hierro. All rights reserved.
-//	bynotes.com
+//  bynotes.com
 
 #import "OAProblem.h"
 
@@ -25,141 +25,142 @@ const NSString *token_not_renewable = @"token_not_renewable";
 
 - (id)initWithPointer:(const NSString *) aPointer
 {
-	self = [super init];
-	problem = aPointer;
-	return self;
+    self = [super init];
+    problem = aPointer;
+    return self;
 }
 
 - (id)initWithProblem:(const NSString *) aProblem
 {
-	NSUInteger idx = [[OAProblem validProblems] indexOfObject:aProblem];
-	if (idx == NSNotFound) {
-		return nil;
-	}
-	
-	return [self initWithPointer: [[OAProblem validProblems] objectAtIndex:idx]];
+    NSUInteger idx = [[OAProblem validProblems] indexOfObject:aProblem];
+    if (idx == NSNotFound) {
+        return nil;
+    }
+    
+    return [self initWithPointer: [[OAProblem validProblems] objectAtIndex:idx]];
 }
-	
+    
 - (id)initWithResponseBody:(const NSString *) response
 {
-	NSArray *fields = [response componentsSeparatedByString:@"&"];
-	for (NSString *field in fields) {
-		if ([field hasPrefix:@"oauth_problem="]) {
-			NSString *value = [[field componentsSeparatedByString:@"="] objectAtIndex:1];
-			return [self initWithProblem:value];
-		}
-	}
-	
-	return nil;
+    NSArray *fields = [response componentsSeparatedByString:@"&"];
+    for (NSString *field in fields) {
+        if ([field hasPrefix:@"oauth_problem="]) {
+            NSString *value = [[field componentsSeparatedByString:@"="] objectAtIndex:1];
+            return [self initWithProblem:value];
+        }
+    }
+    
+    return nil;
 }
 
 + (OAProblem *)problemWithResponseBody:(const NSString *) response
 {
-	return [[OAProblem alloc] initWithResponseBody:response];
+    return [[OAProblem alloc] initWithResponseBody:response];
 }
 
 + (const NSArray *)validProblems
 {
-	static NSArray *array;
-	if (!array) {
-		array = [[NSArray alloc] initWithObjects:signature_method_rejected,
-										parameter_absent,
-										version_rejected,
-										consumer_key_unknown,
-										token_rejected,
-										signature_invalid,
-										nonce_used,
-										timestamp_refused,
-										token_expired,
-										token_not_renewable,
-										nil];
-	}
-	
-	return array;
+    static NSArray *array;
+    if (!array) {
+        array = [[NSArray alloc] initWithObjects:signature_method_rejected,
+                                        parameter_absent,
+                                        version_rejected,
+                                        consumer_key_unknown,
+                                        token_rejected,
+                                        signature_invalid,
+                                        nonce_used,
+                                        timestamp_refused,
+                                        token_expired,
+                                        token_not_renewable,
+                                        nil];
+    }
+    
+    return array;
 }
 
 - (BOOL)isEqualToProblem:(OAProblem *) aProblem
 {
-	return [problem isEqualToString:(NSString *)aProblem->problem];
+    return [problem isEqualToString:(NSString *)aProblem->problem];
 }
 
 - (BOOL)isEqualToString:(const NSString *) aProblem
 {
-	return [problem isEqualToString:(NSString *)aProblem];
+    return [problem isEqualToString:(NSString *)aProblem];
 }
 
 - (BOOL)isEqualTo:(id) aProblem
 {
-	if ([aProblem isKindOfClass:[NSString class]]) {
-		return [self isEqualToString:aProblem];
-	}
-		
-	if ([aProblem isKindOfClass:[OAProblem class]]) {
-		return [self isEqualToProblem:aProblem];
-	}
-	
-	return NO;
-}
-
-- (int)code {
-	return [[[self class] validProblems] indexOfObject:problem];
+    if ([aProblem isKindOfClass:[NSString class]]) {
+        return [self isEqualToString:aProblem];
+    }
+        
+    if ([aProblem isKindOfClass:[OAProblem class]]) {
+        return [self isEqualToProblem:aProblem];
+    }
+    
+    return NO;
 }
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"OAuth Problem: %@", (NSString *)problem];
+    return [NSString stringWithFormat:@"OAuth Problem: %@", (NSString *)problem];
 }
+
+//- (int)code
+//{
+//    return [[[self class] validProblems] indexOfObject:problem];
+//}
 
 #pragma mark class_methods
 
 + (OAProblem *)SignatureMethodRejected
 {
-	return [[OAProblem alloc] initWithPointer:signature_method_rejected];
+    return [[OAProblem alloc] initWithPointer:signature_method_rejected];
 }
 
 + (OAProblem *)ParameterAbsent
 {
-	return [[OAProblem alloc] initWithPointer:parameter_absent];
+    return [[OAProblem alloc] initWithPointer:parameter_absent];
 }
 
 + (OAProblem *)VersionRejected
 {
-	return [[OAProblem alloc] initWithPointer:version_rejected];
+    return [[OAProblem alloc] initWithPointer:version_rejected];
 }
 
 + (OAProblem *)ConsumerKeyUnknown
 {
-	return [[OAProblem alloc] initWithPointer:consumer_key_unknown];
+    return [[OAProblem alloc] initWithPointer:consumer_key_unknown];
 }
 
 + (OAProblem *)TokenRejected
 {
-	return [[OAProblem alloc] initWithPointer:token_rejected];
+    return [[OAProblem alloc] initWithPointer:token_rejected];
 }
 
 + (OAProblem *)SignatureInvalid
 {
-	return [[OAProblem alloc] initWithPointer:signature_invalid];
+    return [[OAProblem alloc] initWithPointer:signature_invalid];
 }
 
 + (OAProblem *)NonceUsed
 {
-	return [[OAProblem alloc] initWithPointer:nonce_used];
+    return [[OAProblem alloc] initWithPointer:nonce_used];
 }
 
 + (OAProblem *)TimestampRefused
 {
-	return [[OAProblem alloc] initWithPointer:timestamp_refused];
+    return [[OAProblem alloc] initWithPointer:timestamp_refused];
 }
 
 + (OAProblem *)TokenExpired
 {
-	return [[OAProblem alloc] initWithPointer:token_expired];
+    return [[OAProblem alloc] initWithPointer:token_expired];
 }
 
 + (OAProblem *)TokenNotRenewable
 {
-	return [[OAProblem alloc] initWithPointer:token_not_renewable];
+    return [[OAProblem alloc] initWithPointer:token_not_renewable];
 }
-					  
+                      
 @end

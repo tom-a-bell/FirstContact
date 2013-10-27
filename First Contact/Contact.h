@@ -48,6 +48,8 @@
 - (NSNumber *)daysToNextBirthday:(NSDate *)dateOfBirth;
 - (NSNumber *)daysToNearestBirthday:(NSDate *)dateOfBirth;
 
+- (NSImage *)createPortraitImage:(NSImage *)image;
+
 @end
 
 @interface Contact (CoreDataGeneratedAccessors)
